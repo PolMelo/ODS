@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Users;
 
 #[ORM\Entity(repositoryClass: OdsRepository::class)]
 class Ods
@@ -38,9 +39,9 @@ class Ods
     private ?int $etiqueta3 = null;
 
     /**
-     * @var Collection<int, users>
+     * @var Collection<int, Users>
      */
-    #[ORM\ManyToMany(targetEntity: users::class, inversedBy: 'ods')]
+    #[ORM\ManyToMany(targetEntity: Users::class, inversedBy: 'ods')]
     private Collection $users;
 
     public function __construct()
@@ -138,14 +139,14 @@ class Ods
     }
 
     /**
-     * @return Collection<int, users>
+     * @return Collection<int, Users>
      */
     public function getUsers(): Collection
     {
         return $this->users;
     }
 
-    public function addUser(users $user): static
+    public function addUser(Users $user): static
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
@@ -154,7 +155,7 @@ class Ods
         return $this;
     }
 
-    public function removeUser(users $user): static
+    public function removeUser(Users $user): static
     {
         $this->users->removeElement($user);
 
