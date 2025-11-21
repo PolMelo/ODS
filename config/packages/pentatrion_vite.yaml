@@ -1,0 +1,10 @@
+pentatrion_vite:
+    public_directory: '%kernel.project_dir%/public'
+    build_directory: ''
+    script_attributes:
+        defer: true
+
+    default_config: app        # <--- obligatorio
+    configs:
+        app:
+            build_directory: ''
