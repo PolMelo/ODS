@@ -2,31 +2,27 @@
     "name": "proyecto-ods",
     "private": true,
     "type": "module",
-
     "scripts": {
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview"
     },
-
     "devDependencies": {
-        "@vitejs/plugin-react": "^5.1.1",
-        "vite-plugin-symfony": "^8.2.3",
-        "vite": "^6.4.1",
-
-        "tailwindcss": "^4.1.17",
         "@tailwindcss/cli": "^4.1.17",
-        "postcss": "^8.5.6",
+        "@tailwindcss/postcss7-compat": "^2.2.17",
+        "@vitejs/plugin-react": "^5.1.1",
         "autoprefixer": "^10.4.22",
-        "daisyui": "^5.5.5"
+        "daisyui": "^5.5.5",
+        "postcss": "^8.5.6",
+        "tailwindcss": "^4.1.17",
+        "vite": "^6.4.1",
+        "vite-plugin-symfony": "^8.2.3"
     },
-
     "dependencies": {
-        "react": "^19.2.0",
-        "react-dom": "^19.2.0",
-
-        "@mui/material": "^7.3.5",
         "@emotion/react": "^11.14.0",
-        "@emotion/styled": "^11.14.1"
+        "@emotion/styled": "^11.14.1",
+        "@mui/material": "^7.3.5",
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0"
     }
 }
