@@ -54,7 +54,7 @@ symfony serve
 ### 4. Instalar dependencias de Node.js
 npm install
 
-### 5. Compilar los assets
+### 5. Compilar los assets (Dentro de /frontend)
 
 Modo desarrollo:
 
