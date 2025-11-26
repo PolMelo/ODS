@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import App from "./App.tsx";
+import "./index.css";
 
 // 🎨 Estilos globales opcionales (puedes crear global.css si quieres)
 // import "./global.css";
