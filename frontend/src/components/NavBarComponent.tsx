@@ -17,9 +17,10 @@ import { Link } from "react-router-dom";
 
 const pages = [
     { name: "Inicio", path: "/" },
+    { name: "Acciones", path: "/acciones" },
     { name: "Recursos", path: "/recursos" },
     { name: "Contacto", path: "/contacto" },
-    { name: "Perfil", path: "/perfil" },
+    
 ];
 
 const settings = ["Iniciar sesion", "Account", "Dashboard", "Cerrar sesion"];
@@ -48,10 +49,10 @@ function NavBarComponent() {
     };
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: "#89e186" }}>
+        <AppBar position="static" sx={{ backgroundColor: "#dcffdbff" }}>
 
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
+            
+            <Toolbar disableGutters sx={{ px: 2 }}>
                     {/* Imagen */}
                     <img
                         src={logo}
@@ -217,7 +218,7 @@ function NavBarComponent() {
                         </Menu>
                     </Box>
                 </Toolbar>
-            </Container>
+            
         </AppBar>
     );
 }

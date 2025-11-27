@@ -8,7 +8,7 @@ const FooterComponent: React.FC = () => {
         padding: "1.5rem 0",
         textAlign: "center",
         color: "black",
-        background: "#89e186", // mismo color que el navbar
+        background: "#dcffdbff", // mismo color que el navbar
         marginTop: "auto",
 
         // 👉 SOMBRA igual estilo que el navbar

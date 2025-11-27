@@ -1,7 +1,7 @@
 import NavBarComponent from "../components/NavBarComponent";
 import FooterComponent from "../components/FooterComponent";
 
-const UserPage: React.FC = () => {
+const ActionsPage: React.FC = () => {
     return (
         <div
             style={{
@@ -9,7 +9,7 @@ const UserPage: React.FC = () => {
                 minWidth: "100vw",
                 display: "flex",
                 flexDirection: "column",
-                background: "#a9e9a4",
+                background: "white",
             }}
         >
             
@@ -23,4 +23,4 @@ const UserPage: React.FC = () => {
     );
 };
 
-export default UserPage;
+export default ActionsPage;

@@ -9,7 +9,7 @@ const ContactPage: React.FC = () => {
                 minWidth: "100vw",
                 display: "flex",
                 flexDirection: "column",
-                background: "#a9e9a4",
+                background: "white",
             }}
         >
              {/* Navbar siempre arriba */}

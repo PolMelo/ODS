@@ -4,15 +4,16 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ResourcesPage from "./pages/ResourcesPage";
 import ContactPage from "./pages/ContactPage";
-import UserPage from "./pages/UserPage";
+import ActionsPage from "./pages/ActionsPage";
 
 const App: React.FC = () => {
     return (
         <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/acciones" element={<ActionsPage />} />
             <Route path="/recursos" element={<ResourcesPage />} />
             <Route path="/contacto" element={<ContactPage />} />
-            <Route path="/perfil" element={<UserPage />} />
+            
 
             {/* Ruta comodín */}
             <Route path="*" element={<h1>404 — Nada por aquí 🌫️</h1>} />
