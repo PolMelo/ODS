@@ -7,22 +7,25 @@ const FooterComponent: React.FC = () => {
         width: "100%",
         padding: "1.5rem 0",
         textAlign: "center",
-        color: "white",
-        background: "linear-gradient(135deg, #2a2a72 0%, #009ffd 100%)",
+        color: "black",
+        background: "#89e186", // mismo color que el navbar
         marginTop: "auto",
+
+        // 👉 SOMBRA igual estilo que el navbar
+        boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.6)",
       }}
     >
       <p style={{ margin: 0 }}>
         © 2025 <strong>ODSfera</strong> – Desarrollo Sostenible
-      </p>
-      <p style={{ margin: 0, fontSize: "0.9rem", opacity: 0.85 }}>
-        
       </p>
     </footer>
   );
 };
 
 export default FooterComponent;
+
+
+
 
 
 

@@ -2,39 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-
-// 🎨 Estilos globales opcionales (puedes crear global.css si quieres)
-// import "./global.css";
-
-// 🔥 Animación de fade-in para toda la app
-const globalStyles = `
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: "Inter", "Arial", sans-serif;
-    background: #0f0f10;
-    color: white;
-    overflow: hidden;
-  }
-
-  #root {
-    animation: fadeIn 0.6s ease-out forwards;
-    opacity: 0;
-  }
-
-  @keyframes fadeIn {
-    to { opacity: 1; }
-  }
-`;
-
-// Inyectamos estilos globales sin usar archivos extra
-const styleTag = document.createElement("style");
-styleTag.textContent = globalStyles;
-document.head.appendChild(styleTag);
+import { BrowserRouter } from "react-router-dom";
 
 // 💡 Asegurar que #root existe y es HTMLDivElement
 const rootElement = document.getElementById("root") as HTMLElement | null;
@@ -48,6 +16,8 @@ const root = ReactDOM.createRoot(rootElement);
 
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
   </React.StrictMode>
 );

@@ -1,7 +1,7 @@
 import NavBarComponent from "../components/NavBarComponent";
 import FooterComponent from "../components/FooterComponent";
 
-const UserPage: React.FC = () => {
+const HomePage: React.FC = () => {
     return (
         <div
             style={{
@@ -12,15 +12,16 @@ const UserPage: React.FC = () => {
                 background: "#a9e9a4",
             }}
         >
-            
-            
+            {/* Navbar siempre arriba */}
+            <NavBarComponent />
 
+            {/* Aquí puedes añadir el contenido principal de la Home */}
+            <main style={{ flex: 1 }}></main>
 
             {/* Footer siempre abajo */}
-            <NavBarComponent />
             <FooterComponent />
         </div>
     );
 };
 
-export default UserPage;
+export default HomePage;

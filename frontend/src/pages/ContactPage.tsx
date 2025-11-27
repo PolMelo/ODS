@@ -1,7 +1,7 @@
-import NavBarComponent from "../components/NavBarComponent";
 import FooterComponent from "../components/FooterComponent";
+import NavBarComponent from "../components/NavBarComponent";
 
-const UserPage: React.FC = () => {
+const ContactPage: React.FC = () => {
     return (
         <div
             style={{
@@ -12,15 +12,12 @@ const UserPage: React.FC = () => {
                 background: "#a9e9a4",
             }}
         >
-            
-            
-
-
-            {/* Footer siempre abajo */}
+             {/* Navbar siempre arriba */}
             <NavBarComponent />
             <FooterComponent />
+
         </div>
     );
 };
 
-export default UserPage;
+export default ContactPage;
