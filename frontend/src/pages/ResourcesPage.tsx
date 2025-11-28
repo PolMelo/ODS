@@ -130,7 +130,7 @@ const ResourcesPage: React.FC = () => {
         <div
             style={{
                 minHeight: "100vh",
-                minWidth: "100vw",
+                minWidth: "100%",
                 display: "flex",
                 flexDirection: "column",
                 background: "white",
@@ -140,7 +140,7 @@ const ResourcesPage: React.FC = () => {
             <NavBarComponent />
             <div
                 style={{
-                    padding: "2rem",
+                    padding: "1rem",
                     display: "flex",
                     flexDirection: "column",
                     gap: "2rem",
@@ -151,25 +151,31 @@ const ResourcesPage: React.FC = () => {
                         key={index}
                         style={{
                             display: "flex",
-                            gap: "1rem",
-                            alignItems: "flex-start",
+                            gap: "1.5rem",
+                            alignItems: "center", // centra verticalmente imagen y texto
+                            padding:"0px",
+                            borderRadius: "10px",
+                            backgroundColor: "#f9f9f9",
                         }}
                     >
                         <img
                             src={ods.image}
                             alt={ods.title}
                             style={{
-                                width: "100px",
-                                height: "100px",
+                                width: "120px",
+                                height: "120px",
                                 objectFit: "cover",
+                                borderRadius: "10px",
+                                flexShrink: 0, // evita que la imagen se reduzca
                             }}
                         />
-                        <div>
-                            <h3>{ods.title}</h3>
-                            <p>{ods.description}</p>
+                        <div style={{ flex: 1 }}>
+                            <h3 style={{ margin: "0 0 0.5rem 0" }}>{ods.title}</h3>
+                            <p style={{ margin: 0 }}>{ods.description}</p>
                         </div>
                     </div>
                 ))}
+
             </div>
             <FooterComponent />
         </div>

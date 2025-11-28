@@ -27,7 +27,6 @@ const ContactPage: React.FC = () => {
 
                 <button type="submit" style={{ backgroundColor: "#b6ffb3ff", color: "black" }}>Enviar</button>
             </form>
-            <p>Si el formulario anterior te ha dado problemas, nuestro correo electrónico és: (Generar un botón para enviar mail directo?)</p>
             <FooterComponent />
         </div>
     );

@@ -24,10 +24,6 @@ import ODS16 from "../assets/LOGOS ODS/ODS 16.jpg";
 import ODS17 from "../assets/LOGOS ODS/ODS 17.jpg";
 
 const HomePage: React.FC = () => {
-    /* --------------------------------------------
-       Guardo todas las imágenes en un array para
-       poder recorrerlas de forma automática
-    --------------------------------------------- */
     const images = [
         ODS0,
         ODS1,
@@ -49,76 +45,60 @@ const HomePage: React.FC = () => {
         ODS17,
     ];
 
-    /* --------------------------------------------
-       Estado con el índice de la imagen actual
-    --------------------------------------------- */
     const [currentImage, setCurrentImage] = React.useState(0);
-
-    /* --------------------------------------------
-       Estado que uso para activar/desactivar el fade.
-       - true = opacidad baja a 0 (desaparece)
-       - false = opacidad vuelve a 1 (aparece)
-    --------------------------------------------- */
     const [isFading, setIsFading] = React.useState(false);
 
-    /* --------------------------------------------
-       Cambio automático de imagen cada 10s con fade
-    --------------------------------------------- */
     React.useEffect(() => {
         const interval = setInterval(() => {
-            // Primero activo el fade-out
             setIsFading(true);
-
-            // Espero a que termine la animación
             setTimeout(() => {
-                // Cambio la imagen
                 setCurrentImage((prev) => (prev + 1) % images.length);
-
-                // Activo el fade-in
                 setIsFading(false);
-            }, 300); // duración del fade
-        }, 10000); // 10 segundos
-
+            }, 300);
+        }, 10000);
         return () => clearInterval(interval);
     }, []);
 
     return (
         <div
             style={{
-                minHeight: "100vh",
-                minWidth: "100vw",
+                height: "100vh",
+                width: "100vw",
                 display: "flex",
                 flexDirection: "column",
                 background: "white",
+                overflow: "hidden",  // evita scroll global
             }}
         >
             <NavBarComponent />
 
-            {/* Contenido principal dividido en dos columnas */}
             <main
                 style={{
                     flex: 1,
                     display: "flex",
                     flexDirection: "row",
+                    overflow: "hidden",
+                    padding: "10px"
                 }}
             >
-                {/* -------- Columna izquierda (imágenes rotatorias con fade) -------- */}
+                {/* Columna izquierda */}
                 <div
                     style={{
                         flex: 1,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
+                        overflow: "hidden",
                         backgroundColor: "white",
+                        
                     }}
                 >
                     <div
                         style={{
-                            width: "80%",
-                            height: "80%",
-                            borderRadius: "8px",
+                            width: "100%",
+                            height: "100%",
                             overflow: "hidden",
-                            backgroundColor: "white",
+                            
                         }}
                     >
                         <img
@@ -127,11 +107,7 @@ const HomePage: React.FC = () => {
                             style={{
                                 width: "100%",
                                 height: "100%",
-                                objectFit: "cover",
-
-                                /* -------------------------------------
-                                   Transición de opacidad para fade suave
-                                -------------------------------------- */
+                                objectFit: "contain", // o "cover" si lo prefieres
                                 transition: "opacity 0.3s ease-in-out",
                                 opacity: isFading ? 0 : 1,
                             }}
@@ -139,7 +115,7 @@ const HomePage: React.FC = () => {
                     </div>
                 </div>
 
-                {/* -------- Columna derecha (texto) -------- */}
+                {/* Columna derecha */}
                 <div
                     style={{
                         flex: 1,
@@ -147,16 +123,15 @@ const HomePage: React.FC = () => {
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",
+                        overflow: "hidden",
                         color: "black",
-                        
                     }}
                 >
                     <h1>Bienvenido a ODSfera</h1>
                     <p>
                         Herramienta social centrada en crear, difundir y compartir iniciativas con metas de desarrollo sostenible.
-                        Enfocada en las distintas ods, ODSfera crea un espacio en el que podrás explorar actividades, eventos o 
-                        iniciativas para ayudar a un futuro sostenible y sin pobreza. Si alguna vez has sentido que ayudar al planeta 
-                        es difícil aquí te daremos las herramientas para que puedas unirte a esta lucha por el futuro.
+                        Enfocada en las distintas ods, ODSfera crea un espacio en el que podrás explorar actividades, eventos o
+                        iniciativas para ayudar a un futuro sostenible y sin pobreza.
                     </p>
                     <p>
                         Si formas parte de una plataforma o iniciativas que apoyan esta visión también puedes crear acciones para impulsarlas y
@@ -168,6 +143,7 @@ const HomePage: React.FC = () => {
             <FooterComponent />
         </div>
     );
+
 };
 
 export default HomePage;

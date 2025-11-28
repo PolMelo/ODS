@@ -13,9 +13,6 @@ const ActionsPage: React.FC = () => {
             }}
         >
             
-            
-
-
             {/* Footer siempre abajo */}
             <NavBarComponent />
             <FooterComponent />
