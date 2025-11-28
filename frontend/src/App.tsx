@@ -73,6 +73,7 @@ const App: React.FC = () => {
       </Box>
     </ThemeProvider>
   );
+  
 };
 
 export default App;
