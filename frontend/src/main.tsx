@@ -4,7 +4,7 @@ import App from "./App.tsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 
-// 💡 Asegurar que #root existe y es HTMLDivElement
+// 💡 Asegurar que #root existe (ve del twig base)
 const rootElement = document.getElementById("root") as HTMLElement | null;
 
 if (!rootElement) {
