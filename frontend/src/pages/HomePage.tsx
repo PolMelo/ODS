@@ -1,8 +1,5 @@
 import React from "react";
 
-import NavBarComponent from "../components/NavBarComponent";
-import FooterComponent from "../components/FooterComponent";
-
 // Importo todas las imágenes del carrusel
 import ODS0 from "../assets/LOGOS ODS/ODS 0.jpg";
 import ODS1 from "../assets/LOGOS ODS/ODS 1.jfif";
@@ -63,15 +60,13 @@ const HomePage: React.FC = () => {
         <div
             style={{
                 height: "100vh",
-                width: "100vw",
+                width: "100%",
                 display: "flex",
                 flexDirection: "column",
                 background: "white",
                 overflow: "hidden",  // evita scroll global
             }}
         >
-            <NavBarComponent />
-
             <main
                 style={{
                     flex: 1,
@@ -139,8 +134,6 @@ const HomePage: React.FC = () => {
                     </p>
                 </div>
             </main>
-
-            <FooterComponent />
         </div>
     );
 

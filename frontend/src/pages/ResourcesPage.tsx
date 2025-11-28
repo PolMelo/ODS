@@ -1,7 +1,5 @@
-import FooterComponent from "../components/FooterComponent";
-import NavBarComponent from "../components/NavBarComponent";
 
-import ODS0 from "../assets/LOGOS ODS/ODS 0.jpg";
+
 import ODS1 from "../assets/LOGOS ODS/ODS 1.jfif";
 import ODS2 from "../assets/LOGOS ODS/ODS 2.jpg";
 import ODS3 from "../assets/LOGOS ODS/ODS 3.jpg";
@@ -137,7 +135,7 @@ const ResourcesPage: React.FC = () => {
                 color: "black",
             }}
         >
-            <NavBarComponent />
+          
             <div
                 style={{
                     padding: "1rem",
@@ -177,7 +175,7 @@ const ResourcesPage: React.FC = () => {
                 ))}
 
             </div>
-            <FooterComponent />
+           
         </div>
     );
 };

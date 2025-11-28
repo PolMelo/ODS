@@ -1,5 +1,3 @@
-import FooterComponent from "../components/FooterComponent";
-import NavBarComponent from "../components/NavBarComponent";
 
 const ContactPage: React.FC = () => {
     return (
@@ -13,9 +11,6 @@ const ContactPage: React.FC = () => {
                 color: "black",
             }}
         >
-            {/* Navbar siempre arriba */}
-            <NavBarComponent />
-
             <h2>Contacta con nuestro equipo técnico si tienes alguna duda o problema.</h2>
 
             <form method="post" style={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "1rem" }}>
@@ -27,7 +22,6 @@ const ContactPage: React.FC = () => {
 
                 <button type="submit" style={{ backgroundColor: "#b6ffb3ff", color: "black" }}>Enviar</button>
             </form>
-            <FooterComponent />
         </div>
     );
 };

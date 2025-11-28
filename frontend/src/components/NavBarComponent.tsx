@@ -55,8 +55,7 @@ function NavBarComponent() {
 
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: "#dcffdbff" }}>
-
+        <AppBar position="static" sx={{}}>
 
             <Toolbar disableGutters sx={{ px: 2 }}>
                 {/* Imagen */}

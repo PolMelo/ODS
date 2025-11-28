@@ -1,21 +1,14 @@
-import NavBarComponent from "../components/NavBarComponent";
-import FooterComponent from "../components/FooterComponent";
-
 const ActionsPage: React.FC = () => {
     return (
         <div
             style={{
                 minHeight: "100vh",
-                minWidth: "100vw",
+                minWidth: "100%",
                 display: "flex",
                 flexDirection: "column",
                 background: "white",
             }}
         >
-            
-            {/* Footer siempre abajo */}
-            <NavBarComponent />
-            <FooterComponent />
         </div>
     );
 };
