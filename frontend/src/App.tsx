@@ -5,6 +5,8 @@ import HomePage from "./pages/HomePage";
 import ResourcesPage from "./pages/ResourcesPage";
 import ContactPage from "./pages/ContactPage";
 import ActionsPage from "./pages/ActionsPage";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 const App: React.FC = () => {
     return (
@@ -13,7 +15,8 @@ const App: React.FC = () => {
             <Route path="/acciones" element={<ActionsPage />} />
             <Route path="/recursos" element={<ResourcesPage />} />
             <Route path="/contacto" element={<ContactPage />} />
-            
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
             {/* Ruta comodín */}
             <Route path="*" element={<h1>404 — Nada por aquí 🌫️</h1>} />
