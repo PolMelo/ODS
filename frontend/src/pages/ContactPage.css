@@ -1,0 +1,80 @@
+/* Contenedor centrado en pantalla */
+.contact-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f2f7f2;
+    padding: 2rem;
+}
+
+/* Tarjeta */
+.contact-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 14px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    animation: fadeIn 0.4s ease;
+}
+
+/* Título */
+.contact-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+/* Formulario */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* Campos */
+.contact-form input,
+.contact-form textarea {
+    background: #eaffea;
+    border: 1px solid #9ddc94;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Focus */
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #59b657;
+    box-shadow: 0 0 5px rgba(89, 182, 87, 0.4);
+}
+
+/* Botón */
+.contact-form button {
+    background-color: #59b657;
+    color: white;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+/* Hover del botón */
+.contact-form button:hover {
+    background-color: #4aa548;
+    transform: translateY(-2px);
+}
+
+/* Animación suave */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
