@@ -1,40 +1,75 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { Route, Routes } from "react-router-dom";
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
 
-function App() {
-  const styles = {
-    container: {
-      display: "flex",
-      flexDirection: "column" as const,
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100vh",
-      background: "linear-gradient(135deg, #6e8efb, #a777e3)",
-      color: "white",
-      fontFamily: "Arial",
-      fontSize: "2rem",
-    },
-    card: {
-      padding: "2rem 3rem",
-      borderRadius: "20px",
-      background: "rgba(255, 255, 255, 0.15)",
-      backdropFilter: "blur(10px)",
-      boxShadow: "0 10px 25px rgba(0, 0, 0, 0.3)",
-    },
-  };
+import HomePage from "./pages/HomePage";
+import ResourcesPage from "./pages/ResourcesPage";
+import ContactPage from "./pages/ContactPage";
+import ActionsPage from "./pages/ActionsPage";
+
+//Aqui importem navbar y footer per a totes les pages en lloc dde cridarlo cada cop
+
+import NavBarComponent from "./components/NavBarComponent";
+import FooterComponent from "./components/FooterComponent";
+
+const App: React.FC = () => {
+  // 🌙🌞 Estado global del tema
+  const [darkMode, setDarkMode] = React.useState(false);
+
+  const toggleTheme = () => setDarkMode((prev) => !prev);
+
+  // 🎨 Definimos el tema de MUI en función de darkMode
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: darkMode ? "dark" : "light",
+          // opcional: puedes personalizar colores aquí
+          // primary: { main: "#89e186" },
+          // background: {
+          //   default: darkMode ? "#121212" : "#f5f5f5",
+          //   paper: darkMode ? "#1e1e1e" : "#ffffff",
+          // },
+        },
+      }),
+    [darkMode]
+  );
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        Hola, React funciona bonito! 🚀✨
-      </div>
-    </div>
-  );
-}
+    <ThemeProvider theme={theme}>
+      {/* Aplica fondo y colores por defecto según el tema */}
+      <CssBaseline />
 
-root.render(<App />);
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {/* Navbar siempre visible, con el switch */}
+        <NavBarComponent darkMode={darkMode} toggleTheme={toggleTheme} />
+
+        {/* Contenido principal que crece */}
+        <Box component="main" sx={{ flexGrow: 1 }}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/acciones" element={<ActionsPage />} />
+            <Route path="/recursos" element={<ResourcesPage />} />
+            <Route path="/contacto" element={<ContactPage />} />
+            {/* Ruta comodín */}
+            <Route path="*" element={<h1>404 — Nada por aquí 🌫️</h1>} />
+          </Routes>
+        </Box>
+
+        {/* Footer abajo del todo */}
+        <FooterComponent />
+      </Box>
+    </ThemeProvider>
+  );
+};
+
 export default App;
