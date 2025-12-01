@@ -1,0 +1,74 @@
+/* Logo */
+.navbar-logo {
+  width: 55px;
+  height: 55px;
+  margin-right: 12px;
+  display: flex;
+}
+
+/* Título principal */
+.navbar-title {
+  margin-right: 8px;
+  display: flex;
+  flex-grow: 1;
+  font-family: monospace;
+  font-weight: 700;
+  letter-spacing: 0.3rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Botón menú móvil */
+.navbar-menu-button {
+  display: flex;
+}
+
+/* Contenedor de botones del menú desktop */
+.navbar-desktop-buttons {
+  flex-grow: 1;
+  display: flex;
+}
+
+
+/* Avatar container */
+.navbar-avatar {
+  padding: 0;
+}
+
+/* Ajuste de menú del usuario */
+.navbar-user-menu {
+  margin-top: 45px;
+}
+
+/* Centrado de texto dentro del menú */
+.navbar-text-center {
+  text-align: center;
+}
+
+
+/* Botón normal */
+.navbar-button {
+  margin: 8px 0;
+  color: white !important;
+  display: block;
+  font-weight: 400;
+  transition: font-weight 0.2s ease-in-out;
+}
+
+/* Hover → texto en negrita */
+.navbar-button:hover {
+  font-weight: 700;
+}
+
+/* Enlaces del menú móvil */
+.navbar-mobile-link {
+  text-decoration: none;
+  color: white;
+  font-weight: 400;
+  transition: font-weight 0.2s ease-in-out;
+}
+
+/* Hover móvil (por si se abre en tablets o desktop) */
+.navbar-mobile-link:hover {
+  font-weight: 700;
+}

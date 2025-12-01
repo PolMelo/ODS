@@ -14,219 +14,121 @@ import AdbIcon from "@mui/icons-material/Adb";
 import logo from "../assets/Logo_proyecto_ODSfera.png";
 import { Link } from "react-router-dom";
 import ThemeSwitch from "./SwitcherThemeComponent";
+import "./NavBarComponent.css";
 
 const pages = [
-    { name: "Inicio", path: "/" },
-    { name: "Acciones", path: "/acciones" },
-    { name: "Recursos", path: "/recursos" },
-    { name: "Contacto", path: "/contacto" },
-
+  { name: "Inicio", path: "/" },
+  { name: "Acciones", path: "/acciones" },
+  { name: "Recursos", path: "/recursos" },
+  { name: "Contacto", path: "/contacto" },
 ];
 
 const settings = ["Iniciar sesion", "Account", "Dashboard", "Cerrar sesion"];
 
 function NavBarComponent() {
+  const [darkMode, setDarkMode] = React.useState(false);
+  const toggleTheme = () => setDarkMode(!darkMode);
 
-    const [darkMode, setDarkMode] = React.useState(false);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-    const toggleTheme = () => setDarkMode(!darkMode);
+  return (
+    <AppBar position="static">
+      <Toolbar disableGutters sx={{ px: 2 }}>
+        
+        {/* Logo */}
+        <img src={logo} alt="ODSfera Logo" className="navbar-logo" />
 
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-        null
-    );
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-        null
-    );
+        {/* Título */}
+        <Typography
+          variant="h5"
+          noWrap
+          component={Link}
+          to="/"
+          className="navbar-title"
+          sx={{ display: { xs: "flex", md: "none" } }}
+        >
+          ODSfera
+        </Typography>
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
-    };
+        {/* Menú móvil */}
+        <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <IconButton
+            size="large"
+            aria-haspopup="true"
+            onClick={(e) => setAnchorElNav(e.currentTarget)}
+            color="inherit"
+          >
+            <MenuIcon />
+          </IconButton>
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
+          <Menu
+            anchorEl={anchorElNav}
+            open={Boolean(anchorElNav)}
+            onClose={() => setAnchorElNav(null)}
+            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            transformOrigin={{ vertical: "top", horizontal: "left" }}
+            sx={{ display: { xs: "block", md: "none" } }}
+          >
+            {pages.map((page) => (
+              <MenuItem key={page.name} onClick={() => setAnchorElNav(null)}>
+                <Link to={page.path} className="navbar-mobile-link">
+                  <Typography className="navbar-text-center">{page.name}</Typography>
+                </Link>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
+        <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
 
+        {/* Menú Desktop */}
+        <Box className="navbar-desktop-buttons" sx={{ display: { xs: "none", md: "flex" } }}>
+          {pages.map((page) => (
+            <Button
+              key={page.name}
+              component={Link}
+              to={page.path}
+              className="navbar-button"
+            >
+              {page.name}
+            </Button>
+          ))}
+        </Box>
 
-    return (
-        <AppBar position="static" sx={{}}>
+        <ThemeSwitch checked={darkMode} onChange={toggleTheme} />
 
-            <Toolbar disableGutters sx={{ px: 2 }}>
-                {/* Imagen */}
-                <img
-                    src={logo}
-                    alt="ODSfera Logo"
-                    style={{
-                        width: 55,
-                        height: 55,
-                        marginRight: "12px",
-                        display: "flex",
-                    }}
-                />
+        {/* Avatar Usuario */}
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title="Open settings">
+            <IconButton
+              onClick={(e) => setAnchorElUser(e.currentTarget)}
+              className="navbar-avatar"
+            >
+              <Avatar alt="User" src="/static/images/avatar/2.jpg" />
+            </IconButton>
+          </Tooltip>
 
-                <Typography
-                    variant="h5"
-                    noWrap
-                    component={Link} // 👉 AQUÍ: usamos Link
-                    to="/" // 👉 AQUÍ: ruta de inicio
-                    sx={{
-                        mr: 2,
-                        display: { xs: "flex", md: "none" },
-                        flexGrow: 1,
-                        fontFamily: "monospace",
-                        fontWeight: 700,
-                        letterSpacing: ".3rem",
-                        color: "inherit",
-                        textDecoration: "none",
-                    }}
-                >
-                    ODSfera
+          <Menu
+            className="navbar-user-menu"
+            anchorEl={anchorElUser}
+            open={Boolean(anchorElUser)}
+            onClose={() => setAnchorElUser(null)}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+          >
+            {settings.map((setting) => (
+              <MenuItem key={setting} onClick={() => setAnchorElUser(null)}>
+                <Typography className="navbar-text-center">
+                  {setting}
                 </Typography>
-
-                <Box
-                    sx={{
-                        flexGrow: 1,
-                        display: { xs: "flex", md: "none" },
-                    }}
-                >
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleOpenNavMenu}
-                        color="inherit"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorElNav}
-                        anchorOrigin={{
-                            vertical: "bottom",
-                            horizontal: "left",
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: "top",
-                            horizontal: "left",
-                        }}
-                        open={Boolean(anchorElNav)}
-                        onClose={handleCloseNavMenu}
-                        sx={{ display: { xs: "block", md: "none" } }}
-                    >
-                        {pages.map((page) => (
-                            <MenuItem
-                                key={page.name}
-                                onClick={handleCloseNavMenu}
-                            >
-                                <Link
-                                    to={page.path}
-                                    style={{
-                                        textDecoration: "none",
-                                        color: "inherit",
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{ textAlign: "center" }}
-                                    >
-                                        {page.name}
-                                    </Typography>
-                                </Link>
-                            </MenuItem>
-                        ))}
-                    </Menu>
-                </Box>
-                <AdbIcon
-                    sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-                />
-                <Typography
-                    variant="h5"
-                    noWrap
-                    component="a"
-                    href="#app-bar-with-responsive-menu"
-                    sx={{
-                        mr: 2,
-                        display: { xs: "flex", md: "none" },
-                        flexGrow: 1,
-                        fontFamily: "monospace",
-                        fontWeight: 700,
-                        letterSpacing: ".3rem",
-                        color: "inherit",
-                        textDecoration: "none",
-                    }}
-                >
-                    LOGO
-                </Typography>
-                <Box
-                    sx={{
-                        flexGrow: 1,
-                        display: { xs: "none", md: "flex" },
-                    }}
-                >
-                    {pages.map((page) => (
-                        <Button
-                            key={page.name}
-                            component={Link}
-                            to={page.path}
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: "black", display: "block" }}
-                        >
-                            {page.name}
-                        </Button>
-                    ))}
-                </Box>
-                    <ThemeSwitch checked={darkMode} onChange={toggleTheme} />
-
-                <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title="Open settings">
-                        <IconButton
-                            onClick={handleOpenUserMenu}
-                            sx={{ p: 0 }}
-                        >
-                            <Avatar
-                                alt="Remy Sharp"
-                                src="/static/images/avatar/2.jpg"
-                            />
-                        </IconButton>
-                    </Tooltip>
-                    <Menu
-                        sx={{ mt: "45px" }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                            vertical: "top",
-                            horizontal: "right",
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: "top",
-                            horizontal: "right",
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                    >
-                        {settings.map((setting) => (
-                            <MenuItem
-                                key={setting}
-                                onClick={handleCloseUserMenu}
-                            >
-                                <Typography sx={{ textAlign: "center" }}>
-                                    {setting}
-                                </Typography>
-                            </MenuItem>
-                        ))}
-                    </Menu>
-                </Box>
-            </Toolbar>
-
-        </AppBar>
-    );
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+      </Toolbar>
+    </AppBar>
+  );
 }
+
 export default NavBarComponent;
