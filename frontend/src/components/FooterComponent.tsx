@@ -1,18 +1,10 @@
 import React from "react";
+import "./FooterComponent.css";
 
 const FooterComponent: React.FC = () => {
   return (
-    <footer
-      style={{
-       width: "100%",  
-    padding: "1.5rem 0",
-    textAlign: "center",
-    color: "black",
-    marginTop: "auto",
-    boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.6)",
-      }}
-    >
-      <p style={{ margin: 0 }}>
+    <footer className="footer">
+      <p className="footer-text">
         © 2025 <strong>ODSfera</strong> – Desarrollo Sostenible
       </p>
     </footer>
@@ -20,9 +12,3 @@ const FooterComponent: React.FC = () => {
 };
 
 export default FooterComponent;
-
-
-
-
-
-
