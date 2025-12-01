@@ -3,8 +3,8 @@ const ContactPage: React.FC = () => {
     return (
         <div
             style={{
-                minHeight: "100vh",
-                minWidth: "100vw",
+                minHeight: "100%",
+                minWidth: "100%",
                 display: "flex",
                 flexDirection: "column",
                 background: "white",

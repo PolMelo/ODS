@@ -10,7 +10,7 @@ import ResourcesPage from "./pages/ResourcesPage";
 import ContactPage from "./pages/ContactPage";
 import ActionsPage from "./pages/ActionsPage";
 
-//Aqui importem navbar y footer per a totes les pages en lloc dde cridarlo cada cop
+//Aqui importem navbar y footer per a totes les pages en lloc dde cridarlo
 
 import NavBarComponent from "./components/NavBarComponent";
 import FooterComponent from "./components/FooterComponent";
@@ -45,7 +45,7 @@ const App: React.FC = () => {
 
       <Box
         sx={{
-          minHeight: "100vh",
+          height: "100vh",
           display: "flex",
           flexDirection: "column",
         }}
@@ -54,7 +54,10 @@ const App: React.FC = () => {
         <NavBarComponent darkMode={darkMode} toggleTheme={toggleTheme} />
 
         {/* Contenido principal que crece */}
-        <Box component="main" sx={{ flexGrow: 1 }}>
+        <Box component="main" sx={{ flexGrow: 1,
+            overflow: "auto",
+            display:"flex",
+         }}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/acciones" element={<ActionsPage />} />
@@ -70,6 +73,7 @@ const App: React.FC = () => {
       </Box>
     </ThemeProvider>
   );
+  
 };
 
 export default App;

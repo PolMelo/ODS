@@ -59,8 +59,7 @@ const HomePage: React.FC = () => {
     return (
         <div
             style={{
-                height: "100vh",
-                width: "100%",
+                flex: 1,
                 display: "flex",
                 flexDirection: "column",
                 background: "white",
@@ -69,11 +68,13 @@ const HomePage: React.FC = () => {
         >
             <main
                 style={{
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "row",
-                    overflow: "hidden",
-                    padding: "10px"
+                   flex: 1,
+                display: "flex",
+                flexDirection: "row",
+                overflow: "hidden",
+                padding: "10px",
+                boxSizing: "border-box",
+                gap: "20px",  
                 }}
             >
                 {/* Columna izquierda */}
@@ -90,8 +91,8 @@ const HomePage: React.FC = () => {
                 >
                     <div
                         style={{
-                            width: "100%",
-                            height: "100%",
+                            width: "90%",
+                            height: "90%",
                             overflow: "hidden",
                             
                         }}
@@ -100,8 +101,8 @@ const HomePage: React.FC = () => {
                             src={images[currentImage]}
                             alt="Imagen rotatoria"
                             style={{
-                                width: "100%",
-                                height: "100%",
+                                width: "90%",
+                                height: "90%",
                                 objectFit: "contain", // o "cover" si lo prefieres
                                 transition: "opacity 0.3s ease-in-out",
                                 opacity: isFading ? 0 : 1,
@@ -114,7 +115,7 @@ const HomePage: React.FC = () => {
                 <div
                     style={{
                         flex: 1,
-                        padding: "40px",
+                        padding: "0px",
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",
