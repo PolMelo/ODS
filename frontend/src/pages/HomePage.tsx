@@ -1,6 +1,6 @@
 import React from "react";
+import "./HomePage.css";
 
-// Importo todas las imágenes del carrusel
 import ODS0 from "../assets/LOGOS ODS/ODS 0.jpg";
 import ODS1 from "../assets/LOGOS ODS/ODS 1.jfif";
 import ODS2 from "../assets/LOGOS ODS/ODS 2.jpg";
@@ -22,24 +22,9 @@ import ODS17 from "../assets/LOGOS ODS/ODS 17.jpg";
 
 const HomePage: React.FC = () => {
     const images = [
-        ODS0,
-        ODS1,
-        ODS2,
-        ODS3,
-        ODS4,
-        ODS5,
-        ODS6,
-        ODS7,
-        ODS8,
-        ODS9,
-        ODS10,
-        ODS11,
-        ODS12,
-        ODS13,
-        ODS14,
-        ODS15,
-        ODS16,
-        ODS17,
+        ODS0, ODS1, ODS2, ODS3, ODS4, ODS5, ODS6, ODS7,
+        ODS8, ODS9, ODS10, ODS11, ODS12, ODS13, ODS14,
+        ODS15, ODS16, ODS17,
     ];
 
     const [currentImage, setCurrentImage] = React.useState(0);
@@ -53,91 +38,40 @@ const HomePage: React.FC = () => {
                 setIsFading(false);
             }, 300);
         }, 10000);
+
         return () => clearInterval(interval);
-    }, []);
+    }, [images.length]);
 
     return (
-        <div
-            style={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                background: "white",
-                overflow: "hidden",  // evita scroll global
-            }}
-        >
-            <main
-                style={{
-                   flex: 1,
-                display: "flex",
-                flexDirection: "row",
-                overflow: "hidden",
-                padding: "10px",
-                boxSizing: "border-box",
-                gap: "20px",  
-                }}
-            >
-                {/* Columna izquierda */}
-                <div
-                    style={{
-                        flex: 1,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        overflow: "hidden",
-                        backgroundColor: "white",
-                        
-                    }}
-                >
-                    <div
-                        style={{
-                            width: "90%",
-                            height: "90%",
-                            overflow: "hidden",
-                            
-                        }}
-                    >
+        <div className="home-container">
+            <main className="home-main">
+                {/* COLUMNA IZQUIERDA */}
+                <div className="home-carousel-container">
+                    <div className="home-carousel-inner">
                         <img
                             src={images[currentImage]}
-                            alt="Imagen rotatoria"
-                            style={{
-                                width: "90%",
-                                height: "90%",
-                                objectFit: "contain", // o "cover" si lo prefieres
-                                transition: "opacity 0.3s ease-in-out",
-                                opacity: isFading ? 0 : 1,
-                            }}
+                            alt="ODS rotatoria"
+                            className={`home-carousel-img ${isFading ? "fade-out" : "fade-in"}`}
                         />
                     </div>
                 </div>
 
-                {/* Columna derecha */}
-                <div
-                    style={{
-                        flex: 1,
-                        padding: "0px",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        overflow: "hidden",
-                        color: "black",
-                    }}
-                >
+                {/* COLUMNA DERECHA */}
+                <div className="home-text">
                     <h1>Bienvenido a ODSfera</h1>
                     <p>
                         Herramienta social centrada en crear, difundir y compartir iniciativas con metas de desarrollo sostenible.
-                        Enfocada en las distintas ods, ODSfera crea un espacio en el que podrás explorar actividades, eventos o
+                        Enfocada en las distintas ODS, ODSfera crea un espacio en el que podrás explorar actividades, eventos o
                         iniciativas para ayudar a un futuro sostenible y sin pobreza.
                     </p>
                     <p>
-                        Si formas parte de una plataforma o iniciativas que apoyan esta visión también puedes crear acciones para impulsarlas y
-                        que esta comunidad forme parte de ellas.
+                        Si formas parte de una plataforma o iniciativas que apoyan esta visión también puedes crear acciones para impulsarlas
+                        y que esta comunidad forme parte de ellas.
                     </p>
                 </div>
             </main>
         </div>
     );
-
 };
 
 export default HomePage;
