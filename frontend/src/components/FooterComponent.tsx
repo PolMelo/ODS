@@ -8,7 +8,7 @@ const FooterComponent: React.FC = () => {
     padding: "1.5rem 0",
     textAlign: "center",
     marginTop: "auto",
-    boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.6)",
+    boxShadow: "0px -2px 4px",
       }}
     >
       <p style={{ margin: 0 }}>
