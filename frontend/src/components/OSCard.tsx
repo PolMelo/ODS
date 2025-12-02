@@ -13,7 +13,7 @@ const OSCard: React.FC<OSCardProps> = ({ title, img, ods, date }) => {
             style={{
                 width: "100%",
                 maxWidth: "380px",
-                backgroundColor: "#ffffff",
+                
                 borderRadius: "14px",
                 overflow: "hidden",
                 boxShadow: "0 6px 18px rgba(0,0,0,0.12)",
@@ -51,7 +51,7 @@ const OSCard: React.FC<OSCardProps> = ({ title, img, ods, date }) => {
                         margin: 0,
                         fontSize: "1.3rem",
                         fontWeight: 700,
-                        color: "#111827",
+                        
                     }}
                 >
                     {title}
