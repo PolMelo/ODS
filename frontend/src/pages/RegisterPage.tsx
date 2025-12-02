@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Box,
   Container,
@@ -165,16 +166,21 @@ export default function RegisterMUI() {
               </Button>
 
               <Typography variant="body2" align="center" color="text.secondary">
-                ¿Ya tienes cuenta?{" "}
-                <span
-                  style={{
-                    color: mode === "dark" ? "#818cf8" : "#4f46e5",
-                    cursor: "pointer",
-                  }}
-                >
-                  Inicia sesión
-                </span>
-              </Typography>
+  ¿Ya tienes cuenta?{" "}
+  <Typography
+    component={Link}
+    to="/login"
+    sx={{
+      color: mode === "dark" ? "#818cf8" : "#4f46e5",
+      cursor: "pointer",
+      textDecoration: "none",
+      fontWeight: 600,
+      display: "inline",
+    }}
+  >
+    Inicia sesión
+  </Typography>
+</Typography>
             </Box>
           </Paper>
         </Container>
@@ -182,3 +188,5 @@ export default function RegisterMUI() {
     </>
   );
 }
+
+
