@@ -1,56 +1,148 @@
+import React, { useState } from "react";
+import {
+  Box,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
+  Button,
+  Alert,
+  useTheme,
+} from "@mui/material";
+
 const ContactPage: React.FC = () => {
-    return (
-        <div style={{
-            minHeight: "100%",
-            minWidth: "100%",
-            display: "flex",
-            flexDirection: "column",
-            padding: "1rem"
-        }}>
+  const theme = useTheme();
 
-            <header>
-                <h2>¿Necesitas ayuda?</h2>
-                <p>
-                    Contacta con nuestro equipo técnico si tienes alguna duda, problema o necesitas soporte.
-                    Te responderemos lo antes posible.
-                </p>
-            </header>
+  const [email, setEmail] = useState("");
+  const [mensaje, setMensaje] = useState("");
+  const [enviado, setEnviado] = useState(false);
 
-            <section aria-label="Formulario de contacto">
-                <form
-                    method="post"
-                    style={{ display: "flex", flexDirection: "column", gap: "1.25rem", maxWidth: "600px" }}
-                >
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                        <label htmlFor="email">Correo electrónico:</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            autoComplete="email"
-                            required
-                        />
-                        <small>Usaremos tu correo solo para responderte.</small>
-                    </div>
+  // VALIDACIONES
+  const emailValido = /.+@.+\..+/.test(email);
+  const mensajeValido = mensaje.trim().length >= 10;
+  const formValido = emailValido && mensajeValido;
 
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                        <label htmlFor="mensaje">Explícanos tu problema:</label>
-                        <textarea
-                            id="mensaje"
-                            name="mensaje"
-                            rows={6}
-                            required
-                        />
-                        <small>Incluye toda la información que creas relevante para ayudarte mejor.</small>
-                    </div>
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formValido) return;
 
-                    <button type="submit">
-                        Enviar
-                    </button>
-                </form>
-            </section>
-        </div>
-    );
+    setEnviado(true);
+
+    // Aquí harías tu POST real a tu backend
+    console.log("Enviado:", { email, mensaje });
+  };
+
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        minHeight: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+
+        // Fondo adaptado al modo, si es dark la primera linea si no la segona
+        background:
+          theme.palette.mode === "dark"
+            ? "linear-gradient(135deg, #1a1a1a, #0f0f0f)"
+            : "linear-gradient(135deg, #e8f5e9, #c8e6c9)",
+
+        padding: 3,
+      }}
+    >
+      <Card
+        sx={{
+          width: "100%",
+          maxWidth: 520,
+          borderRadius: 4,
+          boxShadow: 6,
+
+          backgroundColor:
+            theme.palette.mode === "dark"
+              ? theme.palette.background.default
+              : "#ffffff",
+        }}
+      >
+        <CardContent>
+          <Typography variant="h4" align="center" gutterBottom>
+            Contacta con nosotros
+          </Typography>
+
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            textAlign="center"
+            mb={3}
+          >
+            Si tienes dudas o problemas, nuestro equipo técnico está listo para ayudarte.
+          </Typography>
+
+          {enviado && (
+            <Alert severity="success" sx={{ mb: 2 }}>
+              ¡Mensaje enviado correctamente!
+            </Alert>
+          )}
+
+          <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+            <TextField
+              label="Correo electrónico"
+              type="email"
+              fullWidth
+              required
+              margin="normal"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEnviado(false);
+              }}
+              error={email.length > 0 && !emailValido}
+              helperText={
+                email.length > 0 && !emailValido
+                  ? "Introduce un correo electrónico válido"
+                  : ""
+              }
+            />
+
+            <TextField
+              label="Explícanos tu problema"
+              fullWidth
+              required
+              multiline
+              rows={4}
+              margin="normal"
+              value={mensaje}
+              onChange={(e) => {
+                setMensaje(e.target.value);
+                setEnviado(false);
+              }}
+              error={mensaje.length > 0 && !mensajeValido}
+              helperText={
+                mensaje.length > 0 && !mensajeValido
+                  ? "El mensaje debe tener al menos 10 caracteres"
+                  : ""
+              }
+            />
+
+            <Button
+              variant="contained"
+              color="success"
+              type="submit"
+              fullWidth
+              disabled={!formValido}
+              sx={{
+                mt: 2,
+                py: 1.3,
+                fontSize: "1rem",
+                fontWeight: "bold",
+              }}
+            >
+              Enviar
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </Box>
+  );
 };
 
 export default ContactPage;
