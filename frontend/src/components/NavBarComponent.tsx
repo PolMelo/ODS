@@ -32,6 +32,7 @@ const settings = [
     { name: "Account", path: "/account" },
     { name: "Dashboard", path: "/dashboard" },
     { name: "Cerrar sesion", path: "/logout" },
+    { name: "Registro", path: "/signup"},
 ];
 
 function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {

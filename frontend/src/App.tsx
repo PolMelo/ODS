@@ -10,11 +10,11 @@ import ResourcesPage from "./pages/ResourcesPage";
 import ContactPage from "./pages/ContactPage";
 import ActionsPage from "./pages/ActionsPage";
 import LoginPage from "./pages/LoginPage";
-import NotFoundPage from "./pages/404";
-
+import RegisterPage from "./pages/RegisterPage";
 
 import NavBarComponent from "./components/NavBarComponent";
 import FooterComponent from "./components/FooterComponent";
+
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = React.useState(false);
@@ -55,15 +55,13 @@ const App: React.FC = () => {
           }}
         >
           <Routes>
-            {/*Rutas del navbar*/}
             <Route path="/" element={<HomePage />} />
             <Route path="/acciones" element={<ActionsPage />} />
             <Route path="/recursos" element={<ResourcesPage />} />
             <Route path="/contacto" element={<ContactPage />} />
-            {/*Rutas del menú*/}
             <Route path="/login" element={<LoginPage />} />
-              {/* Ruta comodín */}
-            <Route path="*" element={<NotFoundPage/>} />
+            <Route path="/signup" element={<RegisterPage />} />
+            <Route path="*" element={<h1>404 — Nada por aquí 🌫️</h1>} />
           </Routes>
         </Box>
 
