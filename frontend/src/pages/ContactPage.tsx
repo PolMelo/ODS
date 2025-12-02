@@ -1,4 +1,3 @@
-
 const ContactPage: React.FC = () => {
     return (
         <div
@@ -7,20 +6,18 @@ const ContactPage: React.FC = () => {
                 minWidth: "100%",
                 display: "flex",
                 flexDirection: "column",
-                background: "white",
-                color: "black",
             }}
         >
             <h2>Contacta con nuestro equipo técnico si tienes alguna duda o problema.</h2>
 
             <form method="post" style={{ display: "flex", flexDirection: "column", gap: "1rem", padding: "1rem" }}>
                 <label htmlFor="email">Correo electrónico:</label>
-                <input type="email" id="email" name="email" required style={{ backgroundColor: "#dcffdbff" }} />
+                <input type="email" id="email" name="email"  />
 
                 <label htmlFor="mensaje">Explícanos tu problema:</label>
-                <textarea id="mensaje" name="mensaje" rows={5} required style={{ backgroundColor: "#dcffdbff" }} />
+                <textarea id="mensaje" name="mensaje" rows={5}  />
 
-                <button type="submit" style={{ backgroundColor: "#b6ffb3ff", color: "black" }}>Enviar</button>
+                <button type="submit" >Enviar</button>
             </form>
         </div>
     );

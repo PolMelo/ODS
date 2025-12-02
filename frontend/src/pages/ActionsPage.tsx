@@ -12,7 +12,7 @@ const Acciones: React.FC = () => {
                 gap: "2rem",
             }}
         >
-            <h1 style={{ fontSize: "2rem", fontWeight: 700, color: "black" }}>
+            <h1 style={{ fontSize: "2rem", fontWeight: 700, }}>
                 Acciones ODSfera
             </h1>
 

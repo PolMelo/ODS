@@ -131,8 +131,6 @@ const ResourcesPage: React.FC = () => {
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
-                background: "white",
-                color: "black",
             }}
         >
           
@@ -153,7 +151,6 @@ const ResourcesPage: React.FC = () => {
                             alignItems: "center", // centra verticalmente imagen y texto
                             padding:"0px",
                             borderRadius: "10px",
-                            backgroundColor: "#f9f9f9",
                         }}
                     >
                         <img

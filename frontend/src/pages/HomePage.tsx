@@ -22,24 +22,8 @@ import ODS17 from "../assets/LOGOS ODS/ODS 17.jpg";
 
 const HomePage: React.FC = () => {
     const images = [
-        ODS0,
-        ODS1,
-        ODS2,
-        ODS3,
-        ODS4,
-        ODS5,
-        ODS6,
-        ODS7,
-        ODS8,
-        ODS9,
-        ODS10,
-        ODS11,
-        ODS12,
-        ODS13,
-        ODS14,
-        ODS15,
-        ODS16,
-        ODS17,
+        ODS0, ODS1, ODS2, ODS3, ODS4, ODS5, ODS6, ODS7, ODS8,
+        ODS9, ODS10, ODS11, ODS12, ODS13, ODS14, ODS15, ODS16, ODS17,
     ];
 
     const [currentImage, setCurrentImage] = React.useState(0);
@@ -54,7 +38,7 @@ const HomePage: React.FC = () => {
             }, 300);
         }, 10000);
         return () => clearInterval(interval);
-    }, []);
+    }, [images.length]);
 
     return (
         <div
@@ -62,71 +46,58 @@ const HomePage: React.FC = () => {
                 flex: 1,
                 display: "flex",
                 flexDirection: "column",
-                background: "white",
-                overflow: "hidden",  // evita scroll global
+                overflow: "hidden",
+                width: "100%",
             }}
         >
             <main
                 style={{
-                   flex: 1,
-                display: "flex",
-                flexDirection: "row",
-                overflow: "hidden",
-                padding: "10px",
-                boxSizing: "border-box",
-                gap: "20px",  
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "row",
+                    overflow: "hidden",
+                    padding: "20px",
+                    boxSizing: "border-box",
+                    gap: "40px",
                 }}
             >
-                {/* Columna izquierda */}
+                {/* Columna izquierda - Imagen */}
                 <div
                     style={{
                         flex: 1,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        overflow: "hidden",
-                        backgroundColor: "white",
-                        
                     }}
                 >
-                    <div
+                    <img
+                        src={images[currentImage]}
+                        alt="Objetivos de Desarrollo Sostenible"
                         style={{
-                            width: "90%",
-                            height: "90%",
-                            overflow: "hidden",
-                            
+                            maxWidth: "100%",
+                            maxHeight: "100%",
+                            objectFit: "contain",
+                            transition: "opacity 0.3s ease-in-out",
+                            opacity: isFading ? 0 : 1,
                         }}
-                    >
-                        <img
-                            src={images[currentImage]}
-                            alt="Imagen rotatoria"
-                            style={{
-                                width: "90%",
-                                height: "90%",
-                                objectFit: "contain", // o "cover" si lo prefieres
-                                transition: "opacity 0.3s ease-in-out",
-                                opacity: isFading ? 0 : 1,
-                            }}
-                        />
-                    </div>
+                    />
                 </div>
 
-                {/* Columna derecha */}
+                {/* Columna derecha - Texto */}
                 <div
                     style={{
                         flex: 1,
-                        padding: "0px",
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "center",
-                        overflow: "hidden",
-                        color: "black",
+                        overflow: "auto",
+                        padding: "20px",
                     }}
                 >
-                    <h1>Bienvenido a ODSfera</h1>
+                    <h1 style={{ marginTop: 0 }}>Bienvenido a ODSfera</h1>
                     <p>
                         Herramienta social centrada en crear, difundir y compartir iniciativas con metas de desarrollo sostenible.
-                        Enfocada en las distintas ods, ODSfera crea un espacio en el que podrás explorar actividades, eventos o
+                        Enfocada en las distintas ODS, ODSfera crea un espacio en el que podrás explorar actividades, eventos o
                         iniciativas para ayudar a un futuro sostenible y sin pobreza.
                     </p>
                     <p>
@@ -137,7 +108,6 @@ const HomePage: React.FC = () => {
             </main>
         </div>
     );
-
 };
 
 export default HomePage;
