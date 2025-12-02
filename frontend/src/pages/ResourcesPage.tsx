@@ -123,58 +123,68 @@ const odsData = [
     },
 ];
 
-const ResourcesPage: React.FC = () => {
-    return (
-        <div
-            style={{
-                minHeight: "100%",
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-            }}
-        >
-          
-            <div
-                style={{
-                    padding: "1rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "2rem",
-                }}
-            >
-                {odsData.map((ods, index) => (
-                    <div
-                        key={index}
-                        style={{
-                            display: "flex",
-                            gap: "1.5rem",
-                            alignItems: "center", // centra verticalmente imagen y texto
-                            padding:"0px",
-                            borderRadius: "10px",
-                        }}
-                    >
-                        <img
-                            src={ods.image}
-                            alt={ods.title}
-                            style={{
-                                width: "120px",
-                                height: "120px",
-                                objectFit: "cover",
-                                borderRadius: "10px",
-                                flexShrink: 0, // evita que la imagen se reduzca
-                            }}
-                        />
-                        <div style={{ flex: 1 }}>
-                            <h3 style={{ margin: "0 0 0.5rem 0" }}>{ods.title}</h3>
-                            <p style={{ margin: 0 }}>{ods.description}</p>
-                        </div>
-                    </div>
-                ))}
+import React from "react";
+import { Box, Card, CardContent, Typography, useTheme } from "@mui/material";
 
-            </div>
-           
-        </div>
-    );
+
+const ResourcesPage: React.FC = () => {
+  const theme = useTheme();
+
+  return (
+    <Box
+      sx={{
+        height: "100vh",
+        width: "100%",
+        overflowY: "auto",
+        padding: "1.5rem",
+        bgcolor: theme.palette.background.default,
+      }}
+    >
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        {odsData.map((ods, index) => (
+          <Card
+            key={index}
+            sx={{
+              display: "flex",
+              gap: 2,
+              alignItems: "center",
+              padding: 2,
+              borderRadius: "12px",
+              border: `1px solid ${theme.palette.divider}`,
+              transition: "0.2s ease",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+              "&:hover": {
+                boxShadow: "0 6px 16px rgba(0,0,0,0.1)",
+                transform: "translateY(-2px)",
+              },
+            }}
+          >
+            <img
+              src={ods.image}
+              alt={ods.title}
+              style={{
+                width: "120px",
+                height: "120px",
+                objectFit: "cover",
+                borderRadius: "12px",
+                flexShrink: 0,
+              }}
+            />
+
+            <CardContent sx={{ padding: "0 !important" }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, marginBottom: 1 }}>
+                {ods.title}
+              </Typography>
+
+              <Typography variant="body1" sx={{ opacity: 0.8 }}>
+                {ods.description}
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
+      </Box>
+    </Box>
+  );
 };
 
 export default ResourcesPage;
