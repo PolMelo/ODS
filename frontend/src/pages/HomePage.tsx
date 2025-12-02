@@ -20,6 +20,8 @@ import ODS15 from "../assets/LOGOS ODS/ODS 15.jpg";
 import ODS16 from "../assets/LOGOS ODS/ODS 16.jpg";
 import ODS17 from "../assets/LOGOS ODS/ODS 17.jpg";
 
+import Button from "@mui/material/Button";
+
 const HomePage: React.FC = () => {
     const images = [
         ODS0, ODS1, ODS2, ODS3, ODS4, ODS5, ODS6, ODS7, ODS8,
@@ -95,15 +97,40 @@ const HomePage: React.FC = () => {
                     }}
                 >
                     <h1 style={{ marginTop: 0 }}>Bienvenido a ODSfera</h1>
+
                     <p>
-                        Herramienta social centrada en crear, difundir y compartir iniciativas con metas de desarrollo sostenible.
-                        Enfocada en las distintas ODS, ODSfera crea un espacio en el que podrás explorar actividades, eventos o
-                        iniciativas para ayudar a un futuro sostenible y sin pobreza.
+                        ODSfera es una herramienta social diseñada para crear, difundir y compartir iniciativas orientadas a los Objetivos de Desarrollo Sostenible (ODS).
+                        En este espacio podrás descubrir actividades, eventos y proyectos que impulsan un futuro más justo, sostenible y libre de pobreza.
                     </p>
+
                     <p>
                         Si formas parte de una plataforma o iniciativas que apoyan esta visión también puedes crear acciones para impulsarlas y
                         que esta comunidad forme parte de ellas.
                     </p>
+
+                    <p>Únete a ODSfera: regístrate y empieza a formar parte del cambio.</p>
+
+                    {/* Botón de registro */}
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        href="/signup"
+                        style={{ marginBottom: "20px", width: "200px" }}
+                    >
+                        Regístrate aquí
+                    </Button>
+
+                    <p>Si ya estás registrado, accede aquí:</p>
+
+                    {/* Botón de acceso */}
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        href="/login"
+                        style={{ width: "200px" }}
+                    >
+                        Acceder
+                    </Button>
                 </div>
             </main>
         </div>
