@@ -158,7 +158,7 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
                 </Typography>
 
                 {/* Menú desktop */}
-                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" },justifyContent: "center" }}>
                     {pages.map((page) => (
                         <Button
                             key={page.name}
@@ -166,6 +166,7 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
                             to={page.path}
                             onClick={handleCloseNavMenu}
                             sx={{ my: 2, color: "inherit", display: "block" }}
+                            
                         >
                             {page.name}
                         </Button>
