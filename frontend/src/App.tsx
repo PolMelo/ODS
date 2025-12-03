@@ -9,6 +9,7 @@ import ContactPage from "./pages/ContactPage";
 import ActionsPage from "./pages/ActionsPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import NotFoundPage from "./pages/404";
 
 import NavBarComponent from "./components/NavBarComponent";
 import FooterComponent from "./components/FooterComponent";
@@ -39,7 +40,7 @@ const App: React.FC = () => {
           <Route path="/contacto" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<RegisterPage />} />
-          <Route path="*" element={<h1>404 — Nada por aquí 🌫️</h1>} />
+          <Route path="*" element={<NotFoundPage/>} />
         </Routes>
       </Box>
 
