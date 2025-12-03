@@ -28,3 +28,10 @@ d96761,127.0.0.1,GET,http://localhost:8000/api/ods,1764765172,,200,request
 204199,127.0.0.1,OPTIONS,http://127.0.0.1:8000/api/register,1764765177,,200,request
 5eca31,127.0.0.1,POST,http://127.0.0.1:8000/api/register,1764765180,,200,request
 05590a,127.0.0.1,POST,http://127.0.0.1:8000/api/register,1764765236,,200,request
+1cc5df,127.0.0.1,GET,http://localhost:8000/,1764766404,,200,request
+161448,127.0.0.1,GET,http://localhost:8000/api/ods,1764766408,,200,request
+06ffd0,127.0.0.1,OPTIONS,http://localhost:8000/api/login,1764766409,,200,request
+26dd80,127.0.0.1,OPTIONS,http://localhost:8000/api/login,1764766410,,200,request
+f6b599,127.0.0.1,POST,http://localhost:8000/api/login,1764766415,,200,request
+8120bf,127.0.0.1,POST,http://localhost:8000/api/login,1764766417,,200,request
+45d4df,127.0.0.1,POST,http://localhost:8000/api/login,1764766419,,200,request
