@@ -339,6 +339,6 @@ class __TwigTemplate_cf4286ce2ef54a6b9b42d64930babe95 extends Template
         {% block body '' %}
     </body>
 </html>
-", "@WebProfiler/Profiler/base.html.twig", "C:\\Users\\Mati\\Desktop\\odspol\\ODS\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\base.html.twig");
+", "@WebProfiler/Profiler/base.html.twig", "C:\\Users\\Mati\\Desktop\\Proyecto-ODS\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\base.html.twig");
     }
 }

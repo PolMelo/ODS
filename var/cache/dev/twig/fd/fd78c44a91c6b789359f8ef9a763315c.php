@@ -1042,6 +1042,6 @@ class __TwigTemplate_d3b9a41e564398d54086347fbbf4ed73 extends Template
         </table>
     {% endif %}
 {% endblock %}
-", "@WebProfiler/Collector/config.html.twig", "C:\\Users\\Mati\\Desktop\\odspol\\ODS\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Collector\\config.html.twig");
+", "@WebProfiler/Collector/config.html.twig", "C:\\Users\\Mati\\Desktop\\Proyecto-ODS\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Collector\\config.html.twig");
     }
 }

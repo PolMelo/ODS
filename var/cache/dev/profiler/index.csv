@@ -21,3 +21,10 @@ e4e5ca,127.0.0.1,OPTIONS,http://127.0.0.1:8000/api/register,1764761842,,200,requ
 c68350,127.0.0.1,POST,http://127.0.0.1:8000/api/register,1764764078,,200,request
 0d5dad,127.0.0.1,GET,http://localhost:8000/api/ods,1764764102,,200,request
 5d1029,127.0.0.1,GET,http://localhost:8000/api/ods,1764764103,,200,request
+0fda3c,127.0.0.1,GET,http://localhost:8000/api/ods,1764765142,,200,request
+80dfdb,127.0.0.1,GET,http://localhost:8000/,1764765143,,200,request
+aa6537,127.0.0.1,GET,http://localhost:8000/api/ods,1764765169,,200,request
+d96761,127.0.0.1,GET,http://localhost:8000/api/ods,1764765172,,200,request
+204199,127.0.0.1,OPTIONS,http://127.0.0.1:8000/api/register,1764765177,,200,request
+5eca31,127.0.0.1,POST,http://127.0.0.1:8000/api/register,1764765180,,200,request
+05590a,127.0.0.1,POST,http://127.0.0.1:8000/api/register,1764765236,,200,request

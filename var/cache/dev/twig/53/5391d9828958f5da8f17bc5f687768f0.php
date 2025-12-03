@@ -113,6 +113,6 @@ class __TwigTemplate_84e6910099707978bc3fcbb94f189c88 extends Template
 
 </body>
 </html>
-", "base.html.twig", "C:\\Users\\Mati\\Desktop\\odspol\\ODS\\templates\\base.html.twig");
+", "base.html.twig", "C:\\Users\\Mati\\Desktop\\Proyecto-ODS\\templates\\base.html.twig");
     }
 }
