@@ -76,11 +76,14 @@ const HomePage: React.FC = () => {
                         src={images[currentImage]}
                         alt="Objetivos de Desarrollo Sostenible"
                         style={{
-                            maxWidth: "100%",
-                            maxHeight: "100%",
+                            maxWidth: "500px",
+                            maxHeight: "500px",
+                            minWidth: "500px",
+                            minHeight: "500px",
                             objectFit: "contain",
                             transition: "opacity 0.3s ease-in-out",
                             opacity: isFading ? 0 : 1,
+                            borderRadius: "50px",
                         }}
                     />
                 </div>

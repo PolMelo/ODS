@@ -25,8 +25,6 @@ interface AccionCard {
 const AccionesPage: React.FC = () => {
   const [acciones, setAcciones] = useState<AccionCard[]>([]);
   const [loading, setLoading] = useState(true);
-  //! Vigilar si es httpS o httP
-  //!Comprovar abans de ensenyar live
 
   useEffect(() => {
     fetch("https://localhost:8000/api/ods")
@@ -35,8 +33,6 @@ const AccionesPage: React.FC = () => {
         return res.json();
       })
       .then((data: AccionApi[]) => {
-        console.log("RAW DATA FROM API:", data);
-
         const accionesFormateadas: AccionCard[] = data.map((item) => {
           const ods = [item.etiqueta1, item.etiqueta2, item.etiqueta3].filter(
             (x) => x !== null && x !== undefined
@@ -50,8 +46,6 @@ const AccionesPage: React.FC = () => {
           };
         });
 
-        console.log("FORMATEADO PARA OSCARD:", accionesFormateadas);
-
         setAcciones(accionesFormateadas);
         setLoading(false);
       })
@@ -61,10 +55,10 @@ const AccionesPage: React.FC = () => {
       });
   }, []);
 
-  if (loading) return <p>Cargando acciones...</p>;
+  if (loading) return <p style={{ padding: "2rem" }}>Cargando acciones...</p>;
 
   if (acciones.length === 0)
-    return <p>No hay acciones para mostrar. Revisa la consola.</p>;
+    return <p style={{ padding: "2rem" }}>No hay acciones para mostrar.</p>;
 
   return (
     <div
@@ -74,19 +68,18 @@ const AccionesPage: React.FC = () => {
         flexDirection: "column",
         alignItems: "center",
         gap: "2rem",
+        width: "100%",       // ocupa todo el ancho
+        maxWidth: "100%",    // sin restricción
       }}
     >
-      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>
-        Acciones ODSfera
-      </h1>
+      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Acciones ODSfera</h1>
 
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", // responsivo
           gap: "1.5rem",
           width: "100%",
-          maxWidth: "1100px",
         }}
       >
         {acciones.map((accion, i) => (
