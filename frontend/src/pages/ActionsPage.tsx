@@ -1,54 +1,104 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import OSCard from "../components/OSCard";
 
-const Acciones: React.FC = () => {
-    return (
-        <div
-            style={{
-                padding: "3rem 2rem",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "2rem",
-            }}
-        >
-            <h1 style={{ fontSize: "2rem", fontWeight: 700, }}>
-                Acciones ODSfera
-            </h1>
+interface AccionApi {
+  id: number;
+  nom: string;
+  descripcion: string;
+  imagen_url: string;
+  fecha: string;
+  hora?: string;
+  lugar?: string;
+  link?: string | null;
+  etiqueta1?: number | null;
+  etiqueta2?: number | null;
+  etiqueta3?: number | null;
+}
 
-            {/* GRID de tarjetas */}
-            <div
-                style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-                    gap: "1.5rem",
-                    width: "100%",
-                    maxWidth: "1100px",
-                }}
-            >
-                <OSCard
-                    title="Reduce tu consumo eléctrico"
-                    img="https://images.pexels.com/photos/1036936/pexels-photo-1036936.jpeg"
-                    ods={["ODS 7", "Energía asequible", "Eficiencia energética"]}
-                    date="15/02/2025"
-                />
+interface AccionCard {
+  title: string;
+  img: string;
+  ods: (number | string)[];
+  date: string;
+}
 
-                <OSCard
-                    title="Compra productos a granel"
-                    img="https://images.pexels.com/photos/3735175/pexels-photo-3735175.jpeg"
-                    ods={["ODS 12", "Consumo responsable"]}
-                    date="20/02/2025"
-                />
+const AccionesPage: React.FC = () => {
+  const [acciones, setAcciones] = useState<AccionCard[]>([]);
+  const [loading, setLoading] = useState(true);
 
-                <OSCard
-                    title="Muévete sin contaminar"
-                    img="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"
-                    ods={["ODS 13", "Acción por el clima", "Movilidad sostenible"]}
-                    date="25/02/2025"
-                />
-            </div>
-        </div>
-    );
+  useEffect(() => {
+    fetch("https://localhost:8000/api/ods")
+      .then((res) => {
+        if (!res.ok) throw new Error("Error en la petición");
+        return res.json();
+      })
+      .then((data: AccionApi[]) => {
+        console.log("RAW DATA FROM API:", data);
+
+        const accionesFormateadas: AccionCard[] = data.map((item) => {
+          const ods = [item.etiqueta1, item.etiqueta2, item.etiqueta3].filter(
+            (x) => x !== null && x !== undefined
+          );
+
+          return {
+            title: item.nom,
+            img: item.imagen_url,
+            ods,
+            date: item.fecha,
+          };
+        });
+
+        console.log("FORMATEADO PARA OSCARD:", accionesFormateadas);
+
+        setAcciones(accionesFormateadas);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("FETCH ERROR:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p>Cargando acciones...</p>;
+
+  if (acciones.length === 0)
+    return <p>No hay acciones para mostrar. Revisa la consola.</p>;
+
+  return (
+    <div
+      style={{
+        padding: "3rem 2rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "2rem",
+      }}
+    >
+      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>
+        Acciones ODSfera
+      </h1>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gap: "1.5rem",
+          width: "100%",
+          maxWidth: "1100px",
+        }}
+      >
+        {acciones.map((accion, i) => (
+          <OSCard
+            key={i}
+            title={accion.title}
+            img={accion.img}
+            ods={accion.ods}
+            date={accion.date}
+          />
+        ))}
+      </div>
+    </div>
+  );
 };
 
-export default Acciones;
+export default AccionesPage;
