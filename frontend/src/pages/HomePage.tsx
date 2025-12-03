@@ -84,6 +84,7 @@ const HomePage: React.FC = () => {
                             transition: "opacity 0.3s ease-in-out",
                             opacity: isFading ? 0 : 1,
                             borderRadius: "50px",
+                            filter: "sepia(50%)",
                         }}
                     />
                 </div>

@@ -90,7 +90,6 @@ const AccionesPage: React.FC = () => {
         color: "white",
       }}
     >
-      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Acciones ODSfera</h1>
 
       {/* ==== FILTRO GLASS ==== */}
       <div
