@@ -25,6 +25,8 @@ interface AccionCard {
 const AccionesPage: React.FC = () => {
   const [acciones, setAcciones] = useState<AccionCard[]>([]);
   const [loading, setLoading] = useState(true);
+  //! Vigilar si es httpS o httP
+  //!Comprovar abans de ensenyar live
 
   useEffect(() => {
     fetch("https://localhost:8000/api/ods")
