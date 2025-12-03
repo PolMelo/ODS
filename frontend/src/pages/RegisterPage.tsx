@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 export default function RegisterMUI() {
-  const theme = useTheme();  
+  const theme = useTheme();
   const mode = theme.palette.mode;
 
   const [nom, setNom] = useState("");
@@ -50,7 +50,7 @@ export default function RegisterMUI() {
 
   return (
     <>
-      <CssBaseline /> 
+      <CssBaseline />
 
       <Box
         sx={{
@@ -66,7 +66,7 @@ export default function RegisterMUI() {
               : "radial-gradient(circle at top left, #dbeafe 0, #ffffff 60%)",
         }}
       >
-        <Container maxWidth="xs">
+        <Container maxWidth="xs" >
           <Paper
             elevation={8}
             sx={{
@@ -121,7 +121,8 @@ export default function RegisterMUI() {
             <Box
               component="form"
               onSubmit={handleRegister}
-              sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+              sx={{ display: "flex", flexDirection: "column", gap: 2 
+                              }}
             >
               <TextField
                 fullWidth
@@ -166,21 +167,21 @@ export default function RegisterMUI() {
               </Button>
 
               <Typography variant="body2" align="center" color="text.secondary">
-  ¿Ya tienes cuenta?{" "}
-  <Typography
-    component={Link}
-    to="/login"
-    sx={{
-      color: mode === "dark" ? "#818cf8" : "#4f46e5",
-      cursor: "pointer",
-      textDecoration: "none",
-      fontWeight: 600,
-      display: "inline",
-    }}
-  >
-    Inicia sesión
-  </Typography>
-</Typography>
+                ¿Ya tienes cuenta?{" "}
+                <Typography
+                  component={Link}
+                  to="/login"
+                  sx={{
+                    color: mode === "dark" ? "#818cf8" : "#4f46e5",
+                    cursor: "pointer",
+                    textDecoration: "none",
+                    fontWeight: 600,
+                    display: "inline",
+                  }}
+                >
+                  Inicia sesión
+                </Typography>
+              </Typography>
             </Box>
           </Paper>
         </Container>

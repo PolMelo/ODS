@@ -8,10 +8,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 export const lightTheme = createTheme({
     palette: {
         mode: "light",
-        primary: { main: "#D8D262" }, //colores principales de tema dia - Arnau
-        background: {                       //Aquest groc ¿m'agrada? pero ara que tenim aixo podem provar a buscar una paleta
-            default: "#d4cd49ff",          // fins i tot una paleta "gradient" es a dir que el color cambii poc a poc
-            paper: "#ffffff",               // Vull dir coses semblants a la pagina de registre en mode nit, que ja estic molt cansat per ficarme a mirar. 
+        primary: { main: "#D8D262" },
+        background: {
+            default: "#d4cd49ff",
+            paper: "#ffffff",
         },
         text: { primary: "#292624" },
     },
@@ -20,7 +20,7 @@ export const lightTheme = createTheme({
 export const darkTheme = createTheme({
     palette: {
         mode: "dark",
-        primary: { main: "#292624" },  //colores principales de tema noche - Arnau
+        primary: { main: "#292624" },
         background: {
             default: "#1a1817",
             paper: "#292624",
@@ -46,15 +46,42 @@ export const useThemeMode = () => useContext(ThemeContext);
 /* ---------------------- PROVIDER ---------------------- */
 
 export const AppThemeProvider = ({ children }: { children: ReactNode }) => {
-    const [isDarkMode, setIsDarkMode] = useState(
-        () => localStorage.getItem("theme") === "dark"
-    );
+    // Detecta tema del sistema
+    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-    const toggleTheme = () => setIsDarkMode((prev) => !prev);
+    // Estado inicial:
+    // → si hay algo guardado en localStorage, úsalo
+    // → si no, usa el tema del sistema
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const saved = localStorage.getItem("theme");
+        if (saved === "dark") return true;
+        if (saved === "light") return false;
+        return systemPrefersDark; // autodetección por defecto
+    });
 
+    const toggleTheme = () => {
+        setIsDarkMode((prev) => {
+            const nuevo = !prev;
+            localStorage.setItem("theme", nuevo ? "dark" : "light");
+            return nuevo;
+        });
+    };
+
+    // Si el usuario cambia el tema en su sistema operativo
     useEffect(() => {
-        localStorage.setItem("theme", isDarkMode ? "dark" : "light");
-    }, [isDarkMode]);
+        const media = window.matchMedia("(prefers-color-scheme: dark)");
+
+        const listener = (event: MediaQueryListEvent) => {
+            const saved = localStorage.getItem("theme");
+            // solo aplicamos el cambio si NO hay override del usuario
+            if (!saved) {
+                setIsDarkMode(event.matches);
+            }
+        };
+
+        media.addEventListener("change", listener);
+        return () => media.removeEventListener("change", listener);
+    }, []);
 
     const theme = isDarkMode ? darkTheme : lightTheme;
 
@@ -67,7 +94,3 @@ export const AppThemeProvider = ({ children }: { children: ReactNode }) => {
         </ThemeContext.Provider>
     );
 };
-
-
-// ctrl+k y ctrl+c para comentar en bloque
-//ctrl+k y ctrl+u para descomentar en bloque
