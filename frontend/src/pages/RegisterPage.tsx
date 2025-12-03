@@ -54,7 +54,7 @@ export default function RegisterMUI() {
 
       <Box
         sx={{
-          minHeight: "100vh",
+          minHeight: "100%",
           width: "100%",
           display: "flex",
           alignItems: "center",
