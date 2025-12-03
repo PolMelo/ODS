@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import OSCard from "../components/OSCard";
 
 interface AccionApi {
@@ -18,26 +19,34 @@ interface AccionApi {
 interface AccionCard {
   title: string;
   img: string;
-  ods: (number | string)[];
+  ods: number[];
   date: string;
 }
 
 const AccionesPage: React.FC = () => {
   const [acciones, setAcciones] = useState<AccionCard[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filtroODS, setFiltroODS] = useState<number[]>([]);
+
+  // 🔄 fallback http → https
+  const fetchWithFallback = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/ods");
+      if (!res.ok) throw new Error("http fail");
+      return await res.json();
+    } catch {
+      const res2 = await fetch("https://localhost:8000/api/ods");
+      return await res2.json();
+    }
+  };
 
   useEffect(() => {
-    fetch("https://localhost:8000/api/ods")
-      .then((res) => {
-        if (!res.ok) throw new Error("Error en la petición");
-        return res.json();
-      })
+    fetchWithFallback()
       .then((data: AccionApi[]) => {
         const accionesFormateadas: AccionCard[] = data.map((item) => {
           const ods = [item.etiqueta1, item.etiqueta2, item.etiqueta3].filter(
-            (x) => x !== null && x !== undefined
+            (x): x is number => x != null
           );
-
           return {
             title: item.nom,
             img: item.imagen_url,
@@ -47,18 +56,24 @@ const AccionesPage: React.FC = () => {
         });
 
         setAcciones(accionesFormateadas);
-        setLoading(false);
       })
-      .catch((err) => {
-        console.error("FETCH ERROR:", err);
-        setLoading(false);
-      });
+      .catch((e) => console.error("Error:", e))
+      .finally(() => setLoading(false));
   }, []);
+
+  const handleFilterChange = (_: any, nueva: number[]) => {
+    setFiltroODS(nueva);
+  };
+
+  const accionesFiltradas =
+    filtroODS.length === 0
+      ? acciones
+      : acciones.filter((a) => a.ods.some((o) => filtroODS.includes(o)));
 
   if (loading) return <p style={{ padding: "2rem" }}>Cargando acciones...</p>;
 
   if (acciones.length === 0)
-    return <p style={{ padding: "2rem" }}>No hay acciones para mostrar.</p>;
+    return <p style={{ padding: "2rem" }}>No hay acciones disponibles.</p>;
 
   return (
     <div
@@ -68,28 +83,72 @@ const AccionesPage: React.FC = () => {
         flexDirection: "column",
         alignItems: "center",
         gap: "2rem",
-        width: "100%",       // ocupa todo el ancho
-        maxWidth: "100%",    // sin restricción
+        width: "100%",
+        background:
+          "linear-gradient(135deg, rgba(0,0,0,0.5), rgba(40,40,40,0.6)), url('/fondo.jpg') center/cover",
+        minHeight: "100vh",
+        color: "white",
       }}
     >
-      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Acciones ODSfera</h1>
 
+      {/* ==== FILTRO GLASS ==== */}
+      <div
+        style={{
+          padding: "1rem 1.5rem",
+          borderRadius: "25px",
+          background: "rgba(255,255,255,0.1)",
+          backdropFilter: "blur(12px)",
+          border: "1px solid rgba(255,255,255,0.25)",
+          boxShadow: "0 4px 25px rgba(0,0,0,0.25)",
+        }}
+      >
+        <ToggleButtonGroup
+          value={filtroODS}
+          onChange={handleFilterChange}
+          size="small"
+          color="primary"
+          exclusive={false}
+          sx={{
+            display: "flex",
+            gap: 1,
+            flexWrap: "wrap",
+            "& .MuiToggleButton-root": {
+              backdropFilter: "blur(6px)",
+              background: "rgba(255,255,255,0.2)",
+              color: "white",
+              borderRadius: "50%",
+              width: 38,
+              height: 38,
+              fontWeight: 700,
+              border: "1px solid rgba(255,255,255,0.25)",
+              "&.Mui-selected": {
+                background: "rgba(255,255,255,0.35) !important",
+                color: "#000",
+                fontWeight: 800,
+              },
+            },
+          }}
+        >
+          {Array.from({ length: 17 }, (_, i) => i + 1).map((n) => (
+            <ToggleButton key={n} value={n}>
+              {n}
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+      </div>
+
+      {/* ==== GRID ==== */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", // responsivo
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
           gap: "1.5rem",
           width: "100%",
+          maxWidth: "1100px",
         }}
       >
-        {acciones.map((accion, i) => (
-          <OSCard
-            key={i}
-            title={accion.title}
-            img={accion.img}
-            ods={accion.ods}
-            date={accion.date}
-          />
+        {accionesFiltradas.map((accion, i) => (
+          <OSCard key={i} {...accion} />
         ))}
       </div>
     </div>
