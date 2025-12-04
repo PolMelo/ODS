@@ -75,6 +75,6 @@ class __TwigTemplate_022e30ddf2f460e995051a895e1739c6 extends Template
     public function getSourceContext(): Source
     {
         return new Source("<!-- source: https://tabler.io/icons/icon/brand-vite -->
-<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon-tabler icon-tabler-brand-vite\" width=\"24\" height=\"24\" viewbox=\"0 0 24 24\" stroke-width=\"1.25\" stroke=\"currentColor\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/><path d=\"M10 4.5l6 -1.5l-2 6.5l2 -.5l-4 7v-5l-3 1z\"/><path d=\"M15 6.5l7 -1.5l-10 17l-10 -17l7.741 1.5\"/></svg>", "@PentatrionVite/Collector/icon.svg", "C:\\Users\\Mati\\Desktop\\Proyecto-ODS\\vendor\\pentatrion\\vite-bundle\\src\\Resources\\views\\Collector\\icon.svg");
+<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"icon-tabler icon-tabler-brand-vite\" width=\"24\" height=\"24\" viewbox=\"0 0 24 24\" stroke-width=\"1.25\" stroke=\"currentColor\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"/><path d=\"M10 4.5l6 -1.5l-2 6.5l2 -.5l-4 7v-5l-3 1z\"/><path d=\"M15 6.5l7 -1.5l-10 17l-10 -17l7.741 1.5\"/></svg>", "@PentatrionVite/Collector/icon.svg", "C:\\Users\\Mati\\Desktop\\odspol\\ODS\\vendor\\pentatrion\\vite-bundle\\src\\Resources\\views\\Collector\\icon.svg");
     }
 }

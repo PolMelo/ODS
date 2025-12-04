@@ -10,6 +10,7 @@ import AccionesPage from "./pages/ActionsPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/404";
+import CrearOds from "./pages/CrearOds";
 
 import NavBarComponent from "./components/NavBarComponent";
 import FooterComponent from "./components/FooterComponent";
@@ -41,6 +42,7 @@ const App: React.FC = () => {
           <Route path="/contacto" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<RegisterPage />} />
+          <Route path="/ODS" element={<CrearOds/>}/>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Box>
