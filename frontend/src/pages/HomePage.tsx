@@ -1,4 +1,13 @@
 import React from "react";
+import {
+  Box,
+  Button,
+  Grid,
+  Typography,
+  Link,
+  Container,
+  Paper,
+} from "@mui/material";
 
 // Importo todas las imágenes del carrusel
 import ODS0 from "../assets/ODS PNG/ODS 0.png";
@@ -20,7 +29,6 @@ import ODS15 from "../assets/ODS PNG/ODS 15.png";
 import ODS16 from "../assets/ODS PNG/ODS 16.png";
 import ODS17 from "../assets/ODS PNG/ODS 17.png";
 
-import Button from "@mui/material/Button";
 
 const HomePage: React.FC = () => {
     const images = [
