@@ -10,7 +10,6 @@ const NotFoundPage: React.FC = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                bgcolor: "background.default",
                 padding: "1.5rem",
                 boxSizing: "border-box",
             }}

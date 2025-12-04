@@ -32,12 +32,15 @@ const ChipODS: React.FC<Props> = ({ n }) => (
     sx={{
       background: odsColors[n],
       color: "white",
-      fontWeight: 700,
-      borderRadius: "8px",
-      boxShadow: "0 2px 6px rgba(0,0,0,0.25)",
-      backdropFilter: "blur(6px)",
+      fontWeight: 600,
+      borderRadius: "10px",
+      px: 1,
+      height: 24,
+      fontSize: "0.75rem",
+      boxShadow: "0 2px 5px rgba(0,0,0,0.20)",
     }}
   />
 );
+
 
 export default ChipODS;

@@ -1,26 +1,34 @@
 import React from "react";
+import {
+  Box,
+  Button,
+  Grid,
+  Typography,
+  Link,
+  Container,
+  Paper,
+} from "@mui/material";
 
 // Importo todas las imágenes del carrusel
-import ODS0 from "../assets/LOGOS ODS/ODS 0.jpg";
-import ODS1 from "../assets/LOGOS ODS/ODS 1.jfif";
-import ODS2 from "../assets/LOGOS ODS/ODS 2.jpg";
-import ODS3 from "../assets/LOGOS ODS/ODS 3.jpg";
-import ODS4 from "../assets/LOGOS ODS/ODS 4.jpg";
-import ODS5 from "../assets/LOGOS ODS/ODS 5.jpg";
-import ODS6 from "../assets/LOGOS ODS/ODS 6.jpg";
-import ODS7 from "../assets/LOGOS ODS/ODS 7.jpg";
-import ODS8 from "../assets/LOGOS ODS/ODS 8.jpg";
-import ODS9 from "../assets/LOGOS ODS/ODS 9.jpg";
-import ODS10 from "../assets/LOGOS ODS/ODS 10.jpg";
-import ODS11 from "../assets/LOGOS ODS/ODS 11.jpg";
-import ODS12 from "../assets/LOGOS ODS/ODS 12.jpg";
-import ODS13 from "../assets/LOGOS ODS/ODS 13.jpg";
-import ODS14 from "../assets/LOGOS ODS/ODS 14.jpg";
-import ODS15 from "../assets/LOGOS ODS/ODS 15.jpg";
-import ODS16 from "../assets/LOGOS ODS/ODS 16.jpg";
-import ODS17 from "../assets/LOGOS ODS/ODS 17.jpg";
+import ODS0 from "../assets/ODS PNG/ODS 0.png";
+import ODS1 from "../assets/ODS PNG/ODS 1.png";
+import ODS2 from "../assets/ODS PNG/ODS 2.png";
+import ODS3 from "../assets/ODS PNG/ODS 3.png";
+import ODS4 from "../assets/ODS PNG/ODS 4.png";
+import ODS5 from "../assets/ODS PNG/ODS 5.png";
+import ODS6 from "../assets/ODS PNG/ODS 6.png";
+import ODS7 from "../assets/ODS PNG/ODS 7.png";
+import ODS8 from "../assets/ODS PNG/ODS 8.png";
+import ODS9 from "../assets/ODS PNG/ODS 9.png";
+import ODS10 from "../assets/ODS PNG/ODS 10.png";
+import ODS11 from "../assets/ODS PNG/ODS 11.png";
+import ODS12 from "../assets/ODS PNG/ODS 12.png";
+import ODS13 from "../assets/ODS PNG/ODS 13.png";
+import ODS14 from "../assets/ODS PNG/ODS 14.png";
+import ODS15 from "../assets/ODS PNG/ODS 15.png";
+import ODS16 from "../assets/ODS PNG/ODS 16.png";
+import ODS17 from "../assets/ODS PNG/ODS 17.png";
 
-import Button from "@mui/material/Button";
 
 const HomePage: React.FC = () => {
     const images = [
@@ -31,16 +39,49 @@ const HomePage: React.FC = () => {
     const [currentImage, setCurrentImage] = React.useState(0);
     const [isFading, setIsFading] = React.useState(false);
 
+    // Carrusel automático ajustado:
+    // (3 segundos).
+    const AUTO_TIME = 3000; 
+
+    const nextImage = () => {
+        setIsFading(true);
+        setTimeout(() => {
+            setCurrentImage((prev) => (prev + 1) % images.length);
+            setIsFading(false);
+        }, 200); // transición suave
+    };
+
+    const prevImage = () => {
+        setIsFading(true);
+        setTimeout(() => {
+            setCurrentImage((prev) =>
+                prev === 0 ? images.length - 1 : prev - 1
+            );
+            setIsFading(false);
+        }, 200);
+    };
+
+    //  carrusel automático
     React.useEffect(() => {
         const interval = setInterval(() => {
-            setIsFading(true);
-            setTimeout(() => {
-                setCurrentImage((prev) => (prev + 1) % images.length);
-                setIsFading(false);
-            }, 300);
-        }, 10000);
+            nextImage();
+        }, AUTO_TIME);
+
         return () => clearInterval(interval);
-    }, [images.length]);
+    }, []);
+
+
+    // Control con flechas del teclado
+React.useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+        if (e.key === "ArrowLeft") prevImage();
+        if (e.key === "ArrowRight") nextImage();
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+}, []);
+
 
     return (
         <div
@@ -70,8 +111,10 @@ const HomePage: React.FC = () => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
+                        position: "relative", // 🔥 Necesario para overlay de flechas
                     }}
                 >
+                   
                     <img
                         src={images[currentImage]}
                         alt="Objetivos de Desarrollo Sostenible"
@@ -84,9 +127,9 @@ const HomePage: React.FC = () => {
                             transition: "opacity 0.3s ease-in-out",
                             opacity: isFading ? 0 : 1,
                             borderRadius: "50px",
-                            filter: "sepia(50%)",
                         }}
                     />
+
                 </div>
 
                 {/* Columna derecha - Texto */}

@@ -1,0 +1,61 @@
+# ============================
+#   SISTEMA / GENERALES
+# ============================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.swo
+
+# ============================
+#   FRONTEND (React + Vite)
+# ============================
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Env frontend
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# Logs build tools
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ============================
+#   SYMFONY (en raíz)
+# ============================
+
+# Composer vendor
+/vendor/
+
+# Symfony cache & logs
+/var/cache/
+/var/log/
+/var/sessions/
+
+# Symfony env files
+.env.local
+.env.*.local
+
+# PHPUnit
+.phpunit.result.cache
+
+# =================================
+#   ARCHIVOS GENERADOS / PUBLIC
+# =================================
+public/bundles/
+
+# ============================
+#   IDE / EDITOR
+# ============================
+.idea/
+.vscode/
+*.iml
+
+# ============================
+#   OTROS
+# ==================
