@@ -15,38 +15,38 @@ frontend/node_modules/
 frontend/dist/
 frontend/.vite/
 
-# Env frontend
+# Variables de entorno frontend
 frontend/.env
 frontend/.env.local
 frontend/.env.*.local
 
-# Logs build tools
+# Logs de herramientas frontend
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 # ============================
-#   SYMFONY (en raíz)
+#   SYMFONY (BACKEND)
 # ============================
 
-# Composer vendor
+# Vendor de Composer
 /vendor/
 
-# Symfony cache & logs
+# Cache & logs de Symfony
 /var/cache/
 /var/log/
 /var/sessions/
 
-# Symfony env files
+# Archivos de entorno Symfony
 .env.local
 .env.*.local
 
-# PHPUnit
+# PHPUnit cache
 .phpunit.result.cache
 
-# =================================
-#   ARCHIVOS GENERADOS / PUBLIC
-# =================================
+# ============================
+#   BUILD / ARCHIVOS GENERADOS
+# ============================
 public/bundles/
 
 # ============================
@@ -58,4 +58,5 @@ public/bundles/
 
 # ============================
 #   OTROS
-# ==================
+# ============================
+# (Espacio reservado si quieres añadir más reglas)
