@@ -1,65 +1,150 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-import { 
-    ThemeProvider as MUIThemeProvider, 
-    createTheme, 
-    useTheme // Necesario para obtener el modo actual dentro del provider
-} from "@mui/material/styles";
-import { 
-    CssBaseline, 
-    Box, // Necesario para aplicar el fondo con la gradiente
-    Button,
-    Typography,
-    Container,
-    Paper,
-    Switch 
-} from "@mui/material";
+import { ThemeProvider as MUIThemeProvider, createTheme, useTheme } from "@mui/material/styles";
+import { CssBaseline, Box } from "@mui/material";
 
-/* ---------------------- TEMAS PERSONALIZADOS ---------------------- */
-
-// Paleta Clara: Limpia y moderna (Basada en el gradiente claro)
+/* -----------------------------------------------------------
+   🌞 TEMA CLARO — minimalista, moderno
+   Inspirado en: Linear / Apple / Vercel
+----------------------------------------------------------- */
 export const lightTheme = createTheme({
     palette: {
         mode: "light",
-        primary: { main: "#D8D262" }, //colores principales de tema dia - Arnau
-        background: {                       //Aquest groc ¿m'agrada? pero ara que tenim aixo podem provar a buscar una paleta
-            default: "#d4cd49ff",          // fins i tot una paleta "gradient" es a dir que el color cambii poc a poc
-            paper: "#ffffff",               // Vull dir coses semblants a la pagina de registre en mode nit, que ja estic molt cansat per ficarme a mirar. 
-        },
-        text: { primary: "#292624" },
-    },
-});
-
-// Paleta Oscura: Profunda, oscura y basada en Indigo/Slate
-export const darkTheme = createTheme({
-    palette: {
-        mode: "dark",
-        primary: { main: "#292624" },  //colores principales de tema noche - Arnau
+        primary: { main: "#0EA5E9" }, // azul moderno, limpio
         background: {
-            // Fondo predeterminado: El color más oscuro del gradiente radial (#020617 - Slate-950)
-            default: "#020617",
-            // Fondo de papel/tarjetas: Un gris oscuro (Slate-900) para las tarjetas
-            paper: "#0F172A", 
+            default: "#F7F7F7", // gris claro elegante
+            paper: "#FFFFFF",
         },
-        text: { 
-            primary: "#E2E8F0", // Gris muy claro
-            secondary: "#94A3B8", // Gris azulado suave
-        },
+        text: { primary: "#111111", secondary: "#4B5563" },
     },
-    // Sobrescribimos el fondo del cuerpo si no se usa el Box con la gradiente
+
+    typography: {
+        fontFamily: "Oswald, sans-serif",
+    },
+
     components: {
-        MuiCssBaseline: {
+        MuiAppBar: {
             styleOverrides: {
-                body: {
-                    backgroundColor: "#020617",
+                root: {
+                    background: "rgba(255, 255, 255, 0.8)",
+                    backdropFilter: "blur(12px)", // NAVBAR tipo Apple
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+                },
+            },
+        },
+
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: "10px",
+                    textTransform: "none",
+                    fontWeight: 600,
+                    transition: "0.2s ease",
+                },
+
+                contained: {
+                    background: "#0EA5E9",
+                    "&:hover": {
+                        background: "#0284C7",
+                    },
+                },
+
+                outlined: {
+                    borderColor: "#0EA5E9",
+                    "&:hover": {
+                        background: "rgba(14, 165, 233, 0.1)",
+                        borderColor: "#0284C7",
+                    },
+                },
+
+                text: {
+                    color: "#0EA5E9",
+                    "&:hover": {
+                        background: "rgba(0,0,0,0.04)",
+                    },
                 },
             },
         },
     },
 });
 
-/* ---------------------- CONTEXTO ---------------------- */
+/* -----------------------------------------------------------
+   🌙 TEMA OSCURO — minimalista + elegante
+   Inspirado en: Raycast / Linear / Vercel dark mode
+----------------------------------------------------------- */
+export const darkTheme = createTheme({
+    palette: {
+        mode: "dark",
+        primary: { main: "#38BDF8" }, // azul suave moderno
+        background: {
+            default: "#0D1117", // color GitHub Dark
+            paper: "#161B22",
+        },
+        text: { primary: "#E5E7EB", secondary: "#9CA3AF" },
+    },
 
+    typography: {
+        fontFamily: "Oswald, sans-serif",
+    },
+
+    components: {
+        MuiCssBaseline: {
+            styleOverrides: {
+                body: {
+                    backgroundColor: "#0D1117",
+                },
+            },
+        },
+
+        MuiAppBar: {
+            styleOverrides: {
+                root: {
+                    background: "rgba(13, 17, 23, 0.75)",
+                    backdropFilter: "blur(12px)",
+                    boxShadow: "0 2px 12px rgba(0,0,0,0.4)",
+                },
+            },
+        },
+
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: "10px",
+                    textTransform: "none",
+                    fontWeight: 600,
+                    transition: "0.2s ease",
+                },
+
+                contained: {
+                    background: "#1F2937",
+                    color: "#E5E7EB",
+                    "&:hover": {
+                        background: "#374151",
+                    },
+                },
+
+                outlined: {
+                    borderColor: "#38BDF8",
+                    "&:hover": {
+                        background: "rgba(56,189,248,0.08)",
+                        borderColor: "#7DD3FC",
+                    },
+                },
+
+                text: {
+                    color: "#38BDF8",
+                    "&:hover": {
+                        background: "rgba(255,255,255,0.08)",
+                    },
+                },
+            },
+        },
+    },
+});
+
+/* -----------------------------------------------------------
+   CONTEXTO DE TEMA
+----------------------------------------------------------- */
 type ThemeContextType = {
     isDarkMode: boolean;
     toggleTheme: () => void;
@@ -72,25 +157,22 @@ const ThemeContext = createContext<ThemeContextType>({
 
 export const useThemeMode = () => useContext(ThemeContext);
 
-/* ---------------------- WRAPPER DE GRADIENTES ---------------------- */
-
-// Este componente aplica el fondo degradado y el theme de MUI
+/* -----------------------------------------------------------
+   WRAPPER — fondos minimalistas
+----------------------------------------------------------- */
 const ThemeGradientWrapper = ({ children }: { children: ReactNode }) => {
-    // Usamos el hook para obtener el modo actual
     const theme = useTheme(); 
     const mode = theme.palette.mode;
 
     return (
-        // El Box envuelve a todos los hijos y aplica el degradado
         <Box
             sx={{
                 minHeight: "100vh",
                 width: "100%",
-                // Lógica de la gradiente del RegisterMUI
                 background:
                     mode === "dark"
-                        ? "radial-gradient(circle at top left, #4f46e5 0, #0f172a 45%, #020617 100%)"
-                        : "radial-gradient(circle at top left, #dbeafe 0, #ffffff 60%)",
+                        ? "radial-gradient(circle at 20% 20%, #1E293B, #0D1117 70%)"
+                        : "linear-gradient(180deg, #FFFFFF, #F7F7F7)",
             }}
         >
             {children}
@@ -98,41 +180,26 @@ const ThemeGradientWrapper = ({ children }: { children: ReactNode }) => {
     );
 };
 
-
-/* ---------------------- PROVIDER PRINCIPAL ---------------------- */
-
-/**
- * Proveedor principal de temas. Maneja el estado y persiste en localStorage.
- */
+/* -----------------------------------------------------------
+   PROVIDER PRINCIPAL
+----------------------------------------------------------- */
 export const AppThemeProvider = ({ children }: { children: ReactNode }) => {
-    const [isDarkMode, setIsDarkMode] = useState(
-        () => localStorage.getItem("theme") === "dark"
-    );
+    const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
 
-    const toggleTheme = () => setIsDarkMode((prev) => !prev);
+    const toggleTheme = () => setIsDarkMode(prev => !prev);
 
     useEffect(() => {
         localStorage.setItem("theme", isDarkMode ? "dark" : "light");
     }, [isDarkMode]);
 
-    // Selecciona el tema actual
     const theme = isDarkMode ? darkTheme : lightTheme;
 
     return (
         <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
             <MUIThemeProvider theme={theme}>
-                {/* CssBaseline debe ir DENTRO de ThemeProvider */}
                 <CssBaseline enableColorScheme />
-                
-                {/* El Wrapper de gradiente envuelve a los hijos */}
-                <ThemeGradientWrapper>
-                    {children}
-                </ThemeGradientWrapper>
+                <ThemeGradientWrapper>{children}</ThemeGradientWrapper>
             </MUIThemeProvider>
         </ThemeContext.Provider>
     );
 };
-
-
-// ctrl+k y ctrl+c para comentar en bloque
-//ctrl+k y ctrl+u para descomentar en bloque

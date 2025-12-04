@@ -75,84 +75,84 @@ const AccionesPage: React.FC = () => {
   if (acciones.length === 0)
     return <p style={{ padding: "2rem" }}>No hay acciones disponibles.</p>;
 
-  return (
+return (
+  <div
+    style={{
+      padding: "2.5rem 1.5rem",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "2.5rem",
+      width: "100%",
+      paddingBottom: "4rem",
+      color: "inherit",
+      maxWidth: "1200px",
+      margin: "0 auto",
+    }}
+  >
+
+    {/* ==== FILTRO MINIMAL ==== */}
     <div
       style={{
-        padding: "3rem 2rem",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "2rem",
-        width: "100%",
-        background:
-          "linear-gradient(135deg, rgba(0,0,0,0.5), rgba(40,40,40,0.6)), url('/fondo.jpg') center/cover",
-        minHeight: "100vh",
-        color: "white",
+        padding: "0.8rem 1rem",
+        borderRadius: "20px",
+        background: "rgba(255,255,255,0.07)",
+        backdropFilter: "blur(14px)",
+        border: "1px solid rgba(255,255,255,0.12)",
       }}
     >
-
-      {/* ==== FILTRO GLASS ==== */}
-      <div
-        style={{
-          padding: "1rem 1.5rem",
-          borderRadius: "25px",
-          background: "rgba(255,255,255,0.1)",
-          backdropFilter: "blur(12px)",
-          border: "1px solid rgba(255,255,255,0.25)",
-          boxShadow: "0 4px 25px rgba(0,0,0,0.25)",
-        }}
-      >
-        <ToggleButtonGroup
-          value={filtroODS}
-          onChange={handleFilterChange}
-          size="small"
-          color="primary"
-          exclusive={false}
-          sx={{
-            display: "flex",
-            gap: 1,
-            flexWrap: "wrap",
-            "& .MuiToggleButton-root": {
-              backdropFilter: "blur(6px)",
-              background: "rgba(255,255,255,0.2)",
-              color: "white",
-              borderRadius: "50%",
-              width: 38,
-              height: 38,
-              fontWeight: 700,
-              border: "1px solid rgba(255,255,255,0.25)",
-              "&.Mui-selected": {
-                background: "rgba(255,255,255,0.35) !important",
-                color: "#000",
-                fontWeight: 800,
-              },
+      <ToggleButtonGroup
+        value={filtroODS}
+        onChange={handleFilterChange}
+        size="small"
+        exclusive={false}
+        sx={{
+          display: "flex",
+          gap: 1,
+          flexWrap: "wrap",
+          "& .MuiToggleButton-root": {
+            borderRadius: "12px",
+            background: "rgba(255,255,255,0.08)",
+            color: "inherit",
+            fontWeight: 600,
+            border: "1px solid rgba(255,255,255,0.15)",
+            transition: ".25s ease",
+            "&.Mui-selected": {
+              background: "rgba(255,255,255,0.25) !important",
+              color: "#000",
+              borderColor: "rgba(255,255,255,0.4)",
             },
-          }}
-        >
-          {Array.from({ length: 17 }, (_, i) => i + 1).map((n) => (
-            <ToggleButton key={n} value={n}>
-              {n}
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
-      </div>
-
-      {/* ==== GRID ==== */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-          gap: "1.5rem",
-          width: "100%",
-          maxWidth: "1100px",
+            "&:hover": {
+              background: "rgba(255,255,255,0.18)",
+            },
+          },
         }}
       >
-        {accionesFiltradas.map((accion, i) => (
-          <OSCard key={i} {...accion} />
+        {Array.from({ length: 17 }, (_, i) => i + 1).map((n) => (
+          <ToggleButton key={n} value={n}>
+            {n}
+          </ToggleButton>
         ))}
-      </div>
+      </ToggleButtonGroup>
     </div>
-  );
-};
+
+    {/* ==== GRID ==== */}
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+        gap: "2rem",
+        width: "100%",
+        maxWidth: "1100px",
+        marginBottom: "6rem",
+      }}
+    >
+      {accionesFiltradas.map((accion, i) => (
+        <OSCard key={i} {...accion} />
+      ))}
+    </div>
+
+  </div>
+);}
 
 export default AccionesPage;
