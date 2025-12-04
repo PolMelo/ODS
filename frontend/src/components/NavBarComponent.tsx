@@ -64,16 +64,19 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
         <AppBar position="static">
             <Toolbar disableGutters sx={{ px: 2 }}>
                 {/* Logo */}
-                <img
-                    src={logo}
-                    alt="ODSfera Logo"
-                    style={{
-                        width: 55,
-                        height: 55,
-                        marginRight: "12px",
-                        display: "flex",
-                    }}
-                />
+
+                <Link to="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+                    <img
+                        src={logo}
+                        alt="ODSfera Logo"
+                        style={{
+                            width: 55,
+                            height: 55,
+                            marginRight: "12px",
+                            display: "flex",
+                        }}
+                    />
+                </Link>
 
                 {/* Título móvil */}
                 <Typography
