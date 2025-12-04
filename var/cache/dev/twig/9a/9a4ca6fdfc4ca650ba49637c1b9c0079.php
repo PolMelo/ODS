@@ -383,6 +383,6 @@ class __TwigTemplate_56e7049e25ade5223f95caf2800ed6bf extends Template
     {% endfor %}
 
 {% endblock %}
-", "@PentatrionVite/Collector/vite_collector.html.twig", "C:\\Users\\Mati\\Desktop\\Proyecto-ODS\\vendor\\pentatrion\\vite-bundle\\src\\Resources\\views\\Collector\\vite_collector.html.twig");
+", "@PentatrionVite/Collector/vite_collector.html.twig", "C:\\Users\\Mati\\Desktop\\odspol\\ODS\\vendor\\pentatrion\\vite-bundle\\src\\Resources\\views\\Collector\\vite_collector.html.twig");
     }
 }

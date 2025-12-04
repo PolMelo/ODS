@@ -30,9 +30,10 @@ const pages = [
 const settings = [
     { name: "Iniciar sesion", path: "/login" },
     { name: "Cuenta", path: "/account" },
-    { name: "Panel de control", path: "/dashboard" },
+    { name: "Crear ODS", path: "/ODS" },
     { name: "Cerrar sesion", path: "/logout" },
     { name: "Registrate", path: "/signup"},
+    
 ];
 
 function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
