@@ -12,7 +12,8 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import logo from "../assets/Logo_proyecto_ODSfera.png";
-import { Link } from "react-router-dom";
+// IMPORTAR useLocation
+import { Link, useLocation } from "react-router-dom"; 
 import ThemeSwitch from "./SwitcherThemeComponent";
 
 interface NavBarProps {
@@ -39,6 +40,9 @@ const settings = [
 function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    
+    // USAR useLocation
+    const location = useLocation(); 
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -91,7 +95,7 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
                     ODSfera
                 </Typography>
 
-                {/* Menú hamburguesa (móvil) */}
+                {/* Menú hamburguesa (móvil) - Podrías aplicar la misma lógica aquí si quieres el marcado en el menú móvil. */}
                 <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
                     <IconButton
                         size="large"
@@ -120,7 +124,17 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
                         sx={{ display: { xs: "block", md: "none" } }}
                     >
                         {pages.map((page) => (
-                            <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                            <MenuItem 
+                                key={page.name} 
+                                onClick={handleCloseNavMenu}
+                                // Lógica de color de fondo para móvil
+                                sx={{ 
+                                    backgroundColor: location.pathname === page.path ? 'action.selected' : 'inherit',
+                                    '&:hover': {
+                                        backgroundColor: location.pathname === page.path ? 'action.selected' : 'action.hover',
+                                    },
+                                }}
+                            >
                                 <Link
                                     to={page.path}
                                     style={{
@@ -140,19 +154,42 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
               
 
                 {/* Menú desktop */}
-                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" },justifyContent: "center" }}>
-                    {pages.map((page) => (
-                        <Button
-                            key={page.name}
-                            component={Link}
-                            to={page.path}
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: "inherit", display: "block" }}
-                            
-                        >
-                            {page.name}
-                        </Button>
-                    ))}
+                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: "center" }}>
+                    {pages.map((page) => {
+                        const isSelected = location.pathname === page.path;
+                        
+                        // NOTA: Para la ruta de inicio ("/") también marcará otros si estás en una sub-ruta (ej. "/acciones/sub"). 
+                        // Si quieres un marcado exacto, usa: location.pathname === page.path
+                        // Si quieres marcar la ruta principal y sus sub-rutas, usa: location.pathname.startsWith(page.path)
+                        
+                        return (
+                            <Button
+                                key={page.name}
+                                component={Link}
+                                to={page.path}
+                                onClick={handleCloseNavMenu}
+                                sx={{
+                                    my: 2,
+                                    // Estilos para el botón activo
+                                    color: isSelected ? 'inherit' : 'inherit', // Mantener color de texto igual o cambiar
+                                    display: "block",
+                                    px: 1, 
+                                    minWidth: 'unset',
+                                    
+                                    // ESTILO ACTIVO: Fondo gris claro como en tu ejemplo
+                                    backgroundColor: isSelected ? 'action.selected' : 'transparent', 
+                                    
+                                    // Asegurar que el hover mantenga el fondo si está seleccionado
+                                    '&:hover': {
+                                        backgroundColor: isSelected ? 'action.selected' : 'action.hover',
+                                        opacity: isSelected ? 0.9 : 1, // Ligeramente más oscuro en hover si ya está seleccionado
+                                    },
+                                }}
+                            >
+                                {page.name}
+                            </Button>
+                        );
+                    })}
                 </Box>
 
                 {/* Switch de tema */}
