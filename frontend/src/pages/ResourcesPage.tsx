@@ -135,7 +135,6 @@ const ResourcesPage: React.FC = () => {
         width: "100%",
         overflowY: "auto",
         padding: "1.5rem",
-        bgcolor: theme.palette.background.default,
       }}
     >
       <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>

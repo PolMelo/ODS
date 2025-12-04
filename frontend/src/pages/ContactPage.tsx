@@ -40,13 +40,6 @@ const ContactPage: React.FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-
-        // Fondo adaptado al modo, si es dark la primera linea si no la segona
-        background:
-          theme.palette.mode === "dark"
-            ? "linear-gradient(135deg, #1a1a1a, #0f0f0f)"
-            : "linear-gradient(135deg, #e8f5e9, #c8e6c9)",
-
         padding: 3,
       }}
     >

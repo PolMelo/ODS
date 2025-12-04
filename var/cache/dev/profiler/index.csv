@@ -35,3 +35,16 @@ d96761,127.0.0.1,GET,http://localhost:8000/api/ods,1764765172,,200,request
 f6b599,127.0.0.1,POST,http://localhost:8000/api/login,1764766415,,200,request
 8120bf,127.0.0.1,POST,http://localhost:8000/api/login,1764766417,,200,request
 45d4df,127.0.0.1,POST,http://localhost:8000/api/login,1764766419,,200,request
+61482a,127.0.0.1,OPTIONS,http://127.0.0.1:8000/api/register,1764835999,,200,request
+02eabc,127.0.0.1,POST,http://127.0.0.1:8000/api/register,1764836010,,200,request
+f864ea,127.0.0.1,OPTIONS,http://localhost:8000/api/login,1764836019,,200,request
+bf3627,127.0.0.1,POST,http://localhost:8000/api/login,1764836022,,200,request
+a297fb,127.0.0.1,POST,http://localhost:8000/api/login,1764836024,,200,request
+448686,127.0.0.1,GET,http://localhost:8000/api/ods,1764836031,,200,request
+8064b8,127.0.0.1,GET,http://localhost:8000/api/ods,1764836033,,200,request
+3c5856,127.0.0.1,GET,http://localhost:8000/api/ods,1764836343,,200,request
+3bef48,127.0.0.1,GET,http://localhost:8000/api/ods,1764836345,,200,request
+15b9c1,127.0.0.1,GET,http://localhost:8000/api/ods,1764836760,,200,request
+aa00c6,127.0.0.1,GET,http://localhost:8000/api/ods,1764836763,,200,request
+da7a6c,127.0.0.1,GET,http://localhost:8000/api/ods,1764836787,,200,request
+332b80,127.0.0.1,GET,http://localhost:8000/api/ods,1764836790,,200,request
