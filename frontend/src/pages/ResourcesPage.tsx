@@ -1,20 +1,20 @@
-import ODS1 from "../assets/LOGOS ODS/ODS 1.jfif";
-import ODS2 from "../assets/LOGOS ODS/ODS 2.jpg";
-import ODS3 from "../assets/LOGOS ODS/ODS 3.jpg";
-import ODS4 from "../assets/LOGOS ODS/ODS 4.jpg";
-import ODS5 from "../assets/LOGOS ODS/ODS 5.jpg";
-import ODS6 from "../assets/LOGOS ODS/ODS 6.jpg";
-import ODS7 from "../assets/LOGOS ODS/ODS 7.jpg";
-import ODS8 from "../assets/LOGOS ODS/ODS 8.jpg";
-import ODS9 from "../assets/LOGOS ODS/ODS 9.jpg";
-import ODS10 from "../assets/LOGOS ODS/ODS 10.jpg";
-import ODS11 from "../assets/LOGOS ODS/ODS 11.jpg";
-import ODS12 from "../assets/LOGOS ODS/ODS 12.jpg";
-import ODS13 from "../assets/LOGOS ODS/ODS 13.jpg";
-import ODS14 from "../assets/LOGOS ODS/ODS 14.jpg";
-import ODS15 from "../assets/LOGOS ODS/ODS 15.jpg";
-import ODS16 from "../assets/LOGOS ODS/ODS 16.jpg";
-import ODS17 from "../assets/LOGOS ODS/ODS 17.jpg";
+import ODS1 from "../assets/LOGOS ODS/ODS 1.png";
+import ODS2 from "../assets/LOGOS ODS/ODS 2.png";
+import ODS3 from "../assets/LOGOS ODS/ODS 3.png";
+import ODS4 from "../assets/LOGOS ODS/ODS 4.png";
+import ODS5 from "../assets/LOGOS ODS/ODS 5.png";
+import ODS6 from "../assets/LOGOS ODS/ODS 6.png";
+import ODS7 from "../assets/LOGOS ODS/ODS 7.png";
+import ODS8 from "../assets/LOGOS ODS/ODS 8.png";
+import ODS9 from "../assets/LOGOS ODS/ODS 9.png";
+import ODS10 from "../assets/LOGOS ODS/ODS 10.png";
+import ODS11 from "../assets/LOGOS ODS/ODS 11.png";
+import ODS12 from "../assets/LOGOS ODS/ODS 12.png";
+import ODS13 from "../assets/LOGOS ODS/ODS 13.png";
+import ODS14 from "../assets/LOGOS ODS/ODS 14.png";
+import ODS15 from "../assets/LOGOS ODS/ODS 15.png";
+import ODS16 from "../assets/LOGOS ODS/ODS 16.png";
+import ODS17 from "../assets/LOGOS ODS/ODS 17.png";
 
 const odsData = [
     {
