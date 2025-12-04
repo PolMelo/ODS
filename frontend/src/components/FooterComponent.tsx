@@ -7,7 +7,7 @@ const FooterComponent: React.FC = () => {
        width: "100%",  
     padding: "0.6rem 0",
     textAlign: "center",
-    marginTop: "auto",
+    marginTop: "10px",
     boxShadow: "0px -2px 4px",
       }}
     >
