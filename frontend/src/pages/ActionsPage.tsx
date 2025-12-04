@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+// Importamos TextField, ToggleButton, y ToggleButtonGroup de Material UI
+import { ToggleButton, ToggleButtonGroup, TextField } from "@mui/material"; 
 import OSCard from "../components/OSCard";
 import ruleta from "../assets/ODS PNG/RULETA.png";
 
@@ -29,6 +30,8 @@ const AccionesPage: React.FC = () => {
   const [acciones, setAcciones] = useState<AccionCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [filtroODS, setFiltroODS] = useState<number[]>([]);
+  // Estado para el término de búsqueda
+  const [searchTerm, setSearchTerm] = useState<string>(""); 
 
   // 🔄 fallback http → https
   const fetchWithFallback = async () => {
@@ -63,14 +66,28 @@ const AccionesPage: React.FC = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleFilterChange = (_: any, nueva: number[]) => {
+  // 💡 CORRECCIÓN APLICADA: Tipando el primer argumento con React.MouseEvent<HTMLElement>
+  const handleFilterChange = (
+    _: React.MouseEvent<HTMLElement>, // El argumento del evento se tipa correctamente
+    nueva: number[]
+  ) => {
     setFiltroODS(nueva);
   };
 
-  const accionesFiltradas =
-    filtroODS.length === 0
-      ? acciones
-      : acciones.filter((a) => a.ods.some((o) => filtroODS.includes(o)));
+  // Lógica de filtrado y búsqueda combinada
+  const accionesBuscadasYFiltradas = acciones
+    // 1. Filtrar por término de búsqueda (en el título)
+    .filter((accion) => {
+      if (!searchTerm) return true; 
+      const lowerTitle = accion.title.toLowerCase();
+      const lowerSearchTerm = searchTerm.toLowerCase();
+      return lowerTitle.includes(lowerSearchTerm);
+    })
+    // 2. Filtrar por ODS
+    .filter((accion) => {
+      if (filtroODS.length === 0) return true; 
+      return accion.ods.some((o) => filtroODS.includes(o));
+    });
 
 //Logo de carrega donant voltes
 
@@ -124,8 +141,21 @@ return (
       margin: "0 auto",
     }}
   >
+    
+    {/* ==== BUSCADOR (TextField) ==== */}
+    <TextField
+      label="Buscar acciones por título"
+      variant="outlined"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      sx={{ 
+          width: '100%', 
+          maxWidth: '400px', 
+          mb: -3,
+      }} 
+    />
 
-    {/* ==== FILTRO MINIMAL ==== */}
+    {/* ==== FILTRO MINIMAL (Toggle buttons) ==== */}
     <div
       style={{
         padding: "0.8rem 1rem",
@@ -181,12 +211,14 @@ return (
         marginBottom: "6rem",
       }}
     >
-      {accionesFiltradas.map((accion, i) => (
+      {/* Mapear el array filtrado y buscado */}
+      {accionesBuscadasYFiltradas.map((accion, i) => (
         <OSCard key={i} {...accion} />
       ))}
     </div>
 
   </div>
-);}
+);
+}
 
 export default AccionesPage;
