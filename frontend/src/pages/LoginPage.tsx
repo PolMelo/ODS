@@ -6,13 +6,17 @@ import {
     Typography,
     TextField,
     Button,
+    useTheme,
 } from "@mui/material";
 
 const LoginPage: React.FC = () => {
+    const navigate = useNavigate();
+    const theme = useTheme();
+    const mode = theme.palette.mode;
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
-    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,7 +32,7 @@ const LoginPage: React.FC = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                setError(data.message);
+                setError(data.message || "Ha ocurrido un error.");
                 return;
             }
 
@@ -46,8 +50,11 @@ const LoginPage: React.FC = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                bgcolor: "background.default",
                 px: 2,
+                background:
+                    mode === "dark"
+                        ? "radial-gradient(circle at top left, #1E293B, #0D1117 70%)"
+                        : "radial-gradient(circle at top left, #dbeafe 0, #ffffff 60%)",
             }}
         >
             <Paper
@@ -105,17 +112,12 @@ const LoginPage: React.FC = () => {
                             padding: "0.7rem",
                             fontWeight: "bold",
                             borderRadius: "0.5rem",
-                            bgcolor: "success.main",
-                            "&:hover": {
-                                bgcolor: "success.dark",
-                            },
                         }}
                     >
                         Entrar
                     </Button>
                 </Box>
 
-                {/* Botón para registrarse */}
                 <Button
                     onClick={() => navigate("/signup")}
                     sx={{ mt: "10px" }}

@@ -17,6 +17,7 @@ const RegisterPage: React.FC = () => {
     const [nom, setNom] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [avatar, setAvatar] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const handleRegister = async (e: React.FormEvent) => {
@@ -27,7 +28,7 @@ const RegisterPage: React.FC = () => {
             const response = await fetch("http://127.0.0.1:8000/api/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ nom, email, password }),
+                body: JSON.stringify({ nom, email, password, avatar }),
             });
 
             const data = await response.json();
@@ -51,7 +52,6 @@ const RegisterPage: React.FC = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                bgcolor: "background.default",
                 px: 2,
                 background:
                     mode === "dark"
@@ -64,18 +64,21 @@ const RegisterPage: React.FC = () => {
                 sx={{
                     padding: "2rem",
                     borderRadius: "1rem",
-                    width: 340,
+                    width: 700,
+                    display: "flex",
+                    gap: 4,
                     bgcolor: "background.paper",
                 }}
             >
-                <Typography
-                    variant="h5"
-                    sx={{ textAlign: "center", mb: "1.5rem" }}
-                >
-                    Crear cuenta
-                </Typography>
+                {/* Formulario a la izquierda */}
+                <Box component="form" onSubmit={handleRegister} sx={{ flex: 1 }}>
+                    <Typography
+                        variant="h5"
+                        sx={{ textAlign: "center", mb: "1.5rem" }}
+                    >
+                        Crear cuenta
+                    </Typography>
 
-                <Box component="form" onSubmit={handleRegister}>
                     <Typography>Nombre</Typography>
                     <TextField
                         fullWidth
@@ -129,14 +132,39 @@ const RegisterPage: React.FC = () => {
                     >
                         Registrarse
                     </Button>
+
+                    <Button
+                        onClick={() => navigate("/login")}
+                        sx={{ mt: "10px" }}
+                    >
+                        ¿Ya tienes cuenta? Inicia sesión
+                    </Button>
                 </Box>
 
-                <Button
-                    onClick={() => navigate("/login")}
-                    sx={{ mt: "10px" }}
-                >
-                    ¿Ya tienes cuenta? Inicia sesión
-                </Button>
+                {/* Selector de Avatares a la derecha */}
+                <Box>
+                    <Typography variant="h6" sx={{ mb: 2 }}>
+                        Escoge tu avatar
+                    </Typography>
+                    <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 80px)", gap: 2 }}>
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                            <Box
+                                key={i}
+                                component="img"
+                                src={`#LINK_AVATAR_${i}`} // reemplaza con tu URL
+                                alt={`Avatar ${i}`}
+                                sx={{
+                                    width: 80,
+                                    height: 80,
+                                    borderRadius: "50%",
+                                    border: avatar === `avatar${i}` ? "3px solid #4f46e5" : "2px solid #ccc",
+                                    cursor: "pointer",
+                                }}
+                                onClick={() => setAvatar(`avatar${i}`)}
+                            />
+                        ))}
+                    </Box>
+                </Box>
             </Paper>
         </Box>
     );
