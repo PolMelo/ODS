@@ -39,7 +39,7 @@ import CARD16 from "../assets/ODS EXPLICADES/CARD16.jpg";
 import CARD17 from "../assets/ODS EXPLICADES/CARD17.jpg";
 
 const odspairs = [
-    { ods: ODS0, card: ODS0 }, // ODS0 usa su propia imagen
+    { ods: ODS0, card: ODS0 },
     { ods: ODS1, card: CARD1 },
     { ods: ODS2, card: CARD2 },
     { ods: ODS3, card: CARD3 },
@@ -64,43 +64,24 @@ const HomePage: React.FC = () => {
     const [hovering, setHovering] = React.useState(false);
     const [flip, setFlip] = React.useState(false);
 
-    const [isFading, setIsFading] = React.useState(false);
-
-    const AUTO_TIME = 3000;
-
+    /* -----------------------------------------
+       ✅ Funciones reales para cambiar ODS
+    ----------------------------------------- */
     const nextImage = () => {
-        setIsFading(true);
-        setTimeout(() => {
-            setCurrentImage((prev) => (prev + 1) % images.length);
-            setIsFading(false);
-        }, 200);
+        setCurrentIndex((prev) => (prev + 1) % odspairs.length);
     };
 
     const prevImage = () => {
-        setIsFading(true);
-        setTimeout(() => {
-            setCurrentImage((prev) =>
-                prev === 0 ? images.length - 1 : prev - 1
-            );
-            setIsFading(false);
-        }, 200);
+        setCurrentIndex((prev) =>
+            prev === 0 ? odspairs.length - 1 : prev - 1
+        );
     };
 
+    /* -----------------------------------------
+       🔄 Auto-rotación (pausa cuando haces hover)
+    ----------------------------------------- */
     React.useEffect(() => {
-        const interval = setInterval(nextImage, AUTO_TIME);
-        return () => clearInterval(interval);
-    }, []);
-
-    React.useEffect(() => {
-        const handleKey = (e: KeyboardEvent) => {
-            if (e.key === "ArrowLeft") prevImage();
-            if (e.key === "ArrowRight") nextImage();
-        };
-        window.addEventListener("keydown", handleKey);
-        return () => window.removeEventListener("keydown", handleKey);
-    }, []);
-    React.useEffect(() => {
-        if (hovering) return; // pausa la rotación
+        if (hovering) return;
 
         const interval = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % odspairs.length);
@@ -109,10 +90,21 @@ const HomePage: React.FC = () => {
         return () => clearInterval(interval);
     }, [hovering]);
 
+    /* -----------------------------------------
+       ⌨️ Flechas del teclado (RECUPERADO)
+    ----------------------------------------- */
+    React.useEffect(() => {
+        const handleKey = (e: KeyboardEvent) => {
+            if (e.key === "ArrowLeft") prevImage();
+            if (e.key === "ArrowRight") nextImage();
+        };
+
+        window.addEventListener("keydown", handleKey);
+        return () => window.removeEventListener("keydown", handleKey);
+    }, []);
 
     return (
         <div style={{ minHeight: "100vh" }}>
-
             {/* HERO */}
             <section style={{ position: "relative", overflow: "hidden" }}>
                 <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "80px 20px" }}>
@@ -124,10 +116,8 @@ const HomePage: React.FC = () => {
                             alignItems: "center",
                         }}
                     >
-                        {/* Izquierda */}
+                        {/* IZQUIERDA */}
                         <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
-
-                            {/* Título */}
                             <h1 style={{
                                 fontSize: "clamp(2.5rem, 5vw, 3.75rem)",
                                 fontWeight: "bold",
@@ -140,71 +130,22 @@ const HomePage: React.FC = () => {
                                 </span>
                             </h1>
 
-                            {/* Descripción */}
                             <p style={{ fontSize: "1.25rem", lineHeight: "1.75" }}>
                                 ODSfera es una herramienta social diseñada para crear, difundir y compartir iniciativas
                                 orientadas a los Objetivos de Desarrollo Sostenible.
                             </p>
 
-                            {/* Botones */}
                             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                                <Button variant="contained" href="/signup">
-                                    Regístrate ahora →
-                                </Button>
-
-                                <Button variant="outlined" href="/login">
-                                    Iniciar sesión
-                                </Button>
-                            </div>
-
-                            {/* Métricas */}
-                            <div style={{ display: "flex", gap: "32px", paddingTop: "16px" }}>
-                                <div style={{ textAlign: "center" }}>
-                                    <div style={{ fontSize: "2rem", fontWeight: "bold" }}>17</div>
-                                    <div style={{ fontSize: "0.875rem" }}>Objetivos</div>
-                                </div>
-                                <div style={{ textAlign: "center" }}>
-                                    <div style={{ fontSize: "2rem", fontWeight: "bold" }}>2030</div>
-                                    <div style={{ fontSize: "0.875rem" }}>Agenda</div>
-                                </div>
-                                <div style={{ textAlign: "center" }}>
-                                    <div style={{ fontSize: "2rem", fontWeight: "bold" }}>∞</div>
-                                    <div style={{ fontSize: "0.875rem" }}>Impacto</div>
-                                </div>
-                            </div>
-
-                            {/* Link a la Agenda 2030 */}
-                            <div style={{
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: "8px",
-                                padding: "8px 16px",
-                                borderRadius: "9999px",
-                                fontSize: "14px",
-                                fontWeight: 500,
-                                width: "fit-content",
-                                cursor: "pointer",
-                                textDecoration: "underline"
-                            }}
-                                onClick={() => window.open("https://www.un.org/sustainabledevelopment/es/", "_blank")}
-                            >
-                                ✨ Agenda 2030
+                                <Button variant="contained" href="/signup">Regístrate ahora →</Button>
+                                <Button variant="outlined" href="/login">Iniciar sesión</Button>
                             </div>
                         </div>
 
-                        {/* Derecha */}
+                        {/* DERECHA — TARJETA QUE GIRA */}
                         <div
-                            style={{
-                                perspective: "1000px",
-                            }}
-                            onMouseEnter={() => {
-                                setHovering(true);
-                                setFlip(true);
-                            }}
-                            onMouseLeave={() => {
-                                setHovering(false);
-                                setFlip(false);
-                            }}
+                            style={{ perspective: "1000px" }}
+                            onMouseEnter={() => { setHovering(true); setFlip(true); }}
+                            onMouseLeave={() => { setHovering(false); setFlip(false); }}
                         >
                             <div
                                 style={{
@@ -219,7 +160,7 @@ const HomePage: React.FC = () => {
                                     borderRadius: "16px",
                                 }}
                             >
-                                {/* FRONT (ODS) */}
+                                {/* FRONT */}
                                 <img
                                     src={odspairs[currentIndex].ods}
                                     alt="ODS"
@@ -231,7 +172,7 @@ const HomePage: React.FC = () => {
                                     }}
                                 />
 
-                                {/* BACK (CARD) */}
+                                {/* BACK */}
                                 <img
                                     src={odspairs[currentIndex].card}
                                     alt="CARD"
@@ -269,7 +210,7 @@ const HomePage: React.FC = () => {
                             gap: "32px",
                         }}
                     >
-                        <div style={{ padding: "32px", borderRadius: "16px", border: "1px solid #ccc" }}>
+                        <div style={{ padding: "32px", borderRadius: "16px", border: "1px solid #ccc", }}>
                             <div style={{
                                 width: "56px",
                                 height: "56px",
@@ -282,7 +223,7 @@ const HomePage: React.FC = () => {
                             }}>
                                 🌍
                             </div>
-                            <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>
+                            <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px", }}>
                                 Descubre
                             </h3>
                             <p>Explora iniciativas, eventos y proyectos cerca de ti.</p>

@@ -8,8 +8,7 @@ import { useThemeMode } from "./ThemeProvider";
 
 
 /**
- * MaterialUISwitch: switch estilizado (tomado de tu código).
- * Comentarios mínimos para no romper la estructura CSS-in-JS.
+ * MaterialUISwitch: switch estilizado.
  */
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
