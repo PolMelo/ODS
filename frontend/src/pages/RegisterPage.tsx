@@ -6,10 +6,13 @@ import {
     Typography,
     TextField,
     Button,
+    useTheme,
 } from "@mui/material";
 
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
+    const theme = useTheme();
+    const mode = theme.palette.mode;
 
     const [nom, setNom] = useState("");
     const [email, setEmail] = useState("");
@@ -50,6 +53,10 @@ const RegisterPage: React.FC = () => {
                 alignItems: "center",
                 bgcolor: "background.default",
                 px: 2,
+                background:
+                    mode === "dark"
+                        ? "radial-gradient(circle at top left, #1E293B, #0D1117 70%)"
+                        : "radial-gradient(circle at top left, #dbeafe 0, #ffffff 60%)",
             }}
         >
             <Paper
@@ -124,7 +131,6 @@ const RegisterPage: React.FC = () => {
                     </Button>
                 </Box>
 
-                {/* Botón para volver a login */}
                 <Button
                     onClick={() => navigate("/login")}
                     sx={{ mt: "10px" }}
