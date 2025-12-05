@@ -114,6 +114,14 @@ const LoginPage: React.FC = () => {
                         Entrar
                     </Button>
                 </Box>
+
+                {/* Botón para registrarse */}
+                <Button
+                    onClick={() => navigate("/signup")}
+                    sx={{ mt: "10px" }}
+                >
+                    ¿Todavía no tienes cuenta? Únete ya
+                </Button>
             </Paper>
         </Box>
     );
