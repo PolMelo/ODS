@@ -1,15 +1,6 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Grid,
-  Typography,
-  Link,
-  Container,
-  Paper,
-} from "@mui/material";
+import { Button } from "@mui/material";
 
-// Importo todas las imágenes del carrusel
 import ODS0 from "../assets/ODS PNG/ODS 0.png";
 import ODS1 from "../assets/ODS PNG/ODS 1.png";
 import ODS2 from "../assets/ODS PNG/ODS 2.png";
@@ -29,26 +20,60 @@ import ODS15 from "../assets/ODS PNG/ODS 15.png";
 import ODS16 from "../assets/ODS PNG/ODS 16.png";
 import ODS17 from "../assets/ODS PNG/ODS 17.png";
 
+import CARD1 from "../assets/ODS EXPLICADES/CARD1.jpg";
+import CARD2 from "../assets/ODS EXPLICADES/CARD2.jpg";
+import CARD3 from "../assets/ODS EXPLICADES/CARD3.jpg";
+import CARD4 from "../assets/ODS EXPLICADES/CARD4.jpg";
+import CARD5 from "../assets/ODS EXPLICADES/CARD5.jpg";
+import CARD6 from "../assets/ODS EXPLICADES/CARD6.jpg";
+import CARD7 from "../assets/ODS EXPLICADES/CARD7.jpg";
+import CARD8 from "../assets/ODS EXPLICADES/CARD8.jpg";
+import CARD9 from "../assets/ODS EXPLICADES/CARD9.jpg";
+import CARD10 from "../assets/ODS EXPLICADES/CARD10.jpg";
+import CARD11 from "../assets/ODS EXPLICADES/CARD11.jpg";
+import CARD12 from "../assets/ODS EXPLICADES/CARD12.jpg";
+import CARD13 from "../assets/ODS EXPLICADES/CARD13.jpg";
+import CARD14 from "../assets/ODS EXPLICADES/CARD14.jpg";
+import CARD15 from "../assets/ODS EXPLICADES/CARD15.jpg";
+import CARD16 from "../assets/ODS EXPLICADES/CARD16.jpg";
+import CARD17 from "../assets/ODS EXPLICADES/CARD17.jpg";
+
+const odspairs = [
+    { ods: ODS0, card: ODS0 }, // ODS0 usa su propia imagen
+    { ods: ODS1, card: CARD1 },
+    { ods: ODS2, card: CARD2 },
+    { ods: ODS3, card: CARD3 },
+    { ods: ODS4, card: CARD4 },
+    { ods: ODS5, card: CARD5 },
+    { ods: ODS6, card: CARD6 },
+    { ods: ODS7, card: CARD7 },
+    { ods: ODS8, card: CARD8 },
+    { ods: ODS9, card: CARD9 },
+    { ods: ODS10, card: CARD10 },
+    { ods: ODS11, card: CARD11 },
+    { ods: ODS12, card: CARD12 },
+    { ods: ODS13, card: CARD13 },
+    { ods: ODS14, card: CARD14 },
+    { ods: ODS15, card: CARD15 },
+    { ods: ODS16, card: CARD16 },
+    { ods: ODS17, card: CARD17 },
+];
 
 const HomePage: React.FC = () => {
-    const images = [
-        ODS0, ODS1, ODS2, ODS3, ODS4, ODS5, ODS6, ODS7, ODS8,
-        ODS9, ODS10, ODS11, ODS12, ODS13, ODS14, ODS15, ODS16, ODS17,
-    ];
+    const [currentIndex, setCurrentIndex] = React.useState(0);
+    const [hovering, setHovering] = React.useState(false);
+    const [flip, setFlip] = React.useState(false);
 
-    const [currentImage, setCurrentImage] = React.useState(0);
     const [isFading, setIsFading] = React.useState(false);
 
-    // Carrusel automático ajustado:
-    // (3 segundos).
-    const AUTO_TIME = 3000; 
+    const AUTO_TIME = 3000;
 
     const nextImage = () => {
         setIsFading(true);
         setTimeout(() => {
             setCurrentImage((prev) => (prev + 1) % images.length);
             setIsFading(false);
-        }, 200); // transición suave
+        }, 200);
     };
 
     const prevImage = () => {
@@ -61,125 +86,274 @@ const HomePage: React.FC = () => {
         }, 200);
     };
 
-    //  carrusel automático
     React.useEffect(() => {
-        const interval = setInterval(() => {
-            nextImage();
-        }, AUTO_TIME);
-
+        const interval = setInterval(nextImage, AUTO_TIME);
         return () => clearInterval(interval);
     }, []);
 
+    React.useEffect(() => {
+        const handleKey = (e: KeyboardEvent) => {
+            if (e.key === "ArrowLeft") prevImage();
+            if (e.key === "ArrowRight") nextImage();
+        };
+        window.addEventListener("keydown", handleKey);
+        return () => window.removeEventListener("keydown", handleKey);
+    }, []);
+    React.useEffect(() => {
+        if (hovering) return; // pausa la rotación
 
-    // Control con flechas del teclado
-React.useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-        if (e.key === "ArrowLeft") prevImage();
-        if (e.key === "ArrowRight") nextImage();
-    };
+        const interval = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % odspairs.length);
+        }, 3000);
 
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-}, []);
+        return () => clearInterval(interval);
+    }, [hovering]);
 
 
     return (
-        <div
-            style={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                overflow: "hidden",
-                width: "100%",
-            }}
-        >
-            <main
-                style={{
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "row",
-                    overflow: "hidden",
-                    padding: "20px",
-                    boxSizing: "border-box",
-                    gap: "40px",
-                }}
-            >
-                {/* Columna izquierda - Imagen */}
-                <div
-                    style={{
-                        flex: 1,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        position: "relative", // 🔥 Necesario para overlay de flechas
-                    }}
-                >
-                   
-                    <img
-                        src={images[currentImage]}
-                        alt="Objetivos de Desarrollo Sostenible"
+        <div style={{ minHeight: "100vh" }}>
+
+            {/* HERO */}
+            <section style={{ position: "relative", overflow: "hidden" }}>
+                <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "80px 20px" }}>
+                    <div
                         style={{
-                            maxWidth: "500px",
-                            maxHeight: "500px",
-                            minWidth: "500px",
-                            minHeight: "500px",
-                            objectFit: "contain",
-                            transition: "opacity 0.3s ease-in-out",
-                            opacity: isFading ? 0 : 1,
-                            borderRadius: "50px",
+                            display: "grid",
+                            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                            gap: "48px",
+                            alignItems: "center",
                         }}
-                    />
-
-                </div>
-
-                {/* Columna derecha - Texto */}
-                <div
-                    style={{
-                        flex: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        overflow: "auto",
-                        padding: "20px",
-                    }}
-                >
-                    <h1 style={{ marginTop: 0 }}>Bienvenido a ODSfera</h1>
-
-                    <p>
-                        ODSfera es una herramienta social diseñada para crear, difundir y compartir iniciativas orientadas a los Objetivos de Desarrollo Sostenible (ODS).
-                        En este espacio podrás descubrir actividades, eventos y proyectos que impulsan un futuro más justo, sostenible y libre de pobreza.
-                    </p>
-
-                    <p>
-                        Si formas parte de una plataforma o iniciativas que apoyan esta visión también puedes crear acciones para impulsarlas y
-                        que esta comunidad forme parte de ellas.
-                    </p>
-
-                    <p>Únete a ODSfera: regístrate y empieza a formar parte del cambio.</p>
-
-                    {/* Botón de registro */}
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        href="/signup"
-                        style={{ marginBottom: "20px", width: "200px" }}
                     >
-                        Regístrate aquí
-                    </Button>
+                        {/* Izquierda */}
+                        <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
 
-                    <p>Si ya estás registrado, accede aquí:</p>
+                            {/* Título */}
+                            <h1 style={{
+                                fontSize: "clamp(2.5rem, 5vw, 3.75rem)",
+                                fontWeight: "bold",
+                                lineHeight: "1.2",
+                                margin: 0,
+                            }}>
+                                ODSfera
+                                <span style={{ display: "block", marginTop: "8px" }}>
+                                    Impulsa el futuro
+                                </span>
+                            </h1>
 
-                    {/* Botón de acceso */}
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        href="/login"
-                        style={{ width: "200px" }}
+                            {/* Descripción */}
+                            <p style={{ fontSize: "1.25rem", lineHeight: "1.75" }}>
+                                ODSfera es una herramienta social diseñada para crear, difundir y compartir iniciativas
+                                orientadas a los Objetivos de Desarrollo Sostenible.
+                            </p>
+
+                            {/* Botones */}
+                            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                                <Button variant="contained" href="/signup">
+                                    Regístrate ahora →
+                                </Button>
+
+                                <Button variant="outlined" href="/login">
+                                    Iniciar sesión
+                                </Button>
+                            </div>
+
+                            {/* Métricas */}
+                            <div style={{ display: "flex", gap: "32px", paddingTop: "16px" }}>
+                                <div style={{ textAlign: "center" }}>
+                                    <div style={{ fontSize: "2rem", fontWeight: "bold" }}>17</div>
+                                    <div style={{ fontSize: "0.875rem" }}>Objetivos</div>
+                                </div>
+                                <div style={{ textAlign: "center" }}>
+                                    <div style={{ fontSize: "2rem", fontWeight: "bold" }}>2030</div>
+                                    <div style={{ fontSize: "0.875rem" }}>Agenda</div>
+                                </div>
+                                <div style={{ textAlign: "center" }}>
+                                    <div style={{ fontSize: "2rem", fontWeight: "bold" }}>∞</div>
+                                    <div style={{ fontSize: "0.875rem" }}>Impacto</div>
+                                </div>
+                            </div>
+
+                            {/* Link a la Agenda 2030 */}
+                            <div style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                padding: "8px 16px",
+                                borderRadius: "9999px",
+                                fontSize: "14px",
+                                fontWeight: 500,
+                                width: "fit-content",
+                                cursor: "pointer",
+                                textDecoration: "underline"
+                            }}
+                                onClick={() => window.open("https://www.un.org/sustainabledevelopment/es/", "_blank")}
+                            >
+                                ✨ Agenda 2030
+                            </div>
+                        </div>
+
+                        {/* Derecha */}
+                        <div
+                            style={{
+                                perspective: "1000px",
+                            }}
+                            onMouseEnter={() => {
+                                setHovering(true);
+                                setFlip(true);
+                            }}
+                            onMouseLeave={() => {
+                                setHovering(false);
+                                setFlip(false);
+                            }}
+                        >
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    width: "100%",
+                                    maxWidth: "500px",
+                                    transition: "transform 0.6s",
+                                    transformStyle: "preserve-3d",
+                                    transform: flip ? "rotateY(180deg)" : "rotateY(0deg)",
+                                    borderRadius: "16px",
+                                }}
+                            >
+                                {/* FRONT (ODS) */}
+                                <img
+                                    src={odspairs[currentIndex].ods}
+                                    alt="ODS"
+                                    style={{
+                                        position: "absolute",
+                                        width: "100%",
+                                        backfaceVisibility: "hidden",
+                                        borderRadius: "16px",
+                                    }}
+                                />
+
+                                {/* BACK (CARD) */}
+                                <img
+                                    src={odspairs[currentIndex].card}
+                                    alt="CARD"
+                                    style={{
+                                        position: "absolute",
+                                        width: "100%",
+                                        transform: "rotateY(180deg)",
+                                        backfaceVisibility: "hidden",
+                                        borderRadius: "16px",
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* FEATURES */}
+            <section style={{ padding: "80px 20px" }}>
+                <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+
+                    <div style={{ textAlign: "center", marginBottom: "64px" }}>
+                        <h2 style={{ fontSize: "2.5rem", fontWeight: "bold", marginBottom: "16px" }}>
+                            ¿Qué puedes hacer en ODSfera?
+                        </h2>
+                        <p style={{ fontSize: "1.25rem", maxWidth: "768px", margin: "0 auto" }}>
+                            Una plataforma que conecta personas y organizaciones comprometidas con un futuro sostenible.
+                        </p>
+                    </div>
+
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                            gap: "32px",
+                        }}
                     >
-                        Acceder
+                        <div style={{ padding: "32px", borderRadius: "16px", border: "1px solid #ccc" }}>
+                            <div style={{
+                                width: "56px",
+                                height: "56px",
+                                borderRadius: "12px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginBottom: "24px",
+                                fontSize: "28px",
+                            }}>
+                                🌍
+                            </div>
+                            <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>
+                                Descubre
+                            </h3>
+                            <p>Explora iniciativas, eventos y proyectos cerca de ti.</p>
+                        </div>
+
+                        <div style={{ padding: "32px", borderRadius: "16px", border: "1px solid #ccc" }}>
+                            <div style={{
+                                width: "56px",
+                                height: "56px",
+                                borderRadius: "12px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginBottom: "24px",
+                                fontSize: "28px",
+                            }}>
+                                🎯
+                            </div>
+                            <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>
+                                Crea
+                            </h3>
+                            <p>Crea iniciativas y proyectos que generen impacto.</p>
+                        </div>
+
+                        <div style={{ padding: "32px", borderRadius: "16px", border: "1px solid #ccc" }}>
+                            <div style={{
+                                width: "56px",
+                                height: "56px",
+                                borderRadius: "12px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginBottom: "24px",
+                                fontSize: "28px",
+                            }}>
+                                👥
+                            </div>
+                            <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>
+                                Conecta
+                            </h3>
+                            <p>Únete a una red global de personas comprometidas.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* CTA */}
+            <section style={{ padding: "80px 20px" }}>
+                <div style={{ maxWidth: "896px", margin: "0 auto", textAlign: "center" }}>
+                    <div style={{ fontSize: "64px", marginBottom: "24px" }}>❤️</div>
+                    <h2 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: "bold", marginBottom: "24px" }}>
+                        Sé parte del cambio
+                    </h2>
+                    <p style={{ fontSize: "1.25rem", marginBottom: "40px", lineHeight: "1.75" }}>
+                        Cada acción cuenta. Únete a ODSfera y contribuye al cambio.
+                    </p>
+                    <Button variant="contained" href="/signup">
+                        Regístrate gratis
                     </Button>
                 </div>
-            </main>
+            </section>
+
+            {/* FOOTER */}
+            <footer style={{ padding: "48px 20px", textAlign: "center" }}>
+                <p style={{ fontSize: "1.125rem", marginBottom: "8px" }}>
+                    ODSfera - Impulsa el futuro
+                </p>
+                <p style={{ fontSize: "0.875rem" }}>
+                    Comprometidos con los Objetivos de Desarrollo Sostenible
+                </p>
+            </footer>
         </div>
     );
 };

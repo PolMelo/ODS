@@ -4,35 +4,31 @@ import { ThemeProvider as MUIThemeProvider, createTheme, useTheme } from "@mui/m
 import { CssBaseline, Box } from "@mui/material";
 
 /* -----------------------------------------------------------
-   🌞 TEMA CLARO — minimalista, moderno
-   Inspirado en: Linear / Apple / Vercel
+   🌞 TEMA CLARO
 ----------------------------------------------------------- */
 export const lightTheme = createTheme({
     palette: {
         mode: "light",
-        primary: { main: "#0EA5E9" }, // azul moderno, limpio
+        primary: { main: "#0EA5E9" },
         background: {
-            default: "#F7F7F7", // gris claro elegante
+            default: "#F7F7F7",
             paper: "#FFFFFF",
         },
         text: { primary: "#111111", secondary: "#4B5563" },
     },
-
     typography: {
         fontFamily: "Oswald, sans-serif",
     },
-
     components: {
         MuiAppBar: {
             styleOverrides: {
                 root: {
-                    background: "rgba(255, 255, 255, 0.8)",
-                    backdropFilter: "blur(12px)", // NAVBAR tipo Apple
+                    background: "rgba(255,255,255,0.8)",
+                    backdropFilter: "blur(12px)",
                     boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
                 },
             },
         },
-
         MuiButton: {
             styleOverrides: {
                 root: {
@@ -41,14 +37,10 @@ export const lightTheme = createTheme({
                     fontWeight: 600,
                     transition: "0.2s ease",
                 },
-
                 contained: {
                     background: "#0EA5E9",
-                    "&:hover": {
-                        background: "#0284C7",
-                    },
+                    "&:hover": { background: "#0284C7" },
                 },
-
                 outlined: {
                     borderColor: "#0EA5E9",
                     "&:hover": {
@@ -56,12 +48,9 @@ export const lightTheme = createTheme({
                         borderColor: "#0284C7",
                     },
                 },
-
                 text: {
                     color: "#0EA5E9",
-                    "&:hover": {
-                        background: "rgba(0,0,0,0.04)",
-                    },
+                    "&:hover": { background: "rgba(0,0,0,0.04)" },
                 },
             },
         },
@@ -69,43 +58,36 @@ export const lightTheme = createTheme({
 });
 
 /* -----------------------------------------------------------
-   🌙 TEMA OSCURO — minimalista + elegante
-   Inspirado en: Raycast / Linear / Vercel dark mode
+   🌙 TEMA OSCURO
 ----------------------------------------------------------- */
 export const darkTheme = createTheme({
     palette: {
-        mode: "dark",
-        primary: { main: "#38BDF8" }, // azul suave moderno
+        mode: "dark",       
+        primary: { main: "#38BDF8" },
         background: {
-            default: "#0D1117", // color GitHub Dark
+            default: "#0D1117",
             paper: "#161B22",
         },
         text: { primary: "#E5E7EB", secondary: "#9CA3AF" },
     },
-
     typography: {
         fontFamily: "Oswald, sans-serif",
     },
-
     components: {
         MuiCssBaseline: {
             styleOverrides: {
-                body: {
-                    backgroundColor: "#0D1117",
-                },
+                body: { backgroundColor: "#0D1117" },
             },
         },
-
         MuiAppBar: {
             styleOverrides: {
                 root: {
-                    background: "rgba(13, 17, 23, 0.75)",
+                    background: "rgba(13,17,23,0.75)",
                     backdropFilter: "blur(12px)",
                     boxShadow: "0 2px 12px rgba(0,0,0,0.4)",
                 },
             },
         },
-
         MuiButton: {
             styleOverrides: {
                 root: {
@@ -114,15 +96,11 @@ export const darkTheme = createTheme({
                     fontWeight: 600,
                     transition: "0.2s ease",
                 },
-
                 contained: {
                     background: "#1F2937",
                     color: "#E5E7EB",
-                    "&:hover": {
-                        background: "#374151",
-                    },
+                    "&:hover": { background: "#374151" },
                 },
-
                 outlined: {
                     borderColor: "#38BDF8",
                     "&:hover": {
@@ -130,12 +108,9 @@ export const darkTheme = createTheme({
                         borderColor: "#7DD3FC",
                     },
                 },
-
                 text: {
                     color: "#38BDF8",
-                    "&:hover": {
-                        background: "rgba(255,255,255,0.08)",
-                    },
+                    "&:hover": { background: "rgba(255,255,255,0.08)" },
                 },
             },
         },
@@ -143,7 +118,7 @@ export const darkTheme = createTheme({
 });
 
 /* -----------------------------------------------------------
-   CONTEXTO DE TEMA
+   CONTEXTO DEL TEMA
 ----------------------------------------------------------- */
 type ThemeContextType = {
     isDarkMode: boolean;
@@ -158,10 +133,10 @@ const ThemeContext = createContext<ThemeContextType>({
 export const useThemeMode = () => useContext(ThemeContext);
 
 /* -----------------------------------------------------------
-   WRAPPER — fondos minimalistas
+   WRAPPER DE FONDO
 ----------------------------------------------------------- */
 const ThemeGradientWrapper = ({ children }: { children: ReactNode }) => {
-    const theme = useTheme(); 
+    const theme = useTheme();
     const mode = theme.palette.mode;
 
     return (
@@ -181,12 +156,15 @@ const ThemeGradientWrapper = ({ children }: { children: ReactNode }) => {
 };
 
 /* -----------------------------------------------------------
-   PROVIDER PRINCIPAL
+   PROVIDER PRINCIPAL DEL TEMA
 ----------------------------------------------------------- */
 export const AppThemeProvider = ({ children }: { children: ReactNode }) => {
-    const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        if (typeof window === "undefined") return false;
+        return localStorage.getItem("theme") === "dark";
+    });
 
-    const toggleTheme = () => setIsDarkMode(prev => !prev);
+    const toggleTheme = () => setIsDarkMode((prev) => !prev);
 
     useEffect(() => {
         localStorage.setItem("theme", isDarkMode ? "dark" : "light");

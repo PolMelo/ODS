@@ -62,7 +62,7 @@ export default function RegisterMUI() {
           p: 2,
           background:
             mode === "dark"
-              ? "radial-gradient(circle at top left, #4f46e5 0, #0f172a 45%, #020617 100%)"
+              ? "radial-gradient(circle at top left, #1E293B, #0D1117 70%)"
               : "radial-gradient(circle at top left, #dbeafe 0, #ffffff 60%)",
         }}
       >
