@@ -31,8 +31,6 @@ class Users
     #[ORM\Column(length: 255)]
     private ?string $rol = null;
 
-    #[ORM\Column(type: 'integer', nullable: true, options: ['default' => 1])]
-    private ?int $avatar = 1;
 
     /**
      * @var Collection<int, Ods>
@@ -137,23 +135,7 @@ class Users
         return $this;
     }
 
-    public function getAvatar(): ?int
-    {
-        return $this->avatar;
-    }
+   
 
-    public function setAvatar(?int $avatar): static
-    {
-        // añadimos validación para asegurar que el avatar esté entre 1 y 6
-        $this->avatar = ($avatar !== null && $avatar >= 1 && $avatar <= 6) ? $avatar : 1;
-        return $this;
-    }
-
-    public function getAvatarUrl(): string
-    {
-        // Asume que las imágenes están en la carpeta 'public/avatars/' y se llaman avatar1.png, etc.
-        $avatarNumber = $this->avatar ?? 1; // Usar 1 como defecto si es null
-        return "../frontend/src/assets/AVATAR png{$avatarNumber}.png";
-    }
 }
 

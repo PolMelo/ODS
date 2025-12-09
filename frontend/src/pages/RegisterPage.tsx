@@ -174,35 +174,7 @@ const RegisterPage: React.FC = () => {
                 </Box>
 
                 {/* Selector de Avatares a la derecha */}
-                <Box>
-                    <Typography variant="h6" sx={{ mb: 2 }}>
-                        Escoge tu avatar
-                    </Typography>
-                    {/* ********************************************** */}
-                    {/* ******* MODIFICACIÓN EN EL SELECTOR DE AVATAR ******** */}
-                    {/* ********************************************** */}
-                    <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 80px)", gap: 2 }}>
-                        {AVATARS.map((item) => (
-                            <Box
-                                key={item.name}
-                                component="img"
-                                src={item.src} // Usamos la variable importada (item.src)
-                                alt={`Avatar ${item.name}`}
-                                sx={{
-                                    width: 80,
-                                    height: 80,
-                                    borderRadius: "50%",
-                                    border: avatar === item.name ? "3px solid #4f46e5" : "2px solid #ccc",
-                                    cursor: "pointer",
-                                    objectFit: 'cover'
-                                }}
-                                onClick={() => setAvatar(item.name)} // Almacenamos el nombre del avatar
-                            />
-                        ))}
-                    </Box>
-                    {/* ********************************************** */}
-                    {/* ********************************************** */}
-                </Box>
+            
             </Paper>
         </Box>
     );
