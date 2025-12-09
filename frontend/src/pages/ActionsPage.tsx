@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ToggleButton, ToggleButtonGroup, TextField } from "@mui/material"; 
 import OSCard from "../components/OSCard";
 import ruleta from "../assets/ODS PNG/RULETA.png";
+import { useTheme } from "@mui/material/styles";
 
 interface AccionApi {
   id: number;
@@ -30,8 +31,10 @@ const AccionesPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [filtroODS, setFiltroODS] = useState<number[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-
   const [accionSeleccionada, setAccionSeleccionada] = useState<AccionApi | null>(null);
+
+  const theme = useTheme(); 
+  const isDark = theme.palette.mode === 'dark';
 
   const fetchWithFallback = async () => {
     try {
@@ -243,6 +246,7 @@ return (
         boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
         color: "inherit",
         position: "relative",
+        background: theme.palette.background.paper,
       }}
       onClick={(e) => e.stopPropagation()}
     >

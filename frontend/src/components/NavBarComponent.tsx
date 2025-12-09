@@ -154,7 +154,6 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
                     </Menu>
                 </Box>
 
-              
 
                 {/* Menú desktop */}
                 <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: "center" }}>

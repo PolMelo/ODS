@@ -111,7 +111,7 @@ const RegisterPage: React.FC = () => {
                         Crear cuenta
                     </Typography>
 
-                    <Typography>Nombre</Typography>
+                    <Typography>Nombre *</Typography>
                     <TextField
                         fullWidth
                         variant="outlined"
@@ -122,7 +122,7 @@ const RegisterPage: React.FC = () => {
                         onChange={(e) => setNom(e.target.value)}
                     />
 
-                    <Typography>Email</Typography>
+                    <Typography>Email *</Typography>
                     <TextField
                         fullWidth
                         type="email"
@@ -134,7 +134,7 @@ const RegisterPage: React.FC = () => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
 
-                    <Typography>Contraseña</Typography>
+                    <Typography>Contraseña *</Typography>
                     <TextField
                         fullWidth
                         type="password"
