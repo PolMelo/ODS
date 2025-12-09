@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-
 import Box from "@mui/material/Box";
 
 import HomePage from "./pages/HomePage";
@@ -14,6 +13,8 @@ import CrearOds from "./pages/CrearOds";
 
 import NavBarComponent from "./components/NavBarComponent";
 import FooterComponent from "./components/FooterComponent";
+
+import ProtectedRoute from "./route/ProtectedRoute"; // Importamos ProtectedRoute
 
 const App: React.FC = () => {
   return (
@@ -30,7 +31,7 @@ const App: React.FC = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          overflow: "auto", // scroll si el contenido es más alto que la pantalla
+          overflow: "auto",
           display: "flex",
           flexDirection: "column",
         }}
@@ -42,7 +43,17 @@ const App: React.FC = () => {
           <Route path="/contacto" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<RegisterPage />} />
-          <Route path="/ODS" element={<CrearOds/>}/>
+
+          {/* Ruta protegida para /ODS */}
+          <Route
+            path="/ODS"
+            element={
+              <ProtectedRoute>
+                <CrearOds />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Box>

@@ -36,7 +36,8 @@ const LoginPage: React.FC = () => {
                 return;
             }
 
-            localStorage.setItem("odsferaUser", JSON.stringify(data));
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
             navigate("/");
         } catch {
             setError("Error conectando con el servidor");
