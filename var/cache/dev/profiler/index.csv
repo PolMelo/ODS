@@ -166,3 +166,10 @@ c2250d,127.0.0.1,GET,http://localhost:8000/api/ods,1764851290,,200,request
 0b5763,127.0.0.1,GET,http://localhost:8000/api/ods,1764852048,,200,request
 df0e3d,127.0.0.1,GET,http://localhost:8000/api/ods,1764852050,,200,request
 309630,127.0.0.1,GET,http://localhost:8000/api/ods,1764852129,,200,request
+a0ea0a,127.0.0.1,GET,http://localhost:8000/api/ods,1765271987,,200,request
+ac639e,127.0.0.1,GET,http://localhost:8000/favicon.ico,1765271989,38d786,404,request
+38d786,127.0.0.1,GET,http://localhost:8000/favicon.ico,1765271989,,404,request
+c034be,127.0.0.1,GET,http://localhost:8000/api/ods,1765271998,,200,request
+98d4ac,127.0.0.1,GET,http://localhost:8000/api/ods,1765271998,,200,request
+c50947,127.0.0.1,GET,http://localhost:8000/api/ods,1765272064,,200,request
+a2a4c4,127.0.0.1,GET,http://localhost:8000/api/ods,1765272064,,200,request
