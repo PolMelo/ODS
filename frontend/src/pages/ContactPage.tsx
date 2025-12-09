@@ -16,20 +16,38 @@ const ContactPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [enviado, setEnviado] = useState(false);
+  const [errorEnvio, setErrorEnvio] = useState(false);
 
-  // VALIDACIONES
   const emailValido = /.+@.+\..+/.test(email);
   const mensajeValido = mensaje.trim().length >= 10;
   const formValido = emailValido && mensajeValido;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const GOOGLE_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbyEiYmR6qdLUmGaUXkOgaVhrkzF6DtFmPuouvxCX8oKqif-HtTfWzK1Th1ltr4iNYk3YA/exec";
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formValido) return;
 
-    setEnviado(true);
+    try {
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("mensaje", mensaje);
 
-    // Aquí harías tu POST real a tu backend
-    console.log("Enviado:", { email, mensaje });
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData,
+      });
+
+      setEnviado(true);
+      setErrorEnvio(false);
+      setEmail("");
+      setMensaje("");
+    } catch (err) {
+      console.error(err);
+      setErrorEnvio(true);
+    }
   };
 
   return (
@@ -49,7 +67,6 @@ const ContactPage: React.FC = () => {
           maxWidth: 520,
           borderRadius: 4,
           boxShadow: 6,
-
           backgroundColor:
             theme.palette.mode === "dark"
               ? theme.palette.background.default
@@ -73,6 +90,12 @@ const ContactPage: React.FC = () => {
           {enviado && (
             <Alert severity="success" sx={{ mb: 2 }}>
               ¡Mensaje enviado correctamente!
+            </Alert>
+          )}
+
+          {errorEnvio && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              Hubo un error al enviar el mensaje
             </Alert>
           )}
 
