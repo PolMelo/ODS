@@ -200,3 +200,8 @@ b4a49b,127.0.0.1,GET,http://localhost:8000/api/ods,1765277730,,200,request
 73fe4b,127.0.0.1,GET,http://localhost:8000/api/ods,1765278808,,200,request
 764582,127.0.0.1,GET,http://localhost:8000/api/ods,1765279092,,200,request
 e58cff,127.0.0.1,GET,http://localhost:8000/api/ods,1765279095,,200,request
+d03833,127.0.0.1,GET,http://localhost:8000/api/ods,1765279226,,200,request
+7a0a5d,127.0.0.1,GET,http://localhost:8000/api/ods,1765279228,,200,request
+79696e,127.0.0.1,OPTIONS,http://localhost:8000/api/login,1765279749,,200,request
+e06df1,127.0.0.1,POST,http://localhost:8000/api/login,1765279751,,200,request
+4d4517,127.0.0.1,POST,http://localhost:8000/api/login,1765279754,,200,request

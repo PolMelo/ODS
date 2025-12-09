@@ -8,17 +8,23 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
+// 💡 Importación crucial: para los estilos dinámicos del tooltip
+import { Tooltip, TooltipProps, styled } from "@mui/material"; 
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import logo from "../assets/Logo_proyecto_ODSfera.png";
-// IMPORTAR useLocation
-import { Link, useLocation } from "react-router-dom"; 
+import { Link, useLocation } from "react-router-dom";
 import ThemeSwitch from "./SwitcherThemeComponent";
 
 interface NavBarProps {
     darkMode: boolean;
     toggleTheme: () => void;
+}
+
+interface UserData {
+    name: string;
+    email: string;
+    avatarUrl: string;
 }
 
 const pages = [
@@ -30,12 +36,23 @@ const pages = [
 
 const settings = [
     { name: "Iniciar sesion", path: "/login" },
-    { name: "Cuenta", path: "/account" },
     { name: "Crear ODS", path: "/ODS" },
     { name: "Cerrar sesion", path: "/logout" },
     { name: "Registrate", path: "/signup"},
     
 ];
+
+// 1. Estiliza Tooltip para aceptar contenido JSX
+const CustomTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))`
+  & .MuiTooltip-tooltip {
+    /* Estilo de fondo más oscuro para el texto del usuario */
+    background-color: #303030; 
+    color: white;
+    padding: 8px 12px;
+  }
+`;
 
 function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -43,6 +60,40 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
     
     // USAR useLocation
     const location = useLocation(); 
+
+    // 💡 NUEVA LÓGICA: Obtener el usuario de localStorage al inicio del componente
+    const getCurrentUser = (): UserData => {
+        try {
+            const userString = localStorage.getItem('odsfera_user');
+            if (userString) {
+                // Parsear los datos si existen
+                return JSON.parse(userString) as UserData;
+            }
+        } catch (error) {
+            console.error("Error leyendo localStorage:", error);
+        }
+        
+        // Usuario por defecto si no hay sesión o si hay un error
+        return {
+            name: "Invitado",
+            email: "inicia.sesion@odsfera.com",
+            avatarUrl: "",
+        };
+    };
+
+    const currentUser = getCurrentUser(); // Los datos del usuario ahora provienen de localStorage
+
+    // 💡 Contenido del Tooltip usando los datos de currentUser
+    const userTooltipContent = (
+        <Box sx={{ textAlign: 'left' }}>
+            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                {currentUser.name}
+            </Typography>
+            <Typography variant="caption" sx={{ display: 'block', mt: '2px', opacity: 0.8 }}>
+                {currentUser.email}
+            </Typography>
+        </Box>
+    );
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -95,10 +146,9 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
                         textDecoration: "none",
                     }}
                 >
-                    ODSfera
                 </Typography>
 
-                {/* Menú hamburguesa (móvil) - Podrías aplicar la misma lógica aquí si quieres el marcado en el menú móvil. */}
+                {/* Menú hamburguesa (móvil) */}
                 <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
                     <IconButton
                         size="large"
@@ -160,10 +210,6 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
                     {pages.map((page) => {
                         const isSelected = location.pathname === page.path;
                         
-                        // NOTA: Para la ruta de inicio ("/") también marcará otros si estás en una sub-ruta (ej. "/acciones/sub"). 
-                        // Si quieres un marcado exacto, usa: location.pathname === page.path
-                        // Si quieres marcar la ruta principal y sus sub-rutas, usa: location.pathname.startsWith(page.path)
-                        
                         return (
                             <Button
                                 key={page.name}
@@ -172,8 +218,7 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
                                 onClick={handleCloseNavMenu}
                                 sx={{
                                     my: 2,
-                                    // Estilos para el botón activo
-                                    color: isSelected ? 'inherit' : 'inherit', // Mantener color de texto igual o cambiar
+                                    color: isSelected ? 'inherit' : 'inherit',
                                     display: "block",
                                     px: 1, 
                                     minWidth: 'unset',
@@ -184,7 +229,7 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
                                     // Asegurar que el hover mantenga el fondo si está seleccionado
                                     '&:hover': {
                                         backgroundColor: isSelected ? 'action.selected' : 'action.hover',
-                                        opacity: isSelected ? 0.9 : 1, // Ligeramente más oscuro en hover si ya está seleccionado
+                                        opacity: isSelected ? 0.9 : 1, 
                                     },
                                 }}
                             >
@@ -199,14 +244,18 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
 
                 {/* Avatar y menú usuario */}
                 <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title="Open settings">
+                    {/* 💡 APLICACIÓN: Usar CustomTooltip con el contenido dinámico del usuario */}
+                    <CustomTooltip title={userTooltipContent}>
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                             <Avatar
-                                alt="Usuario"
-                                src="/static/images/avatar/2.jpg"
-                            />
+                                alt={currentUser.name}
+                                src={currentUser.avatarUrl}
+                            >
+                                {/* Muestra la inicial si no hay imagen */}
+                                {!currentUser.avatarUrl && currentUser.name[0]} 
+                            </Avatar>
                         </IconButton>
-                    </Tooltip>
+                    </CustomTooltip>
                     <Menu
                         sx={{ mt: "45px" }}
                         id="menu-appbar"
@@ -223,6 +272,25 @@ function NavBarComponent({ darkMode, toggleTheme }: NavBarProps) {
                         open={Boolean(anchorElUser)}
                         onClose={handleCloseUserMenu}
                     >
+                        {/* Información del usuario en el menú desplegable (opcional) */}
+                        <MenuItem sx={{ 
+                            '&:hover': { backgroundColor: 'transparent' }, 
+                            cursor: 'default',
+                            mb: 1
+                        }}>
+                            <Box sx={{ 
+                                textAlign: 'left', 
+                                borderBottom: '1px solid', 
+                                borderColor: 'divider', 
+                                pb: 1, 
+                                width: '100%' 
+                            }}>
+                                <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>{currentUser.name}</Typography>
+                                <Typography variant="caption" color="text.secondary">{currentUser.email}</Typography>
+                            </Box>
+                        </MenuItem>
+
+                        {/* Opciones de configuración */}
                         {settings.map((setting) => (
                             <MenuItem
                                 key={setting.name}

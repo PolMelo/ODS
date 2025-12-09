@@ -247,7 +247,7 @@ const HomePage: React.FC = () => {
                         <Box component={Link} to="/acciones" sx={cardStyle}>
                             <div style={{
                                 width: "56px",
-                                height: "25px",
+                                height: "15px",
                                 borderRadius: "12px",
                                 display: "flex",
                                 alignItems: "center",
@@ -266,7 +266,7 @@ const HomePage: React.FC = () => {
                         <Box component={Link} to="/ODS" sx={cardStyle}>
                             <div style={{
                                 width: "56px",
-                                height: "25px",
+                                height: "15px",
                                 borderRadius: "12px",
                                 display: "flex",
                                 alignItems: "center",
@@ -285,7 +285,7 @@ const HomePage: React.FC = () => {
                         <Box component={Link} to="/recursos" sx={cardStyle}>
                             <div style={{
                                 width: "56px",
-                                height: "25px",
+                                height: "15px",
                                 borderRadius: "12px",
                                 display: "flex",
                                 alignItems: "center",
