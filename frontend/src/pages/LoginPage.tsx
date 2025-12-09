@@ -8,11 +8,14 @@ import {
     Button,
     useTheme,
 } from "@mui/material";
+import ruleta from "../assets/ODS PNG/RULETA.png";
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
     const theme = useTheme();
     const mode = theme.palette.mode;
+
+    const [loading, setLoading] = useState(false);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -21,6 +24,7 @@ const LoginPage: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
+        setLoading(true); // 🟦 Activamos animación
 
         try {
             const response = await fetch("http://localhost:8000/api/login", {
@@ -33,16 +37,52 @@ const LoginPage: React.FC = () => {
 
             if (!response.ok) {
                 setError(data.message || "Ha ocurrido un error.");
+                setLoading(false); // ❗La apagamos si hay error
                 return;
             }
 
             localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
+
+            // 🟩 No apagamos loading porque redirigimos
             navigate("/");
         } catch {
             setError("Error conectando con el servidor");
+            setLoading(false);
         }
     };
+
+    // 🔵 Pantalla de carga durante el login
+    if (loading)
+        return (
+            <div
+                style={{
+                    padding: "2rem",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <img
+                    src={ruleta}
+                    alt="Cargando"
+                    style={{
+                        width: "320px",
+                        height: "320px",
+                        animation: "spin 2.2s linear infinite",
+                    }}
+                />
+                <style>
+                    {`
+                        @keyframes spin {
+                            from { transform: rotate(0deg); }
+                            to { transform: rotate(360deg); }
+                        }
+                    `}
+                </style>
+            </div>
+        );
 
     return (
         <Box
@@ -119,10 +159,7 @@ const LoginPage: React.FC = () => {
                     </Button>
                 </Box>
 
-                <Button
-                    onClick={() => navigate("/signup")}
-                    sx={{ mt: "10px" }}
-                >
+                <Button onClick={() => navigate("/signup")} sx={{ mt: "10px" }}>
                     ¿Todavía no tienes cuenta? Únete ya
                 </Button>
             </Paper>
