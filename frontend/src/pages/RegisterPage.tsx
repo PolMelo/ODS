@@ -9,6 +9,30 @@ import {
     useTheme,
 } from "@mui/material";
 
+// **********************************************
+// ********* Imports de Avatares (CORREGIDOS) *******
+// **********************************************
+
+import Avatar1 from "../assets/avatar png/Avatar 1.png";
+import Avatar2 from "../assets/avatar png/Avatar 2.png";
+import Avatar3 from "../assets/avatar png/Avatar 3.png";
+import Avatar4 from "../assets/avatar png/Avatar 4.png";
+import Avatar5 from "../assets/avatar png/Avatar 5.png";
+import Avatar6 from "../assets/avatar png/Avatar 6.png";
+
+// Lista de avatares para mapear más fácilmente
+const AVATARS = [
+    { name: "avatar1", src: Avatar1 },
+    { name: "avatar2", src: Avatar2 },
+    { name: "avatar3", src: Avatar3 },
+    { name: "avatar4", src: Avatar4 },
+    { name: "avatar5", src: Avatar5 },
+    { name: "avatar6", src: Avatar6 },
+];
+// **********************************************
+// **********************************************
+
+
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
     const theme = useTheme();
@@ -17,12 +41,20 @@ const RegisterPage: React.FC = () => {
     const [nom, setNom] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [avatar, setAvatar] = useState<string | null>(null);
+    // El estado 'avatar' almacenará el nombre del avatar seleccionado
+    const [avatar, setAvatar] = useState<string | null>(null); 
     const [error, setError] = useState<string | null>(null);
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
+
+        // ⚠️ IMPLEMENTACIÓN DEL ESTADO REQUIRED PARA EL AVATAR
+        if (!avatar) {
+            setError("Debes escoger un avatar para poder registrarte.");
+            return; // Detiene la ejecución si el avatar no está seleccionado
+        }
+        // ----------------------------------------------------
 
         try {
             const response = await fetch("http://127.0.0.1:8000/api/register", {
@@ -146,28 +178,37 @@ const RegisterPage: React.FC = () => {
                     <Typography variant="h6" sx={{ mb: 2 }}>
                         Escoge tu avatar
                     </Typography>
+                    {/* ********************************************** */}
+                    {/* ******* MODIFICACIÓN EN EL SELECTOR DE AVATAR ******** */}
+                    {/* ********************************************** */}
                     <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 80px)", gap: 2 }}>
-                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                        {AVATARS.map((item) => (
                             <Box
-                                key={i}
+                                key={item.name}
                                 component="img"
-                                src={`#LINK_AVATAR_${i}`} // reemplaza con tu URL
-                                alt={`Avatar ${i}`}
+                                src={item.src} // Usamos la variable importada (item.src)
+                                alt={`Avatar ${item.name}`}
                                 sx={{
                                     width: 80,
                                     height: 80,
                                     borderRadius: "50%",
-                                    border: avatar === `avatar${i}` ? "3px solid #4f46e5" : "2px solid #ccc",
+                                    border: avatar === item.name ? "3px solid #4f46e5" : "2px solid #ccc",
                                     cursor: "pointer",
+                                    objectFit: 'cover'
                                 }}
-                                onClick={() => setAvatar(`avatar${i}`)}
+                                onClick={() => setAvatar(item.name)} // Almacenamos el nombre del avatar
                             />
                         ))}
                     </Box>
+                    {/* ********************************************** */}
+                    {/* ********************************************** */}
                 </Box>
             </Paper>
         </Box>
     );
 };
 
+// **********************************************
+// ********** Export del Componente (CORRECTO) **********
+// **********************************************
 export default RegisterPage;

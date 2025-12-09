@@ -6,11 +6,13 @@ interface Props {
   img: string;
   ods: number[];
   date: string;
+  onClick?: () => void;
 }
 
-const OSCard: React.FC<Props> = ({ title, img, ods, date }) => {
+const OSCard: React.FC<Props> = ({ title, img, ods, date, onClick }) => {
   return (
     <div
+      onClick={onClick}
       style={{
         borderRadius: "22px",
         overflow: "hidden",
@@ -79,6 +81,5 @@ const OSCard: React.FC<Props> = ({ title, img, ods, date }) => {
     </div>
   );
 };
-
 
 export default OSCard;

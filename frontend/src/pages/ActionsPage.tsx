@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-// Importamos TextField, ToggleButton, y ToggleButtonGroup de Material UI
 import { ToggleButton, ToggleButtonGroup, TextField } from "@mui/material"; 
 import OSCard from "../components/OSCard";
 import ruleta from "../assets/ODS PNG/RULETA.png";
-
 
 interface AccionApi {
   id: number;
@@ -28,12 +26,13 @@ interface AccionCard {
 
 const AccionesPage: React.FC = () => {
   const [acciones, setAcciones] = useState<AccionCard[]>([]);
+  const [accionesRaw, setAccionesRaw] = useState<AccionApi[]>([]);
   const [loading, setLoading] = useState(true);
   const [filtroODS, setFiltroODS] = useState<number[]>([]);
-  // Estado para el término de búsqueda
-  const [searchTerm, setSearchTerm] = useState<string>(""); 
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  // 🔄 fallback http → https
+  const [accionSeleccionada, setAccionSeleccionada] = useState<AccionApi | null>(null);
+
   const fetchWithFallback = async () => {
     try {
       const res = await fetch("http://localhost:8000/api/ods");
@@ -48,10 +47,12 @@ const AccionesPage: React.FC = () => {
   useEffect(() => {
     fetchWithFallback()
       .then((data: AccionApi[]) => {
+        setAccionesRaw(data);
+
         const accionesFormateadas: AccionCard[] = data.map((item) => {
-          const ods = [item.etiqueta1, item.etiqueta2, item.etiqueta3].filter(
-            (x): x is number => x != null
-          );
+          const ods = [item.etiqueta1, item.etiqueta2, item.etiqueta3]
+            .filter((x): x is number => x != null);
+
           return {
             title: item.nom,
             img: item.imagen_url,
@@ -66,30 +67,24 @@ const AccionesPage: React.FC = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // 💡 CORRECCIÓN APLICADA: Tipando el primer argumento con React.MouseEvent<HTMLElement>
   const handleFilterChange = (
-    _: React.MouseEvent<HTMLElement>, // El argumento del evento se tipa correctamente
+    _: React.MouseEvent<HTMLElement>,
     nueva: number[]
   ) => {
     setFiltroODS(nueva);
   };
 
-  // Lógica de filtrado y búsqueda combinada
   const accionesBuscadasYFiltradas = acciones
-    // 1. Filtrar por término de búsqueda (en el título)
     .filter((accion) => {
-      if (!searchTerm) return true; 
+      if (!searchTerm) return true;
       const lowerTitle = accion.title.toLowerCase();
       const lowerSearchTerm = searchTerm.toLowerCase();
       return lowerTitle.includes(lowerSearchTerm);
     })
-    // 2. Filtrar por ODS
     .filter((accion) => {
-      if (filtroODS.length === 0) return true; 
+      if (filtroODS.length === 0) return true;
       return accion.ods.some((o) => filtroODS.includes(o));
     });
-
-//Logo de carrega donant voltes
 
 if (loading)
   return (
@@ -122,103 +117,217 @@ if (loading)
     </div>
   );
 
-//Si no hi ha accions mostrem aixo.
-  if (acciones.length === 0)
-    return <p style={{ padding: "2rem" }}>No hay acciones disponibles.</p>;
+if (acciones.length === 0)
+  return <p style={{ padding: "2rem" }}>No hay acciones disponibles.</p>;
 
 return (
-  <div
-    style={{
-      padding: "2.5rem 1.5rem",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: "2.5rem",
-      width: "100%",
-      paddingBottom: "4rem",
-      color: "inherit",
-      maxWidth: "1200px",
-      margin: "0 auto",
-    }}
-  >
-    
-    {/* ==== BUSCADOR (TextField) ==== */}
-    <TextField
-      label="Buscar acciones por título"
-      variant="outlined"
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      sx={{ 
-          width: '100%', 
-          maxWidth: '400px', 
-          mb: -3,
-      }} 
-    />
-
-    {/* ==== FILTRO MINIMAL (Toggle buttons) ==== */}
+  <>
     <div
       style={{
-        padding: "0.8rem 1rem",
-        borderRadius: "20px",
-        background: "rgba(255,255,255,0.07)",
-        backdropFilter: "blur(14px)",
-        border: "1px solid rgba(255,255,255,0.12)",
+        padding: "2.5rem 1.5rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "2.5rem",
+        width: "100%",
+        paddingBottom: "4rem",
+        color: "inherit",
+        maxWidth: "1200px",
+        margin: "0 auto",
       }}
     >
-      <ToggleButtonGroup
-        value={filtroODS}
-        onChange={handleFilterChange}
-        size="small"
-        exclusive={false}
-        sx={{
-          display: "flex",
-          gap: 1,
-          flexWrap: "wrap",
-          "& .MuiToggleButton-root": {
-            borderRadius: "12px",
-            background: "rgba(255,255,255,0.08)",
-            color: "inherit",
-            fontWeight: 600,
-            border: "1px solid rgba(255,255,255,0.15)",
-            transition: ".25s ease",
-            "&.Mui-selected": {
-              background: "rgba(255,255,255,0.25) !important",
-              color: "#000",
-              borderColor: "rgba(255,255,255,0.4)",
-            },
-            "&:hover": {
-              background: "rgba(255,255,255,0.18)",
-            },
-          },
+      
+      <TextField
+        label="Buscar acciones por título"
+        variant="outlined"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        sx={{ 
+            width: '100%', 
+            maxWidth: '400px', 
+            mb: -3,
+        }} 
+      />
+
+      <div
+        style={{
+          padding: "0.8rem 1rem",
+          borderRadius: "20px",
+          background: "rgba(255,255,255,0.07)",
+          backdropFilter: "blur(14px)",
+          border: "1px solid rgba(255,255,255,0.12)",
         }}
       >
-        {Array.from({ length: 17 }, (_, i) => i + 1).map((n) => (
-          <ToggleButton key={n} value={n}>
-            {n}
-          </ToggleButton>
+        <ToggleButtonGroup
+          value={filtroODS}
+          onChange={handleFilterChange}
+          size="small"
+          exclusive={false}
+          sx={{
+            display: "flex",
+            gap: 1,
+            flexWrap: "wrap",
+            "& .MuiToggleButton-root": {
+              borderRadius: "12px",
+              background: "rgba(255,255,255,0.08)",
+              color: "inherit",
+              fontWeight: 600,
+              border: "1px solid rgba(255,255,255,0.15)",
+              transition: ".25s ease",
+              "&.Mui-selected": {
+                background: "rgba(255,255,255,0.25) !important",
+                color: "#000",
+                borderColor: "rgba(255,255,255,0.4)",
+              },
+              "&:hover": {
+                background: "rgba(255,255,255,0.18)",
+              },
+            },
+          }}
+        >
+          {Array.from({ length: 17 }, (_, i) => i + 1).map((n) => (
+            <ToggleButton key={n} value={n}>
+              {n}
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gap: "2rem",
+          width: "100%",
+          maxWidth: "1100px",
+          marginBottom: "6rem",
+        }}
+      >
+        {accionesBuscadasYFiltradas.map((accion, i) => (
+          <OSCard
+            key={i}
+            {...accion}
+            onClick={() => setAccionSeleccionada(accionesRaw[i])}
+          />
         ))}
-      </ToggleButtonGroup>
+      </div>
     </div>
 
-    {/* ==== GRID ==== */}
+    {/* ===== MODAL / OVERLAY ===== */}
+{accionSeleccionada && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100vw",
+      height: "100vh",
+      backdropFilter: "blur(10px)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: "2rem",
+      zIndex: 9999,
+    }}
+    onClick={() => setAccionSeleccionada(null)}
+  >
     <div
       style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-        gap: "2rem",
+        backdropFilter: "blur(18px)",
+        WebkitBackdropFilter: "blur(18px)",
+        borderRadius: "22px",
+        border: "1px solid rgba(255,255,255,0.12)",
+        padding: "2rem",
+        maxWidth: "700px",
         width: "100%",
-        maxWidth: "1100px",
-        marginBottom: "6rem",
+        boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+        color: "inherit",
+        position: "relative",
       }}
+      onClick={(e) => e.stopPropagation()}
     >
-      {/* Mapear el array filtrado y buscado */}
-      {accionesBuscadasYFiltradas.map((accion, i) => (
-        <OSCard key={i} {...accion} />
-      ))}
-    </div>
+      {/* Botón cerrar */}
+      <button
+        onClick={() => setAccionSeleccionada(null)}
+        style={{
+          position: "absolute",
+          top: "1rem",
+          right: "1rem",
+          fontSize: "1.4rem",
+          borderRadius: "50%",
+          border: "none",
+          cursor: "pointer",
+          width: "35px",
+          height: "35px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "inherit",
+        }}
+      >
+        ✕
+      </button>
 
+      {/* Imagen */}
+      <img
+        src={accionSeleccionada.imagen_url}
+        alt={accionSeleccionada.nom}
+        style={{
+          width: "100%",
+          maxHeight: "280px",
+          objectFit: "cover",
+          borderRadius: "18px",
+          marginBottom: "1.2rem",
+          border: "1px solid rgba(255,255,255,0.15)",
+        }}
+      />
+
+      <h2 style={{ marginTop: 0 }}>{accionSeleccionada.nom}</h2>
+
+      <p style={{ opacity: 0.85 }}>
+        <strong>Descripción:</strong> {accionSeleccionada.descripcion}
+      </p>
+
+      <p style={{ opacity: 0.85 }}>
+        <strong>Lugar:</strong> {accionSeleccionada.lugar || "No especificado"}
+      </p>
+
+      <p style={{ opacity: 0.85 }}>
+        <strong>Fecha:</strong> {accionSeleccionada.fecha}
+      </p>
+
+      {accionSeleccionada.hora && (
+        <p style={{ opacity: 0.85 }}>
+          <strong>Hora:</strong> {accionSeleccionada.hora}
+        </p>
+      )}
+
+      {accionSeleccionada.link && (
+        <a
+          href={accionSeleccionada.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            marginTop: "1rem",
+            display: "inline-block",
+            background: "rgba(255,255,255,0.12)",
+            padding: "0.6rem 1rem",
+            borderRadius: "12px",
+            border: "1px solid rgba(255,255,255,0.25)",
+            color: "inherit",
+            textDecoration: "none",
+            fontWeight: 600,
+          }}
+        >
+          Abrir enlace →
+        </a>
+      )}
+    </div>
   </div>
+)}
+
+  </>
 );
-}
+};
 
 export default AccionesPage;
