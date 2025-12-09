@@ -24,6 +24,7 @@ public function create(Request $request, EntityManagerInterface $em): JsonRespon
     $ods->setEtiqueta3($data['etiqueta3']);
     $ods->setLugar($data['lugar']);
     $ods->setHora(new \DateTime($data['hora']));
+$ods->setImagenUrl($data['imagen_url']);
 
 
     $em->persist($ods);
