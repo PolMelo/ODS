@@ -1,5 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
+import { Link } from 'react-router-dom';
+import { Box, useTheme } from '@mui/material'; // <-- Asegurarse de importar useTheme y Box
 
 import ODS0 from "../assets/ODS PNG/ODS 0.png";
 import ODS1 from "../assets/ODS PNG/ODS 1.png";
@@ -64,8 +66,12 @@ const HomePage: React.FC = () => {
     const [hovering, setHovering] = React.useState(false);
     const [flip, setFlip] = React.useState(false);
 
+    // 💡 Obtener el tema actual para aplicar estilos dinámicos
+    const theme = useTheme();
+    const isDark = theme.palette.mode === 'dark';
+
     /* -----------------------------------------
-       ✅ Funciones reales para cambiar ODS
+      ✅ Funciones para cambiar ODS
     ----------------------------------------- */
     const nextImage = () => {
         setCurrentIndex((prev) => (prev + 1) % odspairs.length);
@@ -78,7 +84,7 @@ const HomePage: React.FC = () => {
     };
 
     /* -----------------------------------------
-       🔄 Auto-rotación (pausa cuando haces hover)
+      🔄 Auto-rotación (pausa cuando haces hover)
     ----------------------------------------- */
     React.useEffect(() => {
         if (hovering) return;
@@ -91,7 +97,7 @@ const HomePage: React.FC = () => {
     }, [hovering]);
 
     /* -----------------------------------------
-       ⌨️ Flechas del teclado (RECUPERADO)
+      ⌨️ Flechas del teclado
     ----------------------------------------- */
     React.useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
@@ -102,6 +108,33 @@ const HomePage: React.FC = () => {
         window.addEventListener("keydown", handleKey);
         return () => window.removeEventListener("keydown", handleKey);
     }, []);
+    
+    // 💡 Estilos dinámicos para las tarjetas de Features
+    const cardStyle = {
+        padding: "32px",
+        borderRadius: "16px",
+        
+        // Fondo de la tarjeta (usa el color 'paper' o 'default' para contrastar)
+        backgroundColor: theme.palette.background.paper, 
+        
+        // Borde dinámico
+        border: `1px solid ${isDark ? theme.palette.divider : theme.palette.grey[300]}`,
+        
+        // Estilos de interacción
+        transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease",
+        textDecoration: 'none', 
+        color: theme.palette.text.primary, 
+        cursor: 'pointer',
+        
+        '&:hover': {
+            transform: "translateY(-4px)",
+            // Sombra más intensa en oscuro, más sutil en claro
+            boxShadow: isDark ? '0 8px 15px rgba(0,0,0,0.5)' : '0 8px 15px rgba(0,0,0,0.1)', 
+            // Resaltar el borde con el color primario del tema
+            borderColor: theme.palette.primary.main, 
+        },
+    };
+
 
     return (
         <div style={{ minHeight: "100vh" }}>
@@ -132,12 +165,12 @@ const HomePage: React.FC = () => {
 
                             <p style={{ fontSize: "1.25rem", lineHeight: "1.75" }}>
                                 ODSfera es una herramienta social diseñada para crear, difundir y compartir iniciativas
-                                orientadas a los Objetivos de Desarrollo Sostenible.
+                                orientadas a los Objetivos de Desarrollo Sostenible. 
                             </p>
 
                             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                                <Button variant="contained" href="/signup">Regístrate ahora →</Button>
-                                <Button variant="outlined" href="/login">Iniciar sesión</Button>
+                                <Button variant="contained" component={Link} to="/signup">Regístrate ahora →</Button>
+                                <Button variant="outlined" component={Link} to="/login">Iniciar sesión</Button>
                             </div>
                         </div>
 
@@ -190,7 +223,7 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
-            {/* FEATURES */}
+            {/* FEATURES - SECCIÓN ACTUALIZADA */}
             <section style={{ padding: "80px 20px" }}>
                 <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
 
@@ -210,10 +243,11 @@ const HomePage: React.FC = () => {
                             gap: "32px",
                         }}
                     >
-                        <div style={{ padding: "32px", borderRadius: "16px", border: "1px solid #ccc", }}>
+                        {/* 1. DESCUBRE -> /acciones */}
+                        <Box component={Link} to="/acciones" sx={cardStyle}>
                             <div style={{
                                 width: "56px",
-                                height: "56px",
+                                height: "25px",
                                 borderRadius: "12px",
                                 display: "flex",
                                 alignItems: "center",
@@ -221,18 +255,18 @@ const HomePage: React.FC = () => {
                                 marginBottom: "24px",
                                 fontSize: "28px",
                             }}>
-                                🌍
                             </div>
                             <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px", }}>
-                                Descubre
+                                Descubre 🌍
                             </h3>
                             <p>Explora iniciativas, eventos y proyectos cerca de ti.</p>
-                        </div>
+                        </Box>
 
-                        <div style={{ padding: "32px", borderRadius: "16px", border: "1px solid #ccc" }}>
+                        {/* 2. CREA -> /ODS */}
+                        <Box component={Link} to="/ODS" sx={cardStyle}>
                             <div style={{
                                 width: "56px",
-                                height: "56px",
+                                height: "25px",
                                 borderRadius: "12px",
                                 display: "flex",
                                 alignItems: "center",
@@ -240,18 +274,18 @@ const HomePage: React.FC = () => {
                                 marginBottom: "24px",
                                 fontSize: "28px",
                             }}>
-                                🎯
                             </div>
                             <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>
-                                Crea
+                                Crea 🎯
                             </h3>
                             <p>Crea iniciativas y proyectos que generen impacto.</p>
-                        </div>
+                        </Box>
 
-                        <div style={{ padding: "32px", borderRadius: "16px", border: "1px solid #ccc" }}>
+                        {/* 3. CONECTA -> /account */}
+                        <Box component={Link} to="/recursos" sx={cardStyle}>
                             <div style={{
                                 width: "56px",
-                                height: "56px",
+                                height: "25px",
                                 borderRadius: "12px",
                                 display: "flex",
                                 alignItems: "center",
@@ -259,13 +293,12 @@ const HomePage: React.FC = () => {
                                 marginBottom: "24px",
                                 fontSize: "28px",
                             }}>
-                                👥
                             </div>
                             <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>
-                                Conecta
+                                Formate 📖
                             </h3>
-                            <p>Únete a una red global de personas comprometidas.</p>
-                        </div>
+                            <p>Toma consciencia sobre las amenazas a nuestro futuro y como combatirlas.</p>
+                        </Box>
                     </div>
                 </div>
             </section>
@@ -280,7 +313,7 @@ const HomePage: React.FC = () => {
                     <p style={{ fontSize: "1.25rem", marginBottom: "40px", lineHeight: "1.75" }}>
                         Cada acción cuenta. Únete a ODSfera y contribuye al cambio.
                     </p>
-                    <Button variant="contained" href="/signup">
+                    <Button variant="contained" component={Link} to="/signup">
                         Regístrate gratis
                     </Button>
                 </div>

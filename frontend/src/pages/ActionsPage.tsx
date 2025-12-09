@@ -34,7 +34,6 @@ const AccionesPage: React.FC = () => {
   const [accionSeleccionada, setAccionSeleccionada] = useState<AccionApi | null>(null);
 
   const theme = useTheme(); 
-  const isDark = theme.palette.mode === 'dark';
 
   const fetchWithFallback = async () => {
     try {
@@ -246,7 +245,7 @@ return (
         boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
         color: "inherit",
         position: "relative",
-        background: theme.palette.background.paper,
+        background: theme.palette.background.paper, // las ods utilizan el fondo del theme provider
       }}
       onClick={(e) => e.stopPropagation()}
     >
