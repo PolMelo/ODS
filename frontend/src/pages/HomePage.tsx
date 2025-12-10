@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { Link } from 'react-router-dom';
-import { Box, useTheme } from '@mui/material'; // <-- Asegurarse de importar useTheme y Box
+import { Box, useTheme } from '@mui/material';
 
 import ODS0 from "../assets/ODS PNG/ODS 0.png";
 import ODS1 from "../assets/ODS PNG/ODS 1.png";
@@ -61,44 +61,75 @@ const odspairs = [
     { ods: ODS17, card: CARD17 },
 ];
 
+const FADE_DURATION = 400; // ms, ajustable
+
 const HomePage: React.FC = () => {
     const [currentIndex, setCurrentIndex] = React.useState(0);
+    const [prevIndex, setPrevIndex] = React.useState<number | null>(null);
+    const [isFading, setIsFading] = React.useState(false);
+    const [fadeActive, setFadeActive] = React.useState(false);
+
     const [hovering, setHovering] = React.useState(false);
     const [flip, setFlip] = React.useState(false);
 
-    // 💡 Obtener el tema actual para aplicar estilos dinámicos
     const theme = useTheme();
     const isDark = theme.palette.mode === 'dark';
 
-    /* -----------------------------------------
-      ✅ Funciones para cambiar ODS
-    ----------------------------------------- */
+    const timersRef = React.useRef<number[]>([]);
+
+    // Limpia timers al desmontar
+    React.useEffect(() => {
+        return () => {
+            timersRef.current.forEach((id) => window.clearTimeout(id));
+            timersRef.current = [];
+        };
+    }, []);
+
+    // Función de cambio con crossfade
+    const goToIndex = (newIndex: number) => {
+        if (newIndex === currentIndex) return;
+
+        // guarda el anterior
+        setPrevIndex(currentIndex);
+        // cambia al nuevo
+        setCurrentIndex(newIndex);
+        // arrancamos proceso de fade
+        setIsFading(true);
+        setFadeActive(false);
+
+        // pequeño tick para que el navegador registre el cambio y las transiciones funcionen
+        const t1 = window.setTimeout(() => {
+            setFadeActive(true); // hace que prev -> 0 y current -> 1
+        }, 20);
+        timersRef.current.push(t1);
+
+        // al terminar la transición, limpiamos
+        const t2 = window.setTimeout(() => {
+            setIsFading(false);
+            setFadeActive(false);
+            setPrevIndex(null);
+        }, FADE_DURATION + 50);
+        timersRef.current.push(t2);
+    };
+
     const nextImage = () => {
-        setCurrentIndex((prev) => (prev + 1) % odspairs.length);
+        const next = (currentIndex + 1) % odspairs.length;
+        goToIndex(next);
     };
 
     const prevImage = () => {
-        setCurrentIndex((prev) =>
-            prev === 0 ? odspairs.length - 1 : prev - 1
-        );
+        const prev = currentIndex === 0 ? odspairs.length - 1 : currentIndex - 1;
+        goToIndex(prev);
     };
 
-    /* -----------------------------------------
-      🔄 Auto-rotación (pausa cuando haces hover)
-    ----------------------------------------- */
     React.useEffect(() => {
         if (hovering) return;
-
-        const interval = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % odspairs.length);
+        const intervalId = window.setInterval(() => {
+            nextImage();
         }, 3000);
+        return () => window.clearInterval(intervalId);
+    }, [hovering, currentIndex]); // currentIndex incluido por seguridad
 
-        return () => clearInterval(interval);
-    }, [hovering]);
-
-    /* -----------------------------------------
-      ⌨️ Flechas del teclado
-    ----------------------------------------- */
     React.useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === "ArrowLeft") prevImage();
@@ -107,34 +138,35 @@ const HomePage: React.FC = () => {
 
         window.addEventListener("keydown", handleKey);
         return () => window.removeEventListener("keydown", handleKey);
-    }, []);
-    
-    // 💡 Estilos dinámicos para las tarjetas de Features
+    }, [currentIndex]);
+
     const cardStyle = {
         padding: "32px",
         borderRadius: "16px",
-        
-        // Fondo de la tarjeta (usa el color 'paper' o 'default' para contrastar)
-        backgroundColor: theme.palette.background.paper, 
-        
-        // Borde dinámico
+        backgroundColor: theme.palette.background.paper,
         border: `1px solid ${isDark ? theme.palette.divider : theme.palette.grey[300]}`,
-        
-        // Estilos de interacción
         transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease",
-        textDecoration: 'none', 
-        color: theme.palette.text.primary, 
+        textDecoration: 'none',
+        color: theme.palette.text.primary,
         cursor: 'pointer',
-        
         '&:hover': {
             transform: "translateY(-4px)",
-            // Sombra más intensa en oscuro, más sutil en claro
-            boxShadow: isDark ? '0 8px 15px rgba(0,0,0,0.5)' : '0 8px 15px rgba(0,0,0,0.1)', 
-            // Resaltar el borde con el color primario del tema
-            borderColor: theme.palette.primary.main, 
+            boxShadow: isDark ? '0 8px 15px rgba(0,0,0,0.5)' : '0 8px 15px rgba(0,0,0,0.1)',
+            borderColor: theme.palette.primary.main,
         },
     };
 
+    // estilos comunes para las imágenes superpuestas
+    const layeredImgBase: React.CSSProperties = {
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        objectFit: "contain",
+        borderRadius: "16px",
+        transition: `opacity ${FADE_DURATION}ms ease`,
+        willChange: "opacity, transform",
+    };
 
     return (
         <div style={{ minHeight: "100vh" }}>
@@ -165,7 +197,7 @@ const HomePage: React.FC = () => {
 
                             <p style={{ fontSize: "1.25rem", lineHeight: "1.75" }}>
                                 ODSfera es una herramienta social diseñada para crear, difundir y compartir iniciativas
-                                orientadas a los Objetivos de Desarrollo Sostenible. 
+                                orientadas a los Objetivos de Desarrollo Sostenible.
                             </p>
 
                             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
@@ -174,56 +206,116 @@ const HomePage: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* DERECHA — TARJETA QUE GIRA */}
+                        {/* DERECHA — TARJETA QUE GIRA (RESPONSIVE + CROSSFADE) */}
                         <div
-                            style={{ perspective: "1000px" }}
+                            style={{
+                                perspective: "1000px",
+                                width: "100%",
+                                maxWidth: "450px",
+                                margin: "0 auto",
+                            }}
                             onMouseEnter={() => { setHovering(true); setFlip(true); }}
                             onMouseLeave={() => { setHovering(false); setFlip(false); }}
                         >
                             <div
                                 style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
+                                    position: "relative",
                                     width: "100%",
-                                    maxWidth: "500px",
-                                    transition: "transform 0.6s",
+                                    aspectRatio: "1 / 1",
                                     transformStyle: "preserve-3d",
+                                    transition: "transform 0.6s",
                                     transform: flip ? "rotateY(180deg)" : "rotateY(0deg)",
-                                    borderRadius: "16px",
                                 }}
                             >
-                                {/* FRONT */}
-                                <img
-                                    src={odspairs[currentIndex].ods}
-                                    alt="ODS"
-                                    style={{
-                                        position: "absolute",
-                                        width: "100%",
-                                        backfaceVisibility: "hidden",
-                                        borderRadius: "16px",
-                                    }}
-                                />
+                                {/* ODS (FRONT) - Crossfade entre prevIndex y currentIndex */}
+                                {isFading && prevIndex !== null ? (
+                                    <>
+                                        <img
+                                            key={`prev-ods-${prevIndex}`}
+                                            src={odspairs[prevIndex].ods}
+                                            alt={`ODS prev ${prevIndex}`}
+                                            style={{
+                                                ...layeredImgBase,
+                                                opacity: fadeActive ? 0 : 1,
+                                                zIndex: fadeActive ? 1 : 2,
+                                                backfaceVisibility: "hidden",
+                                            }}
+                                        />
+                                        <img
+                                            key={`cur-ods-${currentIndex}`}
+                                            src={odspairs[currentIndex].ods}
+                                            alt={`ODS cur ${currentIndex}`}
+                                            style={{
+                                                ...layeredImgBase,
+                                                opacity: fadeActive ? 1 : 0,
+                                                zIndex: fadeActive ? 2 : 1,
+                                                backfaceVisibility: "hidden",
+                                            }}
+                                        />
+                                    </>
+                                ) : (
+                                    <img
+                                        key={`cur-ods-${currentIndex}`}
+                                        src={odspairs[currentIndex].ods}
+                                        alt={`ODS cur ${currentIndex}`}
+                                        style={{
+                                            ...layeredImgBase,
+                                            opacity: 1,
+                                            zIndex: 2,
+                                            backfaceVisibility: "hidden",
+                                        }}
+                                    />
+                                )}
 
-                                {/* BACK */}
-                                <img
-                                    src={odspairs[currentIndex].card}
-                                    alt="CARD"
-                                    style={{
-                                        position: "absolute",
-                                        width: "100%",
-                                        transform: "rotateY(180deg)",
-                                        backfaceVisibility: "hidden",
-                                        borderRadius: "16px",
-                                    }}
-                                />
+                                {/* CARD (BACK) - también se crossfade cuando hay prevIndex */}
+                                {isFading && prevIndex !== null ? (
+                                    <>
+                                        <img
+                                            key={`prev-card-${prevIndex}`}
+                                            src={odspairs[prevIndex].card}
+                                            alt={`CARD prev ${prevIndex}`}
+                                            style={{
+                                                ...layeredImgBase,
+                                                transform: "rotateY(180deg)",
+                                                opacity: fadeActive ? 0 : 1,
+                                                zIndex: fadeActive ? 1 : 2,
+                                                backfaceVisibility: "hidden",
+                                            }}
+                                        />
+                                        <img
+                                            key={`cur-card-${currentIndex}`}
+                                            src={odspairs[currentIndex].card}
+                                            alt={`CARD cur ${currentIndex}`}
+                                            style={{
+                                                ...layeredImgBase,
+                                                transform: "rotateY(180deg)",
+                                                opacity: fadeActive ? 1 : 0,
+                                                zIndex: fadeActive ? 2 : 1,
+                                                backfaceVisibility: "hidden",
+                                            }}
+                                        />
+                                    </>
+                                ) : (
+                                    <img
+                                        key={`cur-card-${currentIndex}`}
+                                        src={odspairs[currentIndex].card}
+                                        alt={`CARD cur ${currentIndex}`}
+                                        style={{
+                                            ...layeredImgBase,
+                                            transform: "rotateY(180deg)",
+                                            opacity: 1,
+                                            zIndex: 1,
+                                            backfaceVisibility: "hidden",
+                                        }}
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* FEATURES - SECCIÓN ACTUALIZADA */}
+            {/* FEATURES */}
             <section style={{ padding: "80px 20px" }}>
                 <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
 
@@ -243,7 +335,6 @@ const HomePage: React.FC = () => {
                             gap: "32px",
                         }}
                     >
-                        {/* 1. DESCUBRE -> /acciones */}
                         <Box component={Link} to="/acciones" sx={cardStyle}>
                             <div style={{
                                 width: "56px",
@@ -262,7 +353,6 @@ const HomePage: React.FC = () => {
                             <p>Explora iniciativas, eventos y proyectos cerca de ti.</p>
                         </Box>
 
-                        {/* 2. CREA -> /ODS */}
                         <Box component={Link} to="/ODS" sx={cardStyle}>
                             <div style={{
                                 width: "56px",
@@ -281,7 +371,6 @@ const HomePage: React.FC = () => {
                             <p>Crea iniciativas y proyectos que generen impacto.</p>
                         </Box>
 
-                        {/* 3. CONECTA -> /account */}
                         <Box component={Link} to="/recursos" sx={cardStyle}>
                             <div style={{
                                 width: "56px",
@@ -297,7 +386,7 @@ const HomePage: React.FC = () => {
                             <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>
                                 Formate 📖
                             </h3>
-                            <p>Toma consciencia sobre las amenazas a nuestro futuro y como combatirlas.</p>
+                            <p>Toma consciencia sobre las amenazas a nuestro futuro y cómo combatirlas.</p>
                         </Box>
                     </div>
                 </div>
