@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  ToggleButton,
-  ToggleButtonGroup,
-  TextField,
-  Checkbox,
-  FormControlLabel,
-  Button,
-} from "@mui/material";
+import { TextField } from "@mui/material";
 import OSCard from "../components/OSCard";
 import ruleta from "../assets/ODS PNG/RULETA.png";
+import FiltersPanel from "../components/FiltersPanel";
 import { useTheme } from "@mui/material/styles";
 
 interface AccionApi {
@@ -32,26 +26,6 @@ interface AccionCard {
   date: string;
 }
 
-const ODS_LIST = [
-  "Fin de la pobreza",
-  "Hambre cero",
-  "Salud y bienestar",
-  "Educación de calidad",
-  "Igualdad de género",
-  "Agua limpia y saneamiento",
-  "Energía asequible y no contaminante",
-  "Trabajo decente y crecimiento económico",
-  "Industria, innovación e infraestructura",
-  "Reducción de las desigualdades",
-  "Ciudades y comunidades sostenibles",
-  "Producción y consumo responsables",
-  "Acción por el clima",
-  "Vida submarina",
-  "Vida de ecosistemas terrestres",
-  "Paz, justicia e instituciones sólidas",
-  "Alianzas para lograr los objetivos",
-];
-
 const AccionesPage: React.FC = () => {
   const [acciones, setAcciones] = useState<AccionCard[]>([]);
   const [accionesRaw, setAccionesRaw] = useState<AccionApi[]>([]);
@@ -60,7 +34,6 @@ const AccionesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [mostrarPasadas, setMostrarPasadas] = useState(false);
   const [accionSeleccionada, setAccionSeleccionada] = useState<AccionApi | null>(null);
-  const [mostrarODS, setMostrarODS] = useState(false);
 
   const theme = useTheme();
 
@@ -101,24 +74,16 @@ const AccionesPage: React.FC = () => {
 
   const hoy = new Date().toISOString().split("T")[0];
 
-  const accionesBuscadasYFiltradas = acciones
-    .filter((accion) => {
-      if (!searchTerm) return true;
-      return accion.title.toLowerCase().includes(searchTerm.toLowerCase());
-    })
-    .filter((accion) => {
-      if (!mostrarPasadas) return accion.date >= hoy;
-      return true;
-    })
+  const accionesFiltradas = acciones
+    .filter((accion) =>
+      searchTerm ? accion.title.toLowerCase().includes(searchTerm.toLowerCase()) : true
+    )
+    .filter((accion) => (mostrarPasadas ? true : accion.date >= hoy))
     .filter((accion) => {
       if (filtroODS.length === 0) return true;
       return accion.ods.some((o) => filtroODS.includes(o));
     })
     .sort((a, b) => a.date.localeCompare(b.date));
-
-  const handleFilterChange = (_: any, nueva: number[]) => {
-    setFiltroODS(nueva);
-  };
 
   if (loading)
     return (
@@ -163,77 +128,15 @@ const AccionesPage: React.FC = () => {
         margin: "0 auto",
       }}
     >
-      {/* ==== PANEL IZQUIERDO ==== */}
-      <div
-        style={{
-          width: "260px",
-          padding: "1.5rem",
-          position: "sticky",
-          top: "0",
-          height: "100%",
-          overflowY: "auto",
-          borderRight: "1px solid rgba(255,255,255,0.15)",
-        }}
-      >
-        {/* CHECK ARRIBA */}
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={mostrarPasadas}
-              onChange={(e) => setMostrarPasadas(e.target.checked)}
-            />
-          }
-          label="Mostrar acciones pasadas"
-          style={{ marginBottom: "1.2rem" }}
-        />
+      {/* PANEL IZQUIERDO (filtros) */}
+      <FiltersPanel
+        filtroODS={filtroODS}
+        setFiltroODS={setFiltroODS}
+        mostrarPasadas={mostrarPasadas}
+        setMostrarPasadas={setMostrarPasadas}
+      />
 
-        {/* BOTÓN DESPLEGABLE ODS */}
-        <Button
-          variant="contained"
-          onClick={() => setMostrarODS((x) => !x)}
-          fullWidth
-          style={{ marginBottom: "1rem" }}
-        >
-          Filtrar por ODS
-        </Button>
-
-        {mostrarODS && (
-          <>
-            <Button
-              variant="outlined"
-              onClick={() => setFiltroODS([])}
-              fullWidth
-              style={{ marginBottom: "1rem" }}
-            >
-              Deseleccionar todo
-            </Button>
-
-            <ToggleButtonGroup
-              value={filtroODS}
-              onChange={handleFilterChange}
-              orientation="vertical"
-              exclusive={false}
-              fullWidth
-              sx={{
-                "& .MuiToggleButton-root": {
-                  borderRadius: "12px",
-                  marginBottom: "6px",
-                  textAlign: "left",
-                  justifyContent: "flex-start",
-                },
-              }}
-            >
-              {ODS_LIST.map((nombre, i) => (
-                <ToggleButton key={i} value={i + 1}>
-                  {i + 1}. {nombre}
-                </ToggleButton>
-              ))}
-            </ToggleButtonGroup>
-          </>
-        )}
-      </div>
-
-      {/* ==== CONTENIDO PRINCIPAL ==== */}
+      {/* CONTENIDO CENTRAL */}
       <div
         style={{
           padding: "2.5rem 1.5rem",
@@ -268,7 +171,7 @@ const AccionesPage: React.FC = () => {
             marginBottom: "6rem",
           }}
         >
-          {accionesBuscadasYFiltradas.map((accion, i) => (
+          {accionesFiltradas.map((accion, i) => (
             <OSCard
               key={i}
               {...accion}
@@ -278,7 +181,7 @@ const AccionesPage: React.FC = () => {
         </div>
       </div>
 
-      {/* ==== MODAL ==== */}
+      {/* MODAL */}
       {accionSeleccionada && (
         <div
           style={{
