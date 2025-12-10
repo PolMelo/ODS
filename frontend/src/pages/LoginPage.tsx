@@ -8,7 +8,8 @@ import {
     Button,
     useTheme,
 } from "@mui/material";
-import ruleta from "../assets/ODS PNG/RULETA.png";
+import Loader from "../components/Loader";
+
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
@@ -53,36 +54,7 @@ const LoginPage: React.FC = () => {
     };
 
     // 🔵 Pantalla de carga durante el login
-    if (loading)
-        return (
-            <div
-                style={{
-                    padding: "2rem",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                }}
-            >
-                <img
-                    src={ruleta}
-                    alt="Cargando"
-                    style={{
-                        width: "320px",
-                        height: "320px",
-                        animation: "spin 2.2s linear infinite",
-                    }}
-                />
-                <style>
-                    {`
-                        @keyframes spin {
-                            from { transform: rotate(0deg); }
-                            to { transform: rotate(360deg); }
-                        }
-                    `}
-                </style>
-            </div>
-        );
+       if (loading) return <Loader size={320} />;
 
     return (
         <Box

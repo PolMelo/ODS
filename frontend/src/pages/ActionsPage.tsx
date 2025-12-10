@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 import OSCard from "../components/OSCard";
 import ruleta from "../assets/ODS PNG/RULETA.png";
+import Loader from "../components/Loader";
 import FiltersPanel from "../components/FiltersPanel";
 import { useTheme } from "@mui/material/styles";
 
@@ -85,36 +86,7 @@ const AccionesPage: React.FC = () => {
     })
     .sort((a, b) => a.date.localeCompare(b.date));
 
-  if (loading)
-    return (
-      <div
-        style={{
-          padding: "2rem",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-        }}
-      >
-        <img
-          src={ruleta}
-          alt="Cargando"
-          style={{
-            width: "320px",
-            height: "320px",
-            animation: "spin 2.2s linear infinite",
-          }}
-        />
-        <style>
-          {`
-          @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          }
-        `}
-        </style>
-      </div>
-    );
+    if (loading) return <Loader size={320} />;
 
   if (acciones.length === 0)
     return <p style={{ padding: "2rem" }}>No hay acciones disponibles.</p>;

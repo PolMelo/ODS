@@ -8,11 +8,14 @@ import {
     Button,
     useTheme,
 } from "@mui/material";
+import Loader from "../components/Loader";
 
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
     const theme = useTheme();
     const mode = theme.palette.mode;
+
+    const [loading, setLoading] = useState(false);
 
     const [nom, setNom] = useState("");
     const [email, setEmail] = useState("");
@@ -22,6 +25,7 @@ const RegisterPage: React.FC = () => {
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
+        setLoading(true); // Activamos la ruleta
 
         try {
             const response = await fetch("http://127.0.0.1:8000/api/register", {
@@ -34,6 +38,7 @@ const RegisterPage: React.FC = () => {
 
             if (!response.ok) {
                 setError(data.message || "Ha ocurrido un error.");
+                setLoading(false); // Detenemos si falla
                 return;
             }
 
@@ -41,8 +46,13 @@ const RegisterPage: React.FC = () => {
             navigate("/");
         } catch {
             setError("No se ha podido conectar con el servidor.");
+            setLoading(false);
         }
     };
+
+    // Pantalla de carga igual que en login
+    if (loading) return <Loader size={320} />;
+
 
     return (
         <Box
@@ -131,10 +141,7 @@ const RegisterPage: React.FC = () => {
                         Registrarse
                     </Button>
 
-                    <Button
-                        onClick={() => navigate("/login")}
-                        sx={{ mt: "10px" }}
-                    >
+                    <Button onClick={() => navigate("/login")} sx={{ mt: "10px" }}>
                         ¿Ya tienes cuenta? Inicia sesión
                     </Button>
                 </Box>
