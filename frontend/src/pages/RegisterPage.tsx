@@ -9,30 +9,6 @@ import {
     useTheme,
 } from "@mui/material";
 
-// **********************************************
-// ********* Imports de Avatares (CORREGIDOS) *******
-// **********************************************
-
-import Avatar1 from "../assets/avatar png/Avatar 1.png";
-import Avatar2 from "../assets/avatar png/Avatar 2.png";
-import Avatar3 from "../assets/avatar png/Avatar 3.png";
-import Avatar4 from "../assets/avatar png/Avatar 4.png";
-import Avatar5 from "../assets/avatar png/Avatar 5.png";
-import Avatar6 from "../assets/avatar png/Avatar 6.png";
-
-// Lista de avatares para mapear más fácilmente
-const AVATARS = [
-    { name: "avatar1", src: Avatar1 },
-    { name: "avatar2", src: Avatar2 },
-    { name: "avatar3", src: Avatar3 },
-    { name: "avatar4", src: Avatar4 },
-    { name: "avatar5", src: Avatar5 },
-    { name: "avatar6", src: Avatar6 },
-];
-// **********************************************
-// **********************************************
-
-
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
     const theme = useTheme();
@@ -41,26 +17,17 @@ const RegisterPage: React.FC = () => {
     const [nom, setNom] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    // El estado 'avatar' almacenará el nombre del avatar seleccionado
-    const [avatar, setAvatar] = useState<string | null>(null); 
     const [error, setError] = useState<string | null>(null);
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
 
-        // ⚠️ IMPLEMENTACIÓN DEL ESTADO REQUIRED PARA EL AVATAR
-        if (!avatar) {
-            setError("Debes escoger un avatar para poder registrarte.");
-            return; // Detiene la ejecución si el avatar no está seleccionado
-        }
-        // ----------------------------------------------------
-
         try {
             const response = await fetch("http://127.0.0.1:8000/api/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ nom, email, password, avatar }),
+                body: JSON.stringify({ nom, email, password }),
             });
 
             const data = await response.json();
@@ -102,7 +69,6 @@ const RegisterPage: React.FC = () => {
                     bgcolor: "background.paper",
                 }}
             >
-                {/* Formulario a la izquierda */}
                 <Box component="form" onSubmit={handleRegister} sx={{ flex: 1 }}>
                     <Typography
                         variant="h5"
@@ -172,15 +138,9 @@ const RegisterPage: React.FC = () => {
                         ¿Ya tienes cuenta? Inicia sesión
                     </Button>
                 </Box>
-
-                {/* Selector de Avatares a la derecha */}
-            
             </Paper>
         </Box>
     );
 };
 
-// **********************************************
-// ********** Export del Componente (CORRECTO) **********
-// **********************************************
 export default RegisterPage;
