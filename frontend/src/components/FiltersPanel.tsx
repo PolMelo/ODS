@@ -57,16 +57,16 @@ export default function FiltersPanel({
   const [openODS, setOpenODS] = useState(false);
 
   const toggleODS = (ods: number) => {
-    if (filtroODS.includes(ods)) {
-      setFiltroODS(filtroODS.filter((x) => x !== ods));
-    } else {
-      setFiltroODS([...filtroODS, ods]);
-    }
+    setFiltroODS(
+      filtroODS.includes(ods)
+        ? filtroODS.filter((x) => x !== ods)
+        : [...filtroODS, ods]
+    );
   };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-
+      {/* Mostrar acciones pasadas */}
       <FormControlLabel
         control={
           <Checkbox
@@ -78,11 +78,8 @@ export default function FiltersPanel({
         label="Mostrar acciones pasadas"
       />
 
-      <Button
-        variant="contained"
-        fullWidth
-        onClick={() => setOpenODS(!openODS)}
-      >
+      {/* Toggle ODS */}
+      <Button variant="contained" fullWidth onClick={() => setOpenODS(!openODS)}>
         Filtrar por ODS
       </Button>
 
@@ -92,7 +89,7 @@ export default function FiltersPanel({
             border: "1px solid rgba(255,255,255,0.15)",
             borderRadius: "12px",
             padding: "0.8rem",
-            maxHeight: "260px",
+            maxHeight: "60%",
             overflowY: "auto",
           }}
         >
@@ -116,8 +113,8 @@ export default function FiltersPanel({
                   onClick={() => toggleODS(ods)}
                   style={{
                     display: "flex",
-                    justifyContent: "space-between",
                     alignItems: "center",
+                    gap: "10px",
                     padding: "8px 10px",
                     fontSize: "0.85rem",
                     borderRadius: "10px",
@@ -125,19 +122,25 @@ export default function FiltersPanel({
                     background: active ? `${color}40` : "transparent",
                     cursor: "pointer",
                     transition: "0.2s",
+                    width: "100%",
                   }}
                   onMouseEnter={(e) => {
-                    if (!active) {
-                      e.currentTarget.style.background = `${color}25`;
-                    }
+                    if (!active) e.currentTarget.style.background = `${color}25`;
                   }}
                   onMouseLeave={(e) => {
-                    if (!active) {
-                      e.currentTarget.style.background = "transparent";
-                    }
+                    if (!active) e.currentTarget.style.background = "transparent";
                   }}
                 >
-                  <span style={{ fontWeight: 600 }}>ODS {ods}</span>
+                  <span
+                    style={{
+                      fontWeight: 700,
+                      minWidth: "22px", // Alineación fija para todos los números
+                      textAlign: "center",
+                    }}
+                  >
+                    {ods}
+                  </span>
+
                   <span style={{ opacity: 0.7 }}>{odsLabels[ods]}</span>
                 </button>
               );
