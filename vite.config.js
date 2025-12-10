@@ -7,10 +7,10 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    root: './assets',            // raíz de los assets
-    base: isProduction ? '/build/' : '/',  // en producción apunta a /build
+    root: './assets',
+    base: isProduction ? '/build/' : '/',
     build: {
-      outDir: '../public/build',  // salida de compilación
+      outDir: '../public/build',
       emptyOutDir: true,
       rollupOptions: {
         input: {
@@ -22,6 +22,7 @@ export default defineConfig(({ mode }) => {
       host: true,
       port: 5173,
       strictPort: true,
+      allowedHosts: true, // Permite cualquier dominio (útil para NGROK)
     },
     resolve: {
       alias: {
