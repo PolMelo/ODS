@@ -11,56 +11,83 @@ import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/404";
 import CrearOds from "./pages/CrearOds";
 import LogoutPage from "./pages/LogoutPage";
+
 import NavBarComponent from "./components/NavBarComponent";
 import FooterComponent from "./components/FooterComponent";
 
-import ProtectedRoute from "./route/ProtectedRoute"; // Importamos ProtectedRoute
+import ProtectedRoute from "./route/ProtectedRoute"; 
+import AuthRedirect from "./route/AuthRedirect";  
+
+// ✅ Importamos UserProvider
+import { UserProvider } from "./context/UserContext";
 
 const App: React.FC = () => {
   return (
-    <Box
-      sx={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <NavBarComponent />
-
+    // ✅ Envolvemos toda la app con UserProvider
+    <UserProvider>
       <Box
-        component="main"
         sx={{
-          flexGrow: 1,
-          overflow: "auto",
+          height: "100vh",
           display: "flex",
           flexDirection: "column",
         }}
       >
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/acciones" element={<AccionesPage />} />
-          <Route path="/recursos" element={<ResourcesPage />} />
-          <Route path="/contacto" element={<ContactPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<RegisterPage />} />
-          <Route path="/logout" element={<LogoutPage />} />
+        <NavBarComponent />
 
-          {/* Ruta protegida para /ODS */}
-          <Route
-            path="/ODS"
-            element={
-              <ProtectedRoute>
-                <CrearOds />
-              </ProtectedRoute>
-            }
-          />
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            overflow: "auto",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/acciones" element={<AccionesPage />} />
+            <Route path="/recursos" element={<ResourcesPage />} />
+            <Route path="/contacto" element={<ContactPage />} />
 
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+            {/* LOGIN → Bloquear si ya hay sesión */}
+            <Route
+              path="/login"
+              element={
+                <AuthRedirect message="Ya estás logueado">
+                  <LoginPage />
+                </AuthRedirect>
+              }
+            />
+
+            {/* SIGNUP → Bloquear si ya hay sesión */}
+            <Route
+              path="/signup"
+              element={
+                <AuthRedirect message="Ya tienes una cuenta">
+                  <RegisterPage />
+                </AuthRedirect>
+              }
+            />
+
+            <Route path="/logout" element={<LogoutPage />} />
+
+            {/* Ruta protegida */}
+            <Route
+              path="/ODS"
+              element={
+                <ProtectedRoute>
+                  <CrearOds />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Box>
+
+        <FooterComponent />
       </Box>
-
-      <FooterComponent />
-    </Box>
+    </UserProvider>
   );
 };
 
