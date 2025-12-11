@@ -1,19 +1,27 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext"; // ✅ Importamos hook
 
 const LogoutPage: React.FC = () => {
   const navigate = useNavigate();
+  const { setUser } = useUser(); // Hook para actualizar usuario
 
   useEffect(() => {
-    // Borrar token y cualquier info de usuario
+    // Limpiar token y usuario
     localStorage.removeItem("token");
     localStorage.removeItem("odsferaUser");
 
-    // Redirigir al login
-    navigate("/login", { replace: true });
-  }, [navigate]);
+    // Resetear usuario en UserContext a "Invitado"
+    setUser({
+      name: "Invitado",
+      email: "inicia.sesion@odsfera.com",
+      avatarUrl: "",
+    });
 
-  return null; // No necesita renderizar nada
+    navigate("/login", { replace: true });
+  }, [navigate, setUser]);
+
+  return null;
 };
 
 export default LogoutPage;

@@ -1,6 +1,6 @@
-import React from "react";
-import { Button } from "@mui/material";
-import { Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { Button, Snackbar, Alert } from "@mui/material";
+import { Link, useLocation } from 'react-router-dom';
 import { Box, useTheme } from '@mui/material';
 
 import ODS0 from "../assets/ODS PNG/ODS 0.png";
@@ -61,9 +61,33 @@ const odspairs = [
     { ods: ODS17, card: CARD17 },
 ];
 
-const FADE_DURATION = 400; // ms, ajustable
+const FADE_DURATION = 400;
 
 const HomePage: React.FC = () => {
+
+    // 🔵 RECARGA AUTOMÁTICA SOLO UNA VEZ AL ENTRAR
+    useEffect(() => {
+        if (!sessionStorage.getItem("homeReloaded")) {
+            sessionStorage.setItem("homeReloaded", "true");
+            window.location.reload();
+        }
+    }, []);
+
+    // 🔵 SNACKBAR PARA MENSAJE DE REDIRECCIÓN
+    const location = useLocation();
+    const [open, setOpen] = React.useState(false);
+    const [message, setMessage] = React.useState("");
+
+    useEffect(() => {
+        if ((location.state as any)?.message) {
+            setMessage((location.state as any).message);
+            setOpen(true);
+        }
+    }, [location]);
+
+    const handleClose = () => setOpen(false);
+
+    // 🔵 LÓGICA ORIGINAL DE IMÁGENES, HERO Y CARDS
     const [currentIndex, setCurrentIndex] = React.useState(0);
     const [prevIndex, setPrevIndex] = React.useState<number | null>(null);
     const [isFading, setIsFading] = React.useState(false);
@@ -77,33 +101,23 @@ const HomePage: React.FC = () => {
 
     const timersRef = React.useRef<number[]>([]);
 
-    // Limpia timers al desmontar
-    React.useEffect(() => {
+    useEffect(() => {
         return () => {
             timersRef.current.forEach((id) => window.clearTimeout(id));
             timersRef.current = [];
         };
     }, []);
 
-    // Función de cambio con crossfade
     const goToIndex = (newIndex: number) => {
         if (newIndex === currentIndex) return;
-
-        // guarda el anterior
         setPrevIndex(currentIndex);
-        // cambia al nuevo
         setCurrentIndex(newIndex);
-        // arrancamos proceso de fade
         setIsFading(true);
         setFadeActive(false);
 
-        // pequeño tick para que el navegador registre el cambio y las transiciones funcionen
-        const t1 = window.setTimeout(() => {
-            setFadeActive(true); // hace que prev -> 0 y current -> 1
-        }, 20);
+        const t1 = window.setTimeout(() => setFadeActive(true), 20);
         timersRef.current.push(t1);
 
-        // al terminar la transición, limpiamos
         const t2 = window.setTimeout(() => {
             setIsFading(false);
             setFadeActive(false);
@@ -112,30 +126,20 @@ const HomePage: React.FC = () => {
         timersRef.current.push(t2);
     };
 
-    const nextImage = () => {
-        const next = (currentIndex + 1) % odspairs.length;
-        goToIndex(next);
-    };
+    const nextImage = () => goToIndex((currentIndex + 1) % odspairs.length);
+    const prevImage = () => goToIndex(currentIndex === 0 ? odspairs.length - 1 : currentIndex - 1);
 
-    const prevImage = () => {
-        const prev = currentIndex === 0 ? odspairs.length - 1 : currentIndex - 1;
-        goToIndex(prev);
-    };
-
-    React.useEffect(() => {
+    useEffect(() => {
         if (hovering) return;
-        const intervalId = window.setInterval(() => {
-            nextImage();
-        }, 3000);
+        const intervalId = window.setInterval(nextImage, 3000);
         return () => window.clearInterval(intervalId);
-    }, [hovering, currentIndex]); // currentIndex incluido por seguridad
+    }, [hovering, currentIndex]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
             if (e.key === "ArrowLeft") prevImage();
             if (e.key === "ArrowRight") nextImage();
         };
-
         window.addEventListener("keydown", handleKey);
         return () => window.removeEventListener("keydown", handleKey);
     }, [currentIndex]);
@@ -156,7 +160,6 @@ const HomePage: React.FC = () => {
         },
     };
 
-    // estilos comunes para las imágenes superpuestas
     const layeredImgBase: React.CSSProperties = {
         position: "absolute",
         inset: 0,
@@ -170,144 +173,59 @@ const HomePage: React.FC = () => {
 
     return (
         <div style={{ minHeight: "100vh" }}>
+            {/* SNACKBAR */}
+            <Snackbar
+                open={open}
+                autoHideDuration={3000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+                <Alert severity="info" variant="filled" onClose={handleClose}>
+                    {message}
+                </Alert>
+            </Snackbar>
+
             {/* HERO */}
             <section style={{ position: "relative", overflow: "hidden" }}>
                 <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "80px 20px" }}>
-                    <div
-                        style={{
-                            display: "grid",
-                            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-                            gap: "48px",
-                            alignItems: "center",
-                        }}
-                    >
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "48px", alignItems: "center" }}>
                         {/* IZQUIERDA */}
                         <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
-                            <h1 style={{
-                                fontSize: "clamp(2.5rem, 5vw, 3.75rem)",
-                                fontWeight: "bold",
-                                lineHeight: "1.2",
-                                margin: 0,
-                            }}>
+                            <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.75rem)", fontWeight: "bold", lineHeight: "1.2", margin: 0 }}>
                                 ODSfera
-                                <span style={{ display: "block", marginTop: "8px" }}>
-                                    Impulsa el futuro
-                                </span>
+                                <span style={{ display: "block", marginTop: "8px" }}>Impulsa el futuro</span>
                             </h1>
-
                             <p style={{ fontSize: "1.25rem", lineHeight: "1.75" }}>
                                 ODSfera es una herramienta social diseñada para crear, difundir y compartir iniciativas
                                 orientadas a los Objetivos de Desarrollo Sostenible.
                             </p>
-
                             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                                 <Button variant="contained" component={Link} to="/signup">Regístrate ahora →</Button>
                                 <Button variant="outlined" component={Link} to="/login">Iniciar sesión</Button>
                             </div>
                         </div>
-
-                        {/* DERECHA — TARJETA QUE GIRA (RESPONSIVE + CROSSFADE) */}
-                        <div
-                            style={{
-                                perspective: "1000px",
-                                width: "100%",
-                                maxWidth: "450px",
-                                margin: "0 auto",
-                            }}
-                            onMouseEnter={() => { setHovering(true); setFlip(true); }}
-                            onMouseLeave={() => { setHovering(false); setFlip(false); }}
-                        >
-                            <div
-                                style={{
-                                    position: "relative",
-                                    width: "100%",
-                                    aspectRatio: "1 / 1",
-                                    transformStyle: "preserve-3d",
-                                    transition: "transform 0.6s",
-                                    transform: flip ? "rotateY(180deg)" : "rotateY(0deg)",
-                                }}
-                            >
-                                {/* ODS (FRONT) - Crossfade entre prevIndex y currentIndex */}
+                        {/* DERECHA — TARJETA QUE GIRA */}
+                        <div style={{ perspective: "1000px", width: "100%", maxWidth: "450px", margin: "0 auto" }}
+                             onMouseEnter={() => { setHovering(true); setFlip(true); }}
+                             onMouseLeave={() => { setHovering(false); setFlip(false); }}>
+                            <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 1", transformStyle: "preserve-3d", transition: "transform 0.6s", transform: flip ? "rotateY(180deg)" : "rotateY(0deg)" }}>
+                                {/* ODS FRONT */}
                                 {isFading && prevIndex !== null ? (
                                     <>
-                                        <img
-                                            key={`prev-ods-${prevIndex}`}
-                                            src={odspairs[prevIndex].ods}
-                                            alt={`ODS prev ${prevIndex}`}
-                                            style={{
-                                                ...layeredImgBase,
-                                                opacity: fadeActive ? 0 : 1,
-                                                zIndex: fadeActive ? 1 : 2,
-                                                backfaceVisibility: "hidden",
-                                            }}
-                                        />
-                                        <img
-                                            key={`cur-ods-${currentIndex}`}
-                                            src={odspairs[currentIndex].ods}
-                                            alt={`ODS cur ${currentIndex}`}
-                                            style={{
-                                                ...layeredImgBase,
-                                                opacity: fadeActive ? 1 : 0,
-                                                zIndex: fadeActive ? 2 : 1,
-                                                backfaceVisibility: "hidden",
-                                            }}
-                                        />
+                                        <img key={`prev-ods-${prevIndex}`} src={odspairs[prevIndex].ods} alt={`ODS prev ${prevIndex}`} style={{ ...layeredImgBase, opacity: fadeActive ? 0 : 1, zIndex: fadeActive ? 1 : 2, backfaceVisibility: "hidden" }} />
+                                        <img key={`cur-ods-${currentIndex}`} src={odspairs[currentIndex].ods} alt={`ODS cur ${currentIndex}`} style={{ ...layeredImgBase, opacity: fadeActive ? 1 : 0, zIndex: fadeActive ? 2 : 1, backfaceVisibility: "hidden" }} />
                                     </>
                                 ) : (
-                                    <img
-                                        key={`cur-ods-${currentIndex}`}
-                                        src={odspairs[currentIndex].ods}
-                                        alt={`ODS cur ${currentIndex}`}
-                                        style={{
-                                            ...layeredImgBase,
-                                            opacity: 1,
-                                            zIndex: 2,
-                                            backfaceVisibility: "hidden",
-                                        }}
-                                    />
+                                    <img key={`cur-ods-${currentIndex}`} src={odspairs[currentIndex].ods} alt={`ODS cur ${currentIndex}`} style={{ ...layeredImgBase, opacity: 1, zIndex: 2, backfaceVisibility: "hidden" }} />
                                 )}
-
-                                {/* CARD (BACK) - también se crossfade cuando hay prevIndex */}
+                                {/* CARD BACK */}
                                 {isFading && prevIndex !== null ? (
                                     <>
-                                        <img
-                                            key={`prev-card-${prevIndex}`}
-                                            src={odspairs[prevIndex].card}
-                                            alt={`CARD prev ${prevIndex}`}
-                                            style={{
-                                                ...layeredImgBase,
-                                                transform: "rotateY(180deg)",
-                                                opacity: fadeActive ? 0 : 1,
-                                                zIndex: fadeActive ? 1 : 2,
-                                                backfaceVisibility: "hidden",
-                                            }}
-                                        />
-                                        <img
-                                            key={`cur-card-${currentIndex}`}
-                                            src={odspairs[currentIndex].card}
-                                            alt={`CARD cur ${currentIndex}`}
-                                            style={{
-                                                ...layeredImgBase,
-                                                transform: "rotateY(180deg)",
-                                                opacity: fadeActive ? 1 : 0,
-                                                zIndex: fadeActive ? 2 : 1,
-                                                backfaceVisibility: "hidden",
-                                            }}
-                                        />
+                                        <img key={`prev-card-${prevIndex}`} src={odspairs[prevIndex].card} alt={`CARD prev ${prevIndex}`} style={{ ...layeredImgBase, transform: "rotateY(180deg)", opacity: fadeActive ? 0 : 1, zIndex: fadeActive ? 1 : 2, backfaceVisibility: "hidden" }} />
+                                        <img key={`cur-card-${currentIndex}`} src={odspairs[currentIndex].card} alt={`CARD cur ${currentIndex}`} style={{ ...layeredImgBase, transform: "rotateY(180deg)", opacity: fadeActive ? 1 : 0, zIndex: fadeActive ? 2 : 1, backfaceVisibility: "hidden" }} />
                                     </>
                                 ) : (
-                                    <img
-                                        key={`cur-card-${currentIndex}`}
-                                        src={odspairs[currentIndex].card}
-                                        alt={`CARD cur ${currentIndex}`}
-                                        style={{
-                                            ...layeredImgBase,
-                                            transform: "rotateY(180deg)",
-                                            opacity: 1,
-                                            zIndex: 1,
-                                            backfaceVisibility: "hidden",
-                                        }}
-                                    />
+                                    <img key={`cur-card-${currentIndex}`} src={odspairs[currentIndex].card} alt={`CARD cur ${currentIndex}`} style={{ ...layeredImgBase, transform: "rotateY(180deg)", opacity: 1, zIndex: 1, backfaceVisibility: "hidden" }} />
                                 )}
                             </div>
                         </div>
@@ -318,74 +236,23 @@ const HomePage: React.FC = () => {
             {/* FEATURES */}
             <section style={{ padding: "80px 20px" }}>
                 <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-
                     <div style={{ textAlign: "center", marginBottom: "64px" }}>
-                        <h2 style={{ fontSize: "2.5rem", fontWeight: "bold", marginBottom: "16px" }}>
-                            ¿Qué puedes hacer en ODSfera?
-                        </h2>
+                        <h2 style={{ fontSize: "2.5rem", fontWeight: "bold", marginBottom: "16px" }}>¿Qué puedes hacer en ODSfera?</h2>
                         <p style={{ fontSize: "1.25rem", maxWidth: "768px", margin: "0 auto" }}>
                             Una plataforma que conecta personas y organizaciones comprometidas con un futuro sostenible.
                         </p>
                     </div>
-
-                    <div
-                        style={{
-                            display: "grid",
-                            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                            gap: "32px",
-                        }}
-                    >
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "32px" }}>
                         <Box component={Link} to="/acciones" sx={cardStyle}>
-                            <div style={{
-                                width: "56px",
-                                height: "15px",
-                                borderRadius: "12px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                marginBottom: "24px",
-                                fontSize: "28px",
-                            }}>
-                            </div>
-                            <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px", }}>
-                                Descubre 🌍
-                            </h3>
+                            <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>Descubre 🌍</h3>
                             <p>Explora iniciativas, eventos y proyectos cerca de ti.</p>
                         </Box>
-
                         <Box component={Link} to="/ODS" sx={cardStyle}>
-                            <div style={{
-                                width: "56px",
-                                height: "15px",
-                                borderRadius: "12px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                marginBottom: "24px",
-                                fontSize: "28px",
-                            }}>
-                            </div>
-                            <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>
-                                Crea 🎯
-                            </h3>
+                            <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>Crea 🎯</h3>
                             <p>Crea iniciativas y proyectos que generen impacto.</p>
                         </Box>
-
                         <Box component={Link} to="/recursos" sx={cardStyle}>
-                            <div style={{
-                                width: "56px",
-                                height: "15px",
-                                borderRadius: "12px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                marginBottom: "24px",
-                                fontSize: "28px",
-                            }}>
-                            </div>
-                            <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>
-                                Formate 📖
-                            </h3>
+                            <h3 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "16px" }}>Formate 📖</h3>
                             <p>Toma consciencia sobre las amenazas a nuestro futuro y cómo combatirlas.</p>
                         </Box>
                     </div>
@@ -396,26 +263,16 @@ const HomePage: React.FC = () => {
             <section style={{ padding: "80px 20px" }}>
                 <div style={{ maxWidth: "896px", margin: "0 auto", textAlign: "center" }}>
                     <div style={{ fontSize: "64px", marginBottom: "24px" }}>❤️</div>
-                    <h2 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: "bold", marginBottom: "24px" }}>
-                        Sé parte del cambio
-                    </h2>
-                    <p style={{ fontSize: "1.25rem", marginBottom: "40px", lineHeight: "1.75" }}>
-                        Cada acción cuenta. Únete a ODSfera y contribuye al cambio.
-                    </p>
-                    <Button variant="contained" component={Link} to="/signup">
-                        Regístrate gratis
-                    </Button>
+                    <h2 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: "bold", marginBottom: "24px" }}>Sé parte del cambio</h2>
+                    <p style={{ fontSize: "1.25rem", marginBottom: "40px", lineHeight: "1.75" }}>Cada acción cuenta. Únete a ODSfera y contribuye al cambio.</p>
+                    <Button variant="contained" component={Link} to="/signup">Regístrate gratis</Button>
                 </div>
             </section>
 
             {/* FOOTER */}
             <footer style={{ padding: "48px 20px", textAlign: "center" }}>
-                <p style={{ fontSize: "1.125rem", marginBottom: "8px" }}>
-                    ODSfera - Impulsa el futuro
-                </p>
-                <p style={{ fontSize: "0.875rem" }}>
-                    Comprometidos con los Objetivos de Desarrollo Sostenible
-                </p>
+                <p style={{ fontSize: "1.125rem", marginBottom: "8px" }}>ODSfera - Impulsa el futuro</p>
+                <p style={{ fontSize: "0.875rem" }}>Comprometidos con los Objetivos de Desarrollo Sostenible</p>
             </footer>
         </div>
     );
