@@ -98,6 +98,8 @@ const AccionesPage: React.FC = () => {
         width: "100%",
         maxWidth: "1400px",
         margin: "0 auto",
+        marginTop: "1rem",
+        marginLeft: "1rem",
       }}
     >
       {/* PANEL IZQUIERDO (filtros) */}
@@ -130,7 +132,7 @@ const AccionesPage: React.FC = () => {
           sx={{
             width: "100%",
             maxWidth: "400px",
-            mb: -3,
+            mb: -0.5,
           }}
         />
 
