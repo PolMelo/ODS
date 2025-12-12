@@ -191,9 +191,35 @@ const HomePage: React.FC = () => {
                 <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "80px 20px" }}>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "48px", alignItems: "center" }}>
                         {/* IZQUIERDA */}
-                        <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
-                          <img src={portada} alt="Portada ODSfera" style={{ width: "100%", borderRadius: "16px", boxShadow: isDark ? '0 8px 15px rgba(0,0,0,0.5)' : '0 8px 15px rgba(0,0,0,0.1)' }} />
-                        </div>
+<div
+    style={{
+        position: "relative",
+        borderRadius: "24px",
+        padding: "8px",
+        background: "linear-gradient(135deg, #00eaff, #0077ff)",
+        boxShadow: "0 0 25px rgba(0, 140, 255, 0.45)",
+    }}
+>
+    <img
+        src={portada}
+        alt="Portada ODSfera"
+        style={{
+            width: "100%",
+            borderRadius: "20px",
+            display: "block",
+            boxShadow:
+                "0 0 20px rgba(0, 180, 255, 0.35), 0 0 40px rgba(0, 120, 255, 0.15)",
+            transition: "transform .4s ease",
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.04)")}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+    />
+</div>
+
+
+
+
+
                         {/* DERECHA — TARJETA QUE GIRA */}
                         <div style={{ perspective: "1000px", width: "100%", maxWidth: "450px", margin: "0 auto" }}
                              onMouseEnter={() => { setHovering(true); setFlip(true); }}
