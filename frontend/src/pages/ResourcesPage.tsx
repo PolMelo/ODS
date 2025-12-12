@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 
+
 import ODS0 from "../assets/ODS PNG/ODS 0.png";
 import ODS1 from "../assets/ODS PINTADA/ODS PINTADA 1.png";
 import ODS2 from "../assets/ODS PINTADA/ODS PINTADA 2.png";
@@ -37,7 +38,8 @@ import CARD14 from "../assets/ODS EXPLICADES/CARD14.jpg";
 import CARD15 from "../assets/ODS EXPLICADES/CARD15.jpg";
 import CARD16 from "../assets/ODS EXPLICADES/CARD16.jpg";
 import CARD17 from "../assets/ODS EXPLICADES/CARD17.jpg";
-  
+
+
 
 const odsData = [
   {
@@ -173,7 +175,7 @@ const ResourcesPage: React.FC = () => {
       <h1 style={{ fontWeight: 700, marginBottom: "1rem", textAlign: "center" }}>
         Objetivos de Desarrollo Sostenible
       </h1>
-      
+
       <p style={{ marginBottom: "2rem", textAlign: "center", maxWidth: "800px", margin: "0 auto 2rem" }}>
         Explora los 17 ODS y descubre cómo cada uno contribuye a construir un futuro más sostenible y equitativo para nuestro planeta.
       </p>
@@ -187,6 +189,15 @@ const ResourcesPage: React.FC = () => {
           margin: "0 auto",
         }}
       >
+        <style>
+          {`
+      @media (max-width: 768px) {
+        div[style*="grid-template-columns"] {
+          grid-template-columns: 1fr !important;
+        }
+      }
+    `}
+        </style>
         {odsData.map((ods, index) => (
           <div
             key={index}
@@ -302,9 +313,9 @@ const ResourcesPage: React.FC = () => {
                     backgroundPosition: "top",
                   }}
                 />
-                <div style={{ 
-                  flex: 1, 
-                  overflow: "auto", 
+                <div style={{
+                  flex: 1,
+                  overflow: "auto",
                   padding: "2rem",
                   backgroundColor: theme.palette.background.paper,
                 }}>
@@ -326,7 +337,7 @@ const ResourcesPage: React.FC = () => {
                   backgroundImage: `url(${selectedOds.card})`,
                   backgroundSize: "contain",
                   backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat", 
+                  backgroundRepeat: "no-repeat",
                   borderRadius: "12px",
                   boxShadow: "none",
                 }}
