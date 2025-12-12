@@ -102,7 +102,7 @@ const AccionesPage: React.FC = () => {
         marginLeft: "1rem",
       }}
     >
-      {/* PANEL IZQUIERDO (filtros) */}
+      {/* Filtro por ODS*/}
       <FiltersPanel
         filtroODS={filtroODS}
         setFiltroODS={setFiltroODS}
@@ -110,7 +110,7 @@ const AccionesPage: React.FC = () => {
         setMostrarPasadas={setMostrarPasadas}
       />
 
-      {/* CONTENIDO CENTRAL */}
+      {/* Filtro por titulo*/}
       <div
         style={{
           padding: "2.5rem 1.5rem",
@@ -155,7 +155,7 @@ const AccionesPage: React.FC = () => {
         </div>
       </div>
 
-      {/* MODAL */}
+      {/* MODAL (Al click) */}
       {accionSeleccionada && (
         <div
           style={{
@@ -263,6 +263,61 @@ const AccionesPage: React.FC = () => {
                 Abrir enlace →
               </a>
             )}
+
+            {/* Botón Google Calendar */}
+<button
+  onClick={() => {
+    const accion = accionSeleccionada;
+
+    const titulo = encodeURIComponent(accion.nom);
+    const descripcion = encodeURIComponent(accion.descripcion || "");
+    const lugar = encodeURIComponent(accion.lugar || "");
+
+    // Construcción de fechas en formato YYYYMMDDThhmmss
+    const fecha = accion.fecha.replace(/-/g, ""); // "2025-01-10" -> "20250110"
+
+    // Si hay hora: usarla, si no: usar medianoche
+    const horaInicio = accion.hora ? accion.hora.replace(":", "") + "00" : "000000";
+
+    // Crear hora de fin automática (+2h)
+    let horaFin = "020000";
+    if (accion.hora) {
+      const [h, m] = accion.hora.split(":").map(Number);
+      const fin = new Date();
+      fin.setHours(h + 2, m, 0);
+      horaFin =
+        fin.getHours().toString().padStart(2, "0") +
+        fin.getMinutes().toString().padStart(2, "0") +
+        "00";
+    }
+
+    const start = `${fecha}T${horaInicio}`;
+    const end = `${fecha}T${horaFin}`;
+
+    const url =
+      `https://calendar.google.com/calendar/render?action=TEMPLATE` +
+      `&text=${titulo}` +
+      `&dates=${start}/${end}` +
+      `&details=${descripcion}` +
+      `&location=${lugar}`;
+
+    window.open(url, "_blank");
+  }}
+  style={{
+    marginTop: "1rem",
+    display: "inline-block",
+    background: "rgba(255,255,255,0.12)",
+    padding: "0.6rem 1rem",
+    borderRadius: "12px",
+    border: "1px solid rgba(255,255,255,0.25)",
+    color: "inherit",
+    fontWeight: 600,
+    cursor: "pointer",
+  }}
+>
+  Añadir a Google Calendar →
+</button>
+
           </div>
         </div>
       )}
