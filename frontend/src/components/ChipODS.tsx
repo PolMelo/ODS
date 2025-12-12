@@ -1,6 +1,6 @@
 import React from "react";
 import { Chip } from "@mui/material";
-
+//Etiqueta de colors per les ODS
 const odsColors: Record<number, string> = {
   1: "#e5243b",
   2: "#dda83a",

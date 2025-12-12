@@ -25,7 +25,7 @@ const RegisterPage: React.FC = () => {
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
-        setLoading(true); // Activamos la ruleta
+        setLoading(true); // Activamos la ruleta (feedback al usuario)
 
         try {
             const response = await fetch("http://127.0.0.1:8000/api/register", {

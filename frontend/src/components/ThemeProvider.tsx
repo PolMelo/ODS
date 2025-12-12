@@ -4,7 +4,7 @@ import { ThemeProvider as MUIThemeProvider, createTheme, useTheme } from "@mui/m
 import { CssBaseline, Box } from "@mui/material";
 
 /* -----------------------------------------------------------
-   🌞 TEMA CLARO
+TEMA CLARO
 ----------------------------------------------------------- */
 export const lightTheme = createTheme({
     palette: {
@@ -58,7 +58,7 @@ export const lightTheme = createTheme({
 });
 
 /* -----------------------------------------------------------
-   🌙 TEMA OSCURO
+TEMA OSCURO
 ----------------------------------------------------------- */
 export const darkTheme = createTheme({
     palette: {
