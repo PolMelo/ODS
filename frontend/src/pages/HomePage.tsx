@@ -190,7 +190,8 @@ const HomePage: React.FC = () => {
             <section style={{ position: "relative", overflow: "hidden" }}>
                 <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "80px 20px" }}>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "48px", alignItems: "center" }}>
-                        {/* IZQUIERDA */}
+                        
+                        {/* IZQUIERDA -*/}
 <div
     style={{
         position: "relative",
@@ -211,7 +212,7 @@ const HomePage: React.FC = () => {
                 "0 0 20px rgba(0, 180, 255, 0.35), 0 0 40px rgba(0, 120, 255, 0.15)",
             transition: "transform .4s ease",
         }}
-        onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.04)")}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.025)")}
         onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
     />
 </div>
