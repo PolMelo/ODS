@@ -73,7 +73,7 @@ const App: React.FC = () => {
 
             {/* Ruta protegida */}
             <Route
-              path="/ODS"
+              path="/crearaccion"
               element={
                 <ProtectedRoute>
                   <CrearOds />
