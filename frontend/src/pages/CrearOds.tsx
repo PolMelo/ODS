@@ -6,7 +6,10 @@ import {
     FormControl,
     InputLabel,
     Select,
-    MenuItem
+    MenuItem,
+    Snackbar,
+    Alert,
+    CircularProgress
 } from "@mui/material";
 
 type OdsOption = { value: number; label: string; color: string };
@@ -31,7 +34,6 @@ const odsOptions: OdsOption[] = [
   { value: 17, label: "17 – Alianzas para Lograr los Objetivos", color: "#19486a" },
 ];
 
-
 const CrearOds: React.FC = () => {
     const [formData, setFormData] = useState({
         nom: "",
@@ -43,6 +45,13 @@ const CrearOds: React.FC = () => {
         etiqueta3: "",
         lugar: "",
         imagen_url: ""
+    });
+
+    const [loading, setLoading] = useState(false);
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        message: "",
+        severity: "success" as "success" | "error"
     });
 
     const handleChange = (e: any) => {
@@ -59,7 +68,6 @@ const CrearOds: React.FC = () => {
         });
     };
 
-    // Filtra las opciones para evitar duplicados
     const getFilteredOptions = (exclude: string[]) => {
         return odsOptions.filter(
             (ods) => !exclude.includes(String(ods.value))
@@ -68,6 +76,7 @@ const CrearOds: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
 
         const payload = {
             nom: formData.nom,
@@ -84,17 +93,17 @@ const CrearOds: React.FC = () => {
         try {
             const response = await fetch("http://localhost:8000/api/apiCrearOds", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
 
-            if (!response.ok) {
-                throw new Error("Error al crear ODS");
-            }
+            if (!response.ok) throw new Error("Error al crear ODS");
 
-            alert("ODS creado con éxito");
+            setSnackbar({
+                open: true,
+                message: "ODS creado con éxito",
+                severity: "success"
+            });
 
             setFormData({
                 nom: "",
@@ -107,181 +116,174 @@ const CrearOds: React.FC = () => {
                 lugar: "",
                 imagen_url: ""
             });
+
         } catch (error) {
             console.error(error);
-            alert("Hubo un error al enviar el formulario");
+            setSnackbar({
+                open: true,
+                message: "Hubo un error al enviar el formulario",
+                severity: "error"
+            });
+        } finally {
+            setLoading(false);
         }
     };
-const getOds = (val: string) =>
-  odsOptions.find((o) => String(o.value) === String(val));
 
-const dot = (color?: string) => (
-  <Box
-    sx={{
-      width: 12,
-      height: 12,
-      borderRadius: "50%",
-      bgcolor: color || "transparent",
-      border: "1px solid rgba(0,0,0,0.2)",
-      display: "inline-block",
-    }}
-  />
-);
+    const getOds = (val: string) =>
+        odsOptions.find((o) => String(o.value) === String(val));
+
+    const dot = (color?: string) => (
+      <Box
+        sx={{
+          width: 12,
+          height: 12,
+          borderRadius: "50%",
+          bgcolor: color || "transparent",
+          border: "1px solid rgba(0,0,0,0.2)",
+          display: "inline-block",
+        }}
+      />
+    );
+
     return (
+        <>
         <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 500, m: "auto", mt: 4 }}>
             <h2>Crear acción</h2>
 
-            <TextField
-                fullWidth
-                label="Nombre"
-                name="nom"
-                value={formData.nom}
-                onChange={handleChange}
-                margin="normal"
-            />
+            <TextField fullWidth label="Nombre" name="nom" value={formData.nom} onChange={handleChange} margin="normal" />
+            <TextField fullWidth label="Descripción" name="descripcion" value={formData.descripcion} onChange={handleChange} margin="normal" />
 
-            <TextField
-                fullWidth
-                label="Descripción"
-                name="descripcion"
-                value={formData.descripcion}
-                onChange={handleChange}
-                margin="normal"
-            />
+            <TextField fullWidth type="date" name="fecha" value={formData.fecha}
+                onChange={handleChange} margin="normal" InputLabelProps={{ shrink: true }} />
 
-            <TextField
-                fullWidth
-                type="date"
-                name="fecha"
-                value={formData.fecha}
-                onChange={handleChange}
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-            />
-
-            <TextField
-                fullWidth
-                type="time"
-                name="hora"
-                value={formData.hora}
-                onChange={handleChange}
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-            />
+            <TextField fullWidth type="time" name="hora" value={formData.hora}
+                onChange={handleChange} margin="normal" InputLabelProps={{ shrink: true }} />
 
             {/* ETIQUETA 1 */}
             <FormControl fullWidth margin="normal">
                 <InputLabel>Etiqueta 1</InputLabel>
                 <Select
-  name="etiqueta1"
-  value={formData.etiqueta1}
-  label="Etiqueta 1"
-  onChange={handleChange}
-  renderValue={(selected) => {
-    const opt = getOds(String(selected));
-    return (
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        {dot(opt?.color)}
-        <span>{opt?.label || ""}</span>
-      </Box>
-    );
-  }}
->
-  {getFilteredOptions([]).map((ods) => (
-    <MenuItem key={ods.value} value={ods.value}>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        {dot(ods.color)}
-        <span>{ods.label}</span>
-      </Box>
-    </MenuItem>
-  ))}
-</Select>
+                    name="etiqueta1"
+                    value={formData.etiqueta1}
+                    label="Etiqueta 1"
+                    onChange={handleChange}
+                    renderValue={(selected) => {
+                        const opt = getOds(String(selected));
+                        return (
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                {dot(opt?.color)}
+                                <span>{opt?.label || ""}</span>
+                            </Box>
+                        );
+                    }}
+                >
+                    {getFilteredOptions([]).map((ods) => (
+                        <MenuItem key={ods.value} value={ods.value}>
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                {dot(ods.color)}
+                                <span>{ods.label}</span>
+                            </Box>
+                        </MenuItem>
+                    ))}
+                </Select>
             </FormControl>
 
-            {/* ETIQUETA 2 – precisa etiqueta 1 */}
+            {/* ETIQUETA 2 */}
             <FormControl fullWidth margin="normal" disabled={!formData.etiqueta1}>
                 <InputLabel>Etiqueta 2</InputLabel>
                 <Select
-  name="etiqueta2"
-  value={formData.etiqueta2}
-  label="Etiqueta 2"
-  onChange={handleChange}
-  renderValue={(selected) => {
-    if (!selected) return "Ninguna";
-    const opt = getOds(String(selected));
-    return (
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        {dot(opt?.color)}
-        <span>{opt?.label || ""}</span>
-      </Box>
-    );
-  }}
->
-  <MenuItem value="">Ninguna</MenuItem>
-  {getFilteredOptions([formData.etiqueta1]).map((ods) => (
-    <MenuItem key={ods.value} value={ods.value}>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        {dot(ods.color)}
-        <span>{ods.label}</span>
-      </Box>
-    </MenuItem>
-  ))}
-</Select>
+                    name="etiqueta2"
+                    value={formData.etiqueta2}
+                    label="Etiqueta 2"
+                    onChange={handleChange}
+                    renderValue={(selected) => {
+                        if (!selected) return "Ninguna";
+                        const opt = getOds(String(selected));
+                        return (
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                {dot(opt?.color)}
+                                <span>{opt?.label || ""}</span>
+                            </Box>
+                        );
+                    }}
+                >
+                    <MenuItem value="">Ninguna</MenuItem>
+                    {getFilteredOptions([formData.etiqueta1]).map((ods) => (
+                        <MenuItem key={ods.value} value={ods.value}>
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                {dot(ods.color)}
+                                <span>{ods.label}</span>
+                            </Box>
+                        </MenuItem>
+                    ))}
+                </Select>
             </FormControl>
 
-            {/* ETIQUETA 3 – nomes funciona si hi ha etiqueta 1 i 2 */}
+            {/* ETIQUETA 3 */}
             <FormControl fullWidth margin="normal" disabled={!formData.etiqueta2}>
                 <InputLabel>Etiqueta 3</InputLabel>
                 <Select
-  name="etiqueta3"
-  value={formData.etiqueta3}
-  label="Etiqueta 3"
-  onChange={handleChange}
-  renderValue={(selected) => {
-    if (!selected) return "Ninguna";
-    const opt = getOds(String(selected));
-    return (
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        {dot(opt?.color)}
-        <span>{opt?.label || ""}</span>
-      </Box>
-    );
-  }}
->
-  <MenuItem value="">Ninguna</MenuItem>
-  {getFilteredOptions([formData.etiqueta1, formData.etiqueta2]).map((ods) => (
-    <MenuItem key={ods.value} value={ods.value}>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        {dot(ods.color)}
-        <span>{ods.label}</span>
-      </Box>
-    </MenuItem>
-  ))}
-</Select>
+                    name="etiqueta3"
+                    value={formData.etiqueta3}
+                    label="Etiqueta 3"
+                    onChange={handleChange}
+                    renderValue={(selected) => {
+                        if (!selected) return "Ninguna";
+                        const opt = getOds(String(selected));
+                        return (
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                {dot(opt?.color)}
+                                <span>{opt?.label || ""}</span>
+                            </Box>
+                        );
+                    }}
+                >
+                    <MenuItem value="">Ninguna</MenuItem>
+                    {getFilteredOptions([formData.etiqueta1, formData.etiqueta2]).map((ods) => (
+                        <MenuItem key={ods.value} value={ods.value}>
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                {dot(ods.color)}
+                                <span>{ods.label}</span>
+                            </Box>
+                        </MenuItem>
+                    ))}
+                </Select>
             </FormControl>
 
-            <TextField
-                fullWidth
-                label="Lugar"
-                name="lugar"
-                value={formData.lugar}
-                onChange={handleChange}
-                margin="normal"
-            />
+            <TextField fullWidth label="Lugar" name="lugar" value={formData.lugar} onChange={handleChange} margin="normal" />
+            <TextField fullWidth label="Imagen URL" name="imagen_url" value={formData.imagen_url} onChange={handleChange} margin="normal" />
 
-            <TextField
+            <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ mt: 3 }}
                 fullWidth
-                label="Imagen URL"
-                name="imagen_url"
-                value={formData.imagen_url}
-                onChange={handleChange}
-                margin="normal"
-            />
-
-            <Button type="submit" variant="contained" color="primary" sx={{ mt: 3 }} fullWidth>
-                Crear ODS
+                disabled={loading}
+            >
+                {loading ? (
+                    <CircularProgress size={24} sx={{ color: "white" }} />
+                ) : (
+                    "Crear ODS"
+                )}
             </Button>
         </Box>
+
+        <Snackbar
+            open={snackbar.open}
+            autoHideDuration={3000}
+            onClose={() => setSnackbar({ ...snackbar, open: false })}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+            <Alert
+                severity={snackbar.severity}
+                onClose={() => setSnackbar({ ...snackbar, open: false })}
+                variant="filled"
+            >
+                {snackbar.message}
+            </Alert>
+        </Snackbar>
+        </>
     );
 };
 
