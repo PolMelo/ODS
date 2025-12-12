@@ -21,6 +21,7 @@ interface AccionApi {
 }
 
 interface AccionCard {
+  id: number;
   title: string;
   img: string;
   ods: number[];
@@ -60,6 +61,7 @@ const AccionesPage: React.FC = () => {
           );
 
           return {
+            id: item.id,
             title: item.nom,
             img: item.imagen_url,
             ods,
@@ -145,13 +147,16 @@ const AccionesPage: React.FC = () => {
             marginBottom: "6rem",
           }}
         >
-          {accionesFiltradas.map((accion, i) => (
-            <OSCard
-              key={i}
-              {...accion}
-              onClick={() => setAccionSeleccionada(accionesRaw[i])}
-            />
-          ))}
+        {accionesFiltradas.map((accion) => (
+  <OSCard
+    key={accion.id}   // 
+    {...accion}
+    onClick={() => {
+      const raw = accionesRaw.find((a) => a.id === accion.id) || null;
+      setAccionSeleccionada(raw);
+    }}
+  />
+))}
         </div>
       </div>
 

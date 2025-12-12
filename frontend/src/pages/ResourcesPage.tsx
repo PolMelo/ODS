@@ -1,24 +1,25 @@
 import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 
-import ODS0 from "../assets/LOGOS ODS/ODS 0.jpg";
-import ODS1 from "../assets/LOGOS ODS/ODS 1.png";
-import ODS2 from "../assets/LOGOS ODS/ODS 2.png";
-import ODS3 from "../assets/LOGOS ODS/ODS 3.png";
-import ODS4 from "../assets/LOGOS ODS/ODS 4.png";
-import ODS5 from "../assets/LOGOS ODS/ODS 5.png";
-import ODS6 from "../assets/LOGOS ODS/ODS 6.png";
-import ODS7 from "../assets/LOGOS ODS/ODS 7.png";
-import ODS8 from "../assets/LOGOS ODS/ODS 8.png";
-import ODS9 from "../assets/LOGOS ODS/ODS 9.png";
-import ODS10 from "../assets/LOGOS ODS/ODS 10.png";
-import ODS11 from "../assets/LOGOS ODS/ODS 11.png";
-import ODS12 from "../assets/LOGOS ODS/ODS 12.png";
-import ODS13 from "../assets/LOGOS ODS/ODS 13.png";
-import ODS14 from "../assets/LOGOS ODS/ODS 14.png";
-import ODS15 from "../assets/LOGOS ODS/ODS 15.png";
-import ODS16 from "../assets/LOGOS ODS/ODS 16.png";
-import ODS17 from "../assets/LOGOS ODS/ODS 17.png";
+import ODS0 from "../assets/ODS PNG/ODS 0.png";
+import ODS1 from "../assets/ODS PINTADA/ODS PINTADA 1.png";
+import ODS2 from "../assets/ODS PINTADA/ODS PINTADA 2.png";
+import ODS3 from "../assets/ODS PINTADA/ODS PINTADA 3.png";
+import ODS4 from "../assets/ODS PINTADA/ODS PINTADA 4.png";
+import ODS5 from "../assets/ODS PINTADA/ODS PINTADA 5.png";
+import ODS6 from "../assets/ODS PINTADA/ODS PINTADA 6.png";
+import ODS7 from "../assets/ODS PINTADA/ODS PINTADA 7.png";
+import ODS8 from "../assets/ODS PINTADA/ODS PINTADA 8.png";
+import ODS9 from "../assets/ODS PINTADA/ODS PINTADA 9.png";
+import ODS10 from "../assets/ODS PINTADA/ODS PINTADA 10.png";
+import ODS11 from "../assets/ODS PINTADA/ODS PINTADA 11.png";
+import ODS12 from "../assets/ODS PINTADA/ODS PINTADA 12.png";
+import ODS13 from "../assets/ODS PINTADA/ODS PINTADA 13.png";
+import ODS14 from "../assets/ODS PINTADA/ODS PINTADA 14.png";
+import ODS15 from "../assets/ODS PINTADA/ODS PINTADA 15.png";
+import ODS16 from "../assets/ODS PINTADA/ODS PINTADA 16.png";
+import ODS17 from "../assets/ODS PINTADA/ODS PINTADA 17.png";
+
 import CARD1 from "../assets/ODS EXPLICADES/CARD1.jpg";
 import CARD2 from "../assets/ODS EXPLICADES/CARD2.jpg";
 import CARD3 from "../assets/ODS EXPLICADES/CARD3.jpg";
@@ -213,6 +214,7 @@ const ResourcesPage: React.FC = () => {
               style={{
                 height: "50%",
                 backgroundImage: `url(${ods.logo})`,
+                filter: "sepia(35%)",
                 backgroundSize: "cover",
                 backgroundPosition: "top",
               }}
@@ -265,30 +267,6 @@ const ResourcesPage: React.FC = () => {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              onClick={handleClose}
-              style={{
-                position: "absolute",
-                top: "-50px",
-                right: "10px",
-                background: "rgba(255,255,255,0.95)",
-                color: "#000",
-                border: "2px solid #000",
-                borderRadius: "50%",
-                width: "44px",
-                height: "44px",
-                fontSize: "24px",
-                fontWeight: "bold",
-                cursor: "pointer",
-                zIndex: 1001,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                lineHeight: 1,
-              }}
-            >
-              ✕
-            </button>
 
             <div
               onClick={handleFlip}
@@ -350,7 +328,7 @@ const ResourcesPage: React.FC = () => {
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat", 
                   borderRadius: "12px",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
+                  boxShadow: "none",
                 }}
               />
             </div>

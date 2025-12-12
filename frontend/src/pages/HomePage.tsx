@@ -39,6 +39,7 @@ import CARD14 from "../assets/ODS EXPLICADES/CARD14.jpg";
 import CARD15 from "../assets/ODS EXPLICADES/CARD15.jpg";
 import CARD16 from "../assets/ODS EXPLICADES/CARD16.jpg";
 import CARD17 from "../assets/ODS EXPLICADES/CARD17.jpg";
+import portada from "../assets/portada.png";
 
 const odspairs = [
     { ods: ODS0, card: ODS0 },
@@ -191,18 +192,7 @@ const HomePage: React.FC = () => {
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "48px", alignItems: "center" }}>
                         {/* IZQUIERDA */}
                         <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
-                            <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.75rem)", fontWeight: "bold", lineHeight: "1.2", margin: 0 }}>
-                                ODSfera
-                                <span style={{ display: "block", marginTop: "8px" }}>Impulsa el futuro</span>
-                            </h1>
-                            <p style={{ fontSize: "1.25rem", lineHeight: "1.75" }}>
-                                ODSfera es una herramienta social diseñada para crear, difundir y compartir iniciativas
-                                orientadas a los Objetivos de Desarrollo Sostenible.
-                            </p>
-                            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                                <Button variant="contained" component={Link} to="/signup">Regístrate ahora →</Button>
-                                <Button variant="outlined" component={Link} to="/login">Iniciar sesión</Button>
-                            </div>
+                          <img src={portada} alt="Portada ODSfera" style={{ width: "100%", borderRadius: "16px", boxShadow: isDark ? '0 8px 15px rgba(0,0,0,0.5)' : '0 8px 15px rgba(0,0,0,0.1)' }} />
                         </div>
                         {/* DERECHA — TARJETA QUE GIRA */}
                         <div style={{ perspective: "1000px", width: "100%", maxWidth: "450px", margin: "0 auto" }}
