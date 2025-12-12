@@ -11,6 +11,7 @@ import RegisterPage from "./pages/RegisterPage";
 import NotFoundPage from "./pages/404";
 import CrearOds from "./pages/CrearOds";
 import LogoutPage from "./pages/LogoutPage";
+import MapPage from "./pages/MapPage";
 
 import NavBarComponent from "./components/NavBarComponent";
 import FooterComponent from "./components/FooterComponent";
@@ -48,6 +49,8 @@ const App: React.FC = () => {
             <Route path="/acciones" element={<AccionesPage />} />
             <Route path="/recursos" element={<ResourcesPage />} />
             <Route path="/contacto" element={<ContactPage />} />
+            <Route path="/mapa" element={<MapPage />} />
+
 
             {/* LOGIN → Bloquear si ya hay sesión */}
             <Route
