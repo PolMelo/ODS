@@ -29,7 +29,7 @@ const pages = [
 
 const settings = [
   { name: "Iniciar sesión", path: "/login" },
-  { name: "Crear ODS", path: "/ODS" },
+  { name: "Crear acción", path: "/ODS" },
   { name: "Cerrar sesión", path: "/logout" },
   { name: "Registrate", path: "/signup" },
 ];

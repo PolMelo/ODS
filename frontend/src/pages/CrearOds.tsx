@@ -9,25 +9,28 @@ import {
     MenuItem
 } from "@mui/material";
 
-const odsOptions = [
-    { value: 1, label: "1 – Fin de la Pobreza" },
-    { value: 2, label: "2 – Hambre Cero" },
-    { value: 3, label: "3 – Salud y Bienestar" },
-    { value: 4, label: "4 – Educación de Calidad" },
-    { value: 5, label: "5 – Igualdad de Género" },
-    { value: 6, label: "6 – Agua Limpia y Saneamiento" },
-    { value: 7, label: "7 – Energía Asequible y No Contaminante" },
-    { value: 8, label: "8 – Trabajo Decente y Crecimiento Económico" },
-    { value: 9, label: "9 – Industria, Innovación e Infraestructura" },
-    { value: 10, label: "10 – Reducción de las Desigualdades" },
-    { value: 11, label: "11 – Ciudades y Comunidades Sostenibles" },
-    { value: 12, label: "12 – Producción y Consumo Responsables" },
-    { value: 13, label: "13 – Acción por el Clima" },
-    { value: 14, label: "14 – Vida Submarina" },
-    { value: 15, label: "15 – Vida de Ecosistemas Terrestres" },
-    { value: 16, label: "16 – Paz, Justicia e Instituciones Sólidas" },
-    { value: 17, label: "17 – Alianzas para Lograr los Objetivos" }
+type OdsOption = { value: number; label: string; color: string };
+
+const odsOptions: OdsOption[] = [
+  { value: 1, label: "1 – Fin de la Pobreza", color: "#e5243b" },
+  { value: 2, label: "2 – Hambre Cero", color: "#dda83a" },
+  { value: 3, label: "3 – Salud y Bienestar", color: "#4c9f38" },
+  { value: 4, label: "4 – Educación de Calidad", color: "#c5192d" },
+  { value: 5, label: "5 – Igualdad de Género", color: "#ff3a21" },
+  { value: 6, label: "6 – Agua Limpia y Saneamiento", color: "#26bde2" },
+  { value: 7, label: "7 – Energía Asequible y No Contaminante", color: "#fcc30b" },
+  { value: 8, label: "8 – Trabajo Decente y Crecimiento Económico", color: "#a21942" },
+  { value: 9, label: "9 – Industria, Innovación e Infraestructura", color: "#fd6925" },
+  { value: 10, label: "10 – Reducción de las Desigualdades", color: "#dd1367" },
+  { value: 11, label: "11 – Ciudades y Comunidades Sostenibles", color: "#fd9d24" },
+  { value: 12, label: "12 – Producción y Consumo Responsables", color: "#bf8b2e" },
+  { value: 13, label: "13 – Acción por el Clima", color: "#3f7e44" },
+  { value: 14, label: "14 – Vida Submarina", color: "#0a97d9" },
+  { value: 15, label: "15 – Vida de Ecosistemas Terrestres", color: "#56c02b" },
+  { value: 16, label: "16 – Paz, Justicia e Instituciones Sólidas", color: "#00689d" },
+  { value: 17, label: "17 – Alianzas para Lograr los Objetivos", color: "#19486a" },
 ];
+
 
 const CrearOds: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -109,10 +112,24 @@ const CrearOds: React.FC = () => {
             alert("Hubo un error al enviar el formulario");
         }
     };
+const getOds = (val: string) =>
+  odsOptions.find((o) => String(o.value) === String(val));
 
+const dot = (color?: string) => (
+  <Box
+    sx={{
+      width: 12,
+      height: 12,
+      borderRadius: "50%",
+      bgcolor: color || "transparent",
+      border: "1px solid rgba(0,0,0,0.2)",
+      display: "inline-block",
+    }}
+  />
+);
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 500, m: "auto", mt: 4 }}>
-            <h2>Crear ODS</h2>
+            <h2>Crear acción</h2>
 
             <TextField
                 fullWidth
@@ -156,53 +173,91 @@ const CrearOds: React.FC = () => {
             <FormControl fullWidth margin="normal">
                 <InputLabel>Etiqueta 1</InputLabel>
                 <Select
-                    name="etiqueta1"
-                    value={formData.etiqueta1}
-                    label="Etiqueta 1"
-                    onChange={handleChange}
-                >
-                    {getFilteredOptions([]).map((ods) => (
-                        <MenuItem key={ods.value} value={ods.value}>
-                            {ods.label}
-                        </MenuItem>
-                    ))}
-                </Select>
+  name="etiqueta1"
+  value={formData.etiqueta1}
+  label="Etiqueta 1"
+  onChange={handleChange}
+  renderValue={(selected) => {
+    const opt = getOds(String(selected));
+    return (
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        {dot(opt?.color)}
+        <span>{opt?.label || ""}</span>
+      </Box>
+    );
+  }}
+>
+  {getFilteredOptions([]).map((ods) => (
+    <MenuItem key={ods.value} value={ods.value}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        {dot(ods.color)}
+        <span>{ods.label}</span>
+      </Box>
+    </MenuItem>
+  ))}
+</Select>
             </FormControl>
 
             {/* ETIQUETA 2 – precisa etiqueta 1 */}
             <FormControl fullWidth margin="normal" disabled={!formData.etiqueta1}>
                 <InputLabel>Etiqueta 2</InputLabel>
                 <Select
-                    name="etiqueta2"
-                    value={formData.etiqueta2}
-                    label="Etiqueta 2"
-                    onChange={handleChange}
-                >
-                    <MenuItem value="">Ninguna</MenuItem>
-                    {getFilteredOptions([formData.etiqueta1]).map((ods) => (
-                        <MenuItem key={ods.value} value={ods.value}>
-                            {ods.label}
-                        </MenuItem>
-                    ))}
-                </Select>
+  name="etiqueta2"
+  value={formData.etiqueta2}
+  label="Etiqueta 2"
+  onChange={handleChange}
+  renderValue={(selected) => {
+    if (!selected) return "Ninguna";
+    const opt = getOds(String(selected));
+    return (
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        {dot(opt?.color)}
+        <span>{opt?.label || ""}</span>
+      </Box>
+    );
+  }}
+>
+  <MenuItem value="">Ninguna</MenuItem>
+  {getFilteredOptions([formData.etiqueta1]).map((ods) => (
+    <MenuItem key={ods.value} value={ods.value}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        {dot(ods.color)}
+        <span>{ods.label}</span>
+      </Box>
+    </MenuItem>
+  ))}
+</Select>
             </FormControl>
 
             {/* ETIQUETA 3 – nomes funciona si hi ha etiqueta 1 i 2 */}
             <FormControl fullWidth margin="normal" disabled={!formData.etiqueta2}>
                 <InputLabel>Etiqueta 3</InputLabel>
                 <Select
-                    name="etiqueta3"
-                    value={formData.etiqueta3}
-                    label="Etiqueta 3"
-                    onChange={handleChange}
-                >
-                    <MenuItem value="">Ninguna</MenuItem>
-                    {getFilteredOptions([formData.etiqueta1, formData.etiqueta2]).map((ods) => (
-                        <MenuItem key={ods.value} value={ods.value}>
-                            {ods.label}
-                        </MenuItem>
-                    ))}
-                </Select>
+  name="etiqueta3"
+  value={formData.etiqueta3}
+  label="Etiqueta 3"
+  onChange={handleChange}
+  renderValue={(selected) => {
+    if (!selected) return "Ninguna";
+    const opt = getOds(String(selected));
+    return (
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        {dot(opt?.color)}
+        <span>{opt?.label || ""}</span>
+      </Box>
+    );
+  }}
+>
+  <MenuItem value="">Ninguna</MenuItem>
+  {getFilteredOptions([formData.etiqueta1, formData.etiqueta2]).map((ods) => (
+    <MenuItem key={ods.value} value={ods.value}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        {dot(ods.color)}
+        <span>{ods.label}</span>
+      </Box>
+    </MenuItem>
+  ))}
+</Select>
             </FormControl>
 
             <TextField

@@ -251,7 +251,7 @@ const HomePage: React.FC = () => {
             </section>
 
             {/* FEATURES */}
-            <section style={{ padding: "80px 20px" }}>
+            <section style={{ padding: "20px 20px" }}>
                 <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
                     <div style={{ textAlign: "center", marginBottom: "64px" }}>
                         <h2 style={{ fontSize: "2.5rem", fontWeight: "bold", marginBottom: "16px" }}>¿Qué puedes hacer en ODSfera?</h2>
@@ -277,9 +277,9 @@ const HomePage: React.FC = () => {
             </section>
 
             {/* CTA */}
-            <section style={{ padding: "80px 20px" }}>
+            <section style={{ padding: "40px 20px" }}>
                 <div style={{ maxWidth: "896px", margin: "0 auto", textAlign: "center" }}>
-                    <div style={{ fontSize: "64px", marginBottom: "24px" }}>❤️</div>
+                    <div style={{ fontSize: "180px", marginBottom: "32px" }}>🌍❤️</div>
                     <h2 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: "bold", marginBottom: "24px" }}>Sé parte del cambio</h2>
                     <p style={{ fontSize: "1.25rem", marginBottom: "40px", lineHeight: "1.75" }}>Cada acción cuenta. Únete a ODSfera y contribuye al cambio.</p>
                     <Button variant="contained" component={Link} to="/signup">Regístrate gratis</Button>

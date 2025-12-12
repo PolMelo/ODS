@@ -227,7 +227,8 @@ const ResourcesPage: React.FC = () => {
                 backgroundImage: `url(${ods.logo})`,
                 filter: "sepia(35%)",
                 backgroundSize: "cover",
-                backgroundPosition: "top",
+                backgroundPosition: "center top",
+                backgroundRepeat: "no-repeat",
               }}
             />
             {!ods.isPlaceholder && (
