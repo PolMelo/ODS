@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TextField } from "@mui/material";
 import OSCard from "../components/OSCard";
-import ruleta from "../assets/ODS PNG/RULETA.png";
 import Loader from "../components/Loader";
 import FiltersPanel from "../components/FiltersPanel";
 import { useTheme } from "@mui/material/styles";
@@ -36,8 +35,18 @@ const AccionesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [mostrarPasadas, setMostrarPasadas] = useState(false);
   const [accionSeleccionada, setAccionSeleccionada] = useState<AccionApi | null>(null);
+  const [menuAbierto, setMenuAbierto] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const theme = useTheme();
+
+  // Detecta si es móvil
+  useEffect(() => {
+    const checkSize = () => setIsMobile(window.innerWidth < 900);
+    checkSize();
+    window.addEventListener("resize", checkSize);
+    return () => window.removeEventListener("resize", checkSize);
+  }, []);
 
   const fetchWithFallback = async () => {
     try {
@@ -88,7 +97,7 @@ const AccionesPage: React.FC = () => {
     })
     .sort((a, b) => a.date.localeCompare(b.date));
 
-    if (loading) return <Loader size={320} />;
+  if (loading) return <Loader size={320} />;
 
   if (acciones.length === 0)
     return <p style={{ padding: "2rem" }}>No hay acciones disponibles.</p>;
@@ -97,6 +106,7 @@ const AccionesPage: React.FC = () => {
     <div
       style={{
         display: "flex",
+        flexDirection: isMobile ? "column" : "row",
         width: "100%",
         maxWidth: "1400px",
         margin: "0 auto",
@@ -104,15 +114,45 @@ const AccionesPage: React.FC = () => {
         marginLeft: "1rem",
       }}
     >
-      {/* Filtro por ODS*/}
-      <FiltersPanel
-        filtroODS={filtroODS}
-        setFiltroODS={setFiltroODS}
-        mostrarPasadas={mostrarPasadas}
-        setMostrarPasadas={setMostrarPasadas}
-      />
+      {/* Botón para abrir/cerrar filtros en móvil */}
+      {isMobile && (
+        <button
+          onClick={() => setMenuAbierto(!menuAbierto)}
+          style={{
+            background: "#1976d2",
+            color: "white",
+            padding: "0.6rem 1rem",
+            borderRadius: "8px",
+            border: "none",
+            alignSelf: "flex-start",
+            cursor: "pointer",
+            fontWeight: 600,
+            marginBottom: "0.5rem",
+          }}
+        >
+          {menuAbierto ? "Cerrar filtros" : "Mostrar filtros"}
+        </button>
+      )}
 
-      {/* Filtro por titulo*/}
+      {/* Filtro lateral */}
+      {(!isMobile || menuAbierto) && (
+        <div
+          style={{
+            width: isMobile ? "100%" : "300px",
+            paddingRight: isMobile ? "0" : "1rem",
+            marginBottom: isMobile ? "1rem" : "0",
+          }}
+        >
+          <FiltersPanel
+            filtroODS={filtroODS}
+            setFiltroODS={setFiltroODS}
+            mostrarPasadas={mostrarPasadas}
+            setMostrarPasadas={setMostrarPasadas}
+          />
+        </div>
+      )}
+
+      {/* Contenido principal */}
       <div
         style={{
           padding: "2.5rem 1.5rem",
@@ -147,20 +187,20 @@ const AccionesPage: React.FC = () => {
             marginBottom: "6rem",
           }}
         >
-        {accionesFiltradas.map((accion) => (
-  <OSCard
-    key={accion.id}   // 
-    {...accion}
-    onClick={() => {
-      const raw = accionesRaw.find((a) => a.id === accion.id) || null;
-      setAccionSeleccionada(raw);
-    }}
-  />
-))}
+          {accionesFiltradas.map((accion) => (
+            <OSCard
+              key={accion.id}
+              {...accion}
+              onClick={() => {
+                const raw = accionesRaw.find((a) => a.id === accion.id) || null;
+                setAccionSeleccionada(raw);
+              }}
+            />
+          ))}
         </div>
       </div>
 
-      {/* MODAL (Al click) */}
+      {/* MODAL */}
       {accionSeleccionada && (
         <div
           style={{
@@ -269,60 +309,49 @@ const AccionesPage: React.FC = () => {
               </a>
             )}
 
-            {/* Botón Google Calendar */}
-<button
-  onClick={() => {
-    const accion = accionSeleccionada;
+            <button
+              onClick={() => {
+                const accion = accionSeleccionada;
 
-    const titulo = encodeURIComponent(accion.nom);
-    const descripcion = encodeURIComponent(accion.descripcion || "");
-    const lugar = encodeURIComponent(accion.lugar || "");
-
-    // Construcción de fechas en formato YYYYMMDDThhmmss
-    const fecha = accion.fecha.replace(/-/g, ""); // "2025-01-10" -> "20250110"
-
-    // Si hay hora: usarla, si no: usar medianoche
-    const horaInicio = accion.hora ? accion.hora.replace(":", "") + "00" : "000000";
-
-    // Crear hora de fin automática (+2h)
-    let horaFin = "020000";
-    if (accion.hora) {
-      const [h, m] = accion.hora.split(":").map(Number);
-      const fin = new Date();
-      fin.setHours(h + 2, m, 0);
-      horaFin =
-        fin.getHours().toString().padStart(2, "0") +
-        fin.getMinutes().toString().padStart(2, "0") +
-        "00";
-    }
-
-    const start = `${fecha}T${horaInicio}`;
-    const end = `${fecha}T${horaFin}`;
-
-    const url =
-      `https://calendar.google.com/calendar/render?action=TEMPLATE` +
-      `&text=${titulo}` +
-      `&dates=${start}/${end}` +
-      `&details=${descripcion}` +
-      `&location=${lugar}`;
-
-    window.open(url, "_blank");
-  }}
-  style={{
-    marginTop: "1rem",
-    display: "inline-block",
-    background: "rgba(255,255,255,0.12)",
-    padding: "0.6rem 1rem",
-    borderRadius: "12px",
-    border: "1px solid rgba(255,255,255,0.25)",
-    color: "inherit",
-    fontWeight: 600,
-    cursor: "pointer",
-  }}
->
-  Añadir a Google Calendar →
-</button>
-
+                const titulo = encodeURIComponent(accion.nom);
+                const descripcion = encodeURIComponent(accion.descripcion || "");
+                const lugar = encodeURIComponent(accion.lugar || "");
+                const fecha = accion.fecha.replace(/-/g, "");
+                const horaInicio = accion.hora ? accion.hora.replace(":", "") + "00" : "000000";
+                let horaFin = "020000";
+                if (accion.hora) {
+                  const [h, m] = accion.hora.split(":").map(Number);
+                  const fin = new Date();
+                  fin.setHours(h + 2, m, 0);
+                  horaFin =
+                    fin.getHours().toString().padStart(2, "0") +
+                    fin.getMinutes().toString().padStart(2, "0") +
+                    "00";
+                }
+                const start = `${fecha}T${horaInicio}`;
+                const end = `${fecha}T${horaFin}`;
+                const url =
+                  `https://calendar.google.com/calendar/render?action=TEMPLATE` +
+                  `&text=${titulo}` +
+                  `&dates=${start}/${end}` +
+                  `&details=${descripcion}` +
+                  `&location=${lugar}`;
+                window.open(url, "_blank");
+              }}
+              style={{
+                marginTop: "1rem",
+                display: "inline-block",
+                background: "rgba(255,255,255,0.12)",
+                padding: "0.6rem 1rem",
+                borderRadius: "12px",
+                border: "1px solid rgba(255,255,255,0.25)",
+                color: "inherit",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Añadir a Google Calendar →
+            </button>
           </div>
         </div>
       )}
