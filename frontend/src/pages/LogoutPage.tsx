@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Snackbar, Alert } from "@mui/material";
-import { useUser } from "../context/UserContext"; // ✅ Importamos el contexto
+import { useUser } from "../context/UserContext"; //Importamos el contexto
 
 const LogoutPage: React.FC = () => {
   const navigate = useNavigate();
-  const { setUser } = useUser(); // ✅ Hook para actualizar usuario
+  const { setUser } = useUser(); //Hook para actualizar usuario
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState<"success" | "warning">("success");
@@ -14,6 +14,7 @@ const LogoutPage: React.FC = () => {
     const token = localStorage.getItem("token");
 
     const doLogout = () => {
+      //Si no hay token enviamos warning y te enviamos a home
       if (!token) {
         setMessage("No has iniciado sesión.");
         setSeverity("warning");
@@ -22,11 +23,11 @@ const LogoutPage: React.FC = () => {
         return;
       }
 
-      // Borrar datos de localStorage
+      // Borrar datos de localStorage en caso de haber iniciado sesión
       localStorage.removeItem("token");
       localStorage.removeItem("odsferaUser");
 
-      // ✅ Resetear usuario en contexto a invitado
+      //Resetear usuario a invitado
       setUser({
         name: "Invitado",
         email: "inicia.sesion@odsfera.com",

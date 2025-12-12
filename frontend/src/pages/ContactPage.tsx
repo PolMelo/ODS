@@ -22,6 +22,8 @@ const ContactPage: React.FC = () => {
   const mensajeValido = mensaje.trim().length >= 10;
   const formValido = emailValido && mensajeValido;
 
+
+  // Fem servir un sctript de Google Apps per gestionar els enviaments del formulari
   const GOOGLE_SCRIPT_URL =
     "https://script.google.com/macros/s/AKfycbyEiYmR6qdLUmGaUXkOgaVhrkzF6DtFmPuouvxCX8oKqif-HtTfWzK1Th1ltr4iNYk3YA/exec";
 
