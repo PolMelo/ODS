@@ -234,26 +234,7 @@ const AccionesPage: React.FC = () => {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              onClick={() => setAccionSeleccionada(null)}
-              style={{
-                position: "absolute",
-                top: "1rem",
-                right: "1rem",
-                fontSize: "1.4rem",
-                borderRadius: "50%",
-                border: "none",
-                cursor: "pointer",
-                width: "35px",
-                height: "35px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "inherit",
-              }}
-            >
-              ✕
-            </button>
+            
 
             <img
               src={accionSeleccionada.imagen_url}
