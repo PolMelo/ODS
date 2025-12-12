@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
+import Loader from "../components/Loader";
 
 const NotFoundPage: React.FC = () => {
     return (
@@ -23,7 +24,7 @@ const NotFoundPage: React.FC = () => {
                     maxWidth: "540px",
                     width: "100%",
                     boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
-                    border: "1px solid rgba(150, 200, 150, 0.25)",
+                    border: "1px solid rgba(50, 120, 180, 0.25)",
                     animation: "fadeIn 0.4s ease",
                     "@keyframes fadeIn": {
                         from: { opacity: 0, transform: "translateY(10px)" },
@@ -31,18 +32,48 @@ const NotFoundPage: React.FC = () => {
                     },
                 }}
             >
-                <Typography
-                    variant="h1"
+                {/* Número 404 con ruleta como 0 */}
+                <Box
                     sx={{
-                        fontSize: { xs: "3.2rem", sm: "4.2rem" },
-                        fontWeight: 800,
-                        margin: 0,
-                        color: "success.main",
-                        textShadow: "2px 3px 0 rgba(0,0,0,0.08)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "0.5rem",
                     }}
                 >
-                    404
-                </Typography>
+                    <Typography
+                        sx={{
+                            fontSize: { xs: "3.2rem", sm: "4.2rem" },
+                            fontWeight: 800,
+                            color: "primary.main",
+                        }}
+                    >
+                        4
+                    </Typography>
+
+                    {/* Contenedor del loader para que NO ocupe toda la pantalla */}
+                    <Box
+                        sx={{
+                            width: { xs: "3.2rem", sm: "4.2rem" },
+                            height: { xs: "3.2rem", sm: "4.2rem" },
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Loader size={50} overlay={false} />
+                    </Box>
+
+                    <Typography
+                        sx={{
+                            fontSize: { xs: "3.2rem", sm: "4.2rem" },
+                            fontWeight: 800,
+                            color: "primary.main",
+                        }}
+                    >
+                        4
+                    </Typography>
+                </Box>
 
                 <Typography
                     variant="h2"
@@ -53,7 +84,7 @@ const NotFoundPage: React.FC = () => {
                         color: "text.primary",
                     }}
                 >
-                    Oops... Nada por aquí 🌫️
+                    Oops... Nada por aquí
                 </Typography>
 
                 <Typography
@@ -74,10 +105,10 @@ const NotFoundPage: React.FC = () => {
                         fontWeight: 600,
                         fontSize: "1rem",
                         borderRadius: "10px",
-                        backgroundColor: "success.main",
+                        backgroundColor: "primary.main",
                         transition: "0.25s ease",
                         "&:hover": {
-                            backgroundColor: "success.dark",
+                            backgroundColor: "primary.dark",
                             transform: "translateY(-2px)",
                         },
                     }}
