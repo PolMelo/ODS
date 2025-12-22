@@ -11,13 +11,6 @@ Para poder ejecutar este proyecto, el usuario debe tener instaladas las siguient
 
 ## ✅ 1. PHP (8.1 o superior)
 Con las extensiones:
-- ext-ctype  
-- ext-iconv  
-- ext-xml  
-- ext-json  
-- ext-pdo  
-- ext-pdo_mysql  
-- ext-intl (muy recomendado)
 
 ## ✅ 2. Composer  
 Necesario para instalar las dependencias de PHP:  
@@ -35,7 +28,7 @@ symfony serve
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/xexu29/Proyecto-ODS.git
+git clone https://github.com/PolMelo/ODS.git
 cd Proyecto-ODS
 ```
 
@@ -88,6 +81,10 @@ php bin/console doctrine:migrations:migrate
 ```
 
 ### 7. Accede al proyecto en: 
-[(http://localhost:8000)](http://localhost:8000)
+[(http://localhost:5173)](http://localhost:5173)
+
+
+
+[![ GitHub stats](https://github-readme-stats.vercel.app/api?username=PolMelo)](https://github.com/anuraghazra/github-readme-stats](https://github.com/PolMelo/ODS))
 
 
