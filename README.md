@@ -85,6 +85,3 @@ php bin/console doctrine:migrations:migrate
 
 
 
-[![ GitHub stats](https://github-readme-stats.vercel.app/api?username=PolMelo)](https://github.com/anuraghazra/github-readme-stats](https://github.com/PolMelo/ODS))
-
-
